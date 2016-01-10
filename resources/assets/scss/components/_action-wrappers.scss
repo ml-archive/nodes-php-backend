@@ -1,0 +1,23 @@
+.action-wrapper {
+	position: relative;
+}
+.action-wrap-action {
+	@include whitespace($type: padding, $size: sm);
+	position: absolute;
+	top: 0;
+
+	&.action-wrap-left {
+		left: 0;
+	}
+	&.action-wrap-right {
+		right: 0;
+	}
+}
+.action-wrap-item {
+	&.action-wrap-left {
+		@include whitespace($type: padding, $side: left, $size: xl);
+	}
+	&.action-wrap-right {
+		@include whitespace($type: padding, $side: right, $size: xl);
+	}
+}

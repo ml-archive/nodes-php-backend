@@ -1,0 +1,183 @@
+//
+//  Primary Colors
+//
+.background-primary {
+	background-color: $primary-color;
+}
+.background-primary-darker {
+	background-color: $primary-color-darker;
+}
+.background-primary-dark {
+	background-color: $primary-color-dark;
+}
+.background-primary-light {
+	background-color: $primary-color-light;
+}
+.background-primary-lighter {
+	background-color: $primary-color-lighter;
+}
+
+//
+// Secondary Colors
+//
+.background-secondary {
+	background-color: $secondary-color;
+}
+.background-secondary-darker {
+	background-color: $secondary-color-darker;
+}
+.background-secondary-dark {
+	background-color: $secondary-color-dark;
+}
+.background-secondary-light {
+	background-color: $secondary-color-light;
+}
+.background-secondary-lighter {
+	background-color: $secondary-color-lighter;
+}
+
+//
+// Grays
+//
+.background-gray {
+	background-color: $gray;
+}
+.background-gray-darker {
+	background-color: $gray-darker;
+}
+.background-gray-dark {
+	background-color: $gray-dark;
+}
+.background-gray-light {
+	background-color: $gray-light;
+}
+.background-gray-lighter {
+	background-color: $gray-lighter;
+}
+
+//
+// Contextual Colors
+//
+.background-info {
+	background-color: $info-color;
+}
+.background-info-dark {
+	background-color: $info-color-border;
+}
+.background-info-light {
+	background-color: $info-color-bg;
+}
+
+.background-success {
+	background-color: $success-color;
+}
+.background-success-dark {
+	background-color: $success-color-border;
+}
+.background-success-light {
+	background-color: $success-color-bg;
+}
+
+.background-warning {
+	background-color: $warning-color;
+}
+.background-warning-dark {
+	background-color: $warning-color-border;
+}
+.background-warning-light {
+	background-color: $warning-color-bg;
+}
+
+.background-danger {
+	background-color: $danger-color;
+}
+.background-danger-dark {
+	background-color: $danger-color-border;
+}
+.background-danger-light {
+	background-color: $danger-color-bg;
+}
+
+//
+// Text Colors
+//
+.text-shade-light-primary {
+	color: $white;
+	opacity: $text-shade-light-primary-opacity;
+}
+.text-shade-light-secondary {
+	color: $white;
+	opacity: $text-shade-light-secondary-opacity;
+}
+.text-shade-light-hint {
+	color: $white;
+	opacity: $text-shade-light-hint-opacity;
+}
+
+.text-shade-dark-primary {
+	color: $black;
+	opacity: $text-shade-dark-primary-opacity;
+}
+.text-shade-dark-secondary {
+	color: $black;
+	opacity: $text-shade-dark-secondary-opacity;
+}
+.text-shade-dark-hint {
+	color: $black;
+	opacity: $text-shade-dark-hint-opacity;
+}
+
+
+.text-primary-light {
+	color: $text-primary-light;
+}
+a.text-primary-light,
+.text-primary-light a {
+	color: $text-primary-light;
+	&:hover {
+		color: $primary-color-lighter;
+	}
+}
+
+.text-primary-dark {
+	color: $text-primary-dark;
+}
+a.text-primary-dark,
+.text-primary-dark a {
+	color: $text-primary-dark;
+	&:hover {
+		color: $primary-color;
+	}
+}
+
+.text-secondary-light {
+	color: $text-secondary-light;
+}
+a.text-secondary-light,
+.text-secondary-light a {
+	color: $text-secondary-light;
+	&:hover {
+		color: $secondary-color-lighter;
+	}
+}
+
+.text-secondary-dark {
+	color: $text-secondary-dark;
+}
+a.text-secondary-dark,
+.text-secondary-dark a {
+	color: $text-secondary-dark;
+	&:hover {
+		color: $secondary-color-light;
+	}
+}
+
+.text-white {
+	color: $white;
+}
+.text-black {
+	color: $black;
+}
+.text-gray {
+    color: $gray;
+}

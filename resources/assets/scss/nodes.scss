@@ -1,0 +1,62 @@
+@import "variables";
+@import "mixins";
+
+@import "../../../../../../bower_components/bootstrap-sass/assets/stylesheets/bootstrap";
+@import "../../../../../../bower_components/font-awesome/scss/font-awesome";
+
+/**
+ * Third-party plugins
+ */
+@import "plugins/slick-carousel";
+
+/**
+ * Elements
+ */
+@import "base/layout";
+@import "base/flex-layout";
+@import "base/block-layout";
+@import "base/core-layout";
+@import "base/colors";
+@import "base/whitespace";
+
+/**
+ * Elements
+ */
+@import "elements/forms";
+@import "elements/logo";
+
+
+@import "elements/headings";
+@import "elements/tables";
+@import "elements/buttons";
+@import "elements/badges";
+@import "elements/cursors";
+@import "elements/nodes-link";
+
+/**
+ * Components
+ */
+@import "components/action-wrappers";
+@import "components/breadcrumbs";
+@import "components/jumbotron";
+@import "components/page-header";
+@import "components/sidebar";
+@import "components/top-navigation";
+@import "components/app-tiles";
+@import "components/charts";
+
+@import "components/panels";
+@import "components/pagination";
+@import "components/dropdowns";
+@import "components/modals";
+@import "components/alerts";
+@import "components/navigation";
+@import "components/flash-messages";
+
+/**
+ * Pages
+ */
+@import 'pages/login';
+@import 'pages/roles-capabilities';
+@import 'pages/translations';
+@import 'pages/app-install';

@@ -1,0 +1,39 @@
+{
+    "name": "nodes/backend",
+    "description": "Nodes backend package",
+    "keywords": [
+        "nodes",
+        "backend",
+        "manager",
+        "administration",
+        "admin system",
+        "laravel"
+    ],
+    "authors": [
+        {
+            "name": "Morten Rugaard",
+            "email": "moru@nodes.dk",
+            "role": "Developer"
+        }, {
+            "name": "Casper Rasmussen",
+            "email": "cr@nodes.dk",
+            "role": "CTO"
+        }
+    ],
+    "require": {
+        "laravel/framework": "5.1.*||5.2.*",
+        "nodes/core": "^0.1",
+        "nodes/database": "^0.1",
+        "nodes/translate": "^1.0",
+        "nodes/validation": "^0.1"
+    },
+    "autoload": {
+        "psr-4": {
+           "Nodes\\Backend\\": "src"
+        },
+        "files": [
+            "src/Support/Helpers/Auth.php",
+            "src/Support/Helpers/Router.php"
+        ]
+    }
+}

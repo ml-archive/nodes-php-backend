@@ -35,6 +35,24 @@ Or you can run the composer require command from your terminal.
 composer require nodes/backend
 ```
 
+Setup service providers in config/app.php
+
+```
+Nodes\Backend\ServiceProvider::class,
+Nodes\Backend\Console\ConsoleServiceProvider::class,
+Nodes\Backend\Routing\RouteServiceProvider::class,
+```
+
+Setup alias in config/app.php
+
+```
+'NodesBackend' => Nodes\Backend\Support\Facades\Backend::class,
+'NodesBackendAuth' => Nodes\Backend\Support\Facades\Authenticator::class,
+'NodesBackendRouter' => Nodes\Backend\Support\Facades\Router::class,
+'NodesQueryRestorer' => Nodes\Backend\Support\Facades\QueryRestorer::class,
+```
+
+Copy the config files from vendor/nodes/backend/config to config/nodes/backend
 
 ## Usage
 

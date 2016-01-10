@@ -24,7 +24,7 @@
         "laravel/framework": "5.1.*||5.2.*",
         "nodes/core": "^0.1",
         "nodes/database": "^0.1",
-        "nodes/translate": "^1.0",
+        "nodes/translate": "^0.1",
         "nodes/validation": "^0.1"
     },
     "autoload": {

@@ -46,7 +46,6 @@ Nodes\Backend\Routing\RouteServiceProvider::class,
 Setup alias in config/app.php
 
 ```
-'NodesBackend' => Nodes\Backend\Support\Facades\Backend::class,
 'NodesBackendAuth' => Nodes\Backend\Support\Facades\Authenticator::class,
 'NodesBackendRouter' => Nodes\Backend\Support\Facades\Router::class,
 'NodesQueryRestorer' => Nodes\Backend\Support\Facades\QueryRestorer::class,

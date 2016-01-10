@@ -1,17 +1,4 @@
 <?php
-if (!function_exists('backend_router')) {
-    /**
-     * Retrieve router
-     *
-     * @author Casper Rasmussen <cr@nodes.dk>
-     *
-     * @return \Nodes\Backend\Routing\Router
-     */
-    function backend_router()
-    {
-        return \NodesBackendRouter();
-    }
-}
 
 if (!function_exists('backend_router_pattern')) {
     /**

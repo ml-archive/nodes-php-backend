@@ -1,20 +1,6 @@
 <?php
 use Nodes\Backend\Auth\Contracts\Authenticatable;
 
-if (!function_exists('backend_auth')) {
-    /**
-     * Retrieve authenticator instance
-     *
-     * @author Casper Rasmussen <cr@nodes.dk>
-     *
-     * @return \Nodes\Backend\Auth\Authenticator
-     */
-    function backend_auth()
-    {
-        return \NodesBackend::auth();
-    }
-}
-
 if (!function_exists('backend_user')) {
     /**
      * Retrieve current authenticated user
@@ -25,7 +11,7 @@ if (!function_exists('backend_user')) {
      */
     function backend_user()
     {
-        return \NodesBackend::auth()->user();
+        return \NodesBackendAuth::user();
     }
 }
 
@@ -39,7 +25,7 @@ if (!function_exists('backend_user_check')) {
      */
     function backend_user_check()
     {
-        return \NodesBackend::auth()->check();
+        return \NodesBackendAuth::check();
     }
 }
 
@@ -53,7 +39,7 @@ if (!function_exists('backend_user_login')) {
      */
     function backend_user_login(Authenticatable $user, $remember = false)
     {
-        return \NodesBackend::auth()->login($user, $remember);
+        return \NodesBackendAuth::login($user, $remember);
     }
 }
 
@@ -67,7 +53,7 @@ if (!function_exists('backend_user_logout')) {
      */
     function backend_user_logout()
     {
-        return \NodesBackend::auth()->logout();
+        return \NodesBackendAuth::logout();
     }
 }
 
@@ -84,7 +70,7 @@ if (!function_exists('backend_attempt')){
      */
     function backend_attempt(array $credentials = [], $remember = false, $login = true)
     {
-        return \NodesBackend::auth()->attempt($credentials, $remember, $login);
+        return \NodesBackendAuth::attempt($credentials, $remember, $login);
     }
 }
 

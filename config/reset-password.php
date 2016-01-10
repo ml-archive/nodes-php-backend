@@ -21,7 +21,7 @@ return [
     |
     */
     'from' => [
-        'name' => 'Riide',
+        'name' => 'Backend',
         'email' => 'no-reply@nodes.dk'
     ],
 

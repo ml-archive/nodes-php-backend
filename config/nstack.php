@@ -20,8 +20,8 @@ return [
     |
     */
     'credentials' => [
-        'appId' => 'GjzDQXTTwbjTYmTZsqXYlIP1vxKFJn6IMgjJ',
-        'masterKey' => 'dRIk9Bw4AKm6NZuvr62E5DHMiijWyLEZHWcm'
+        'appId' => null,
+        'masterKey' => null
     ],
 
     /*

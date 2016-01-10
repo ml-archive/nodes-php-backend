@@ -10,7 +10,7 @@ return [
     |
     */
     'from' => [
-        'name' => 'Riide',
+        'name' => 'Backend',
         'email' => 'no-reply@nodes.dk'
     ],
 
@@ -33,7 +33,7 @@ return [
     | should be sent with.
     |
     */
-    'subject' => 'Welcome to Riide backend',
+    'subject' => 'Welcome to backend',
 
     /*
     |--------------------------------------------------------------------------

@@ -175,9 +175,7 @@ class User extends Model implements AuthenticatableContract, CanResetPasswordCon
     {
         $imageUrl = $this->getImageUrlOrNull($width, $height);
         if (!$imageUrl) {
-            #Until 1.0.1 is live
-            #return assets_resize(config('nodes.backend.general.user_fallback_image_url'), $width, $height);
-            return config('nodes.backend.general.user_fallback_image_url');
+            return assets_resize(config('nodes.backend.general.user_fallback_image_url'), $width, $height);
         }
 
         return $imageUrl;
@@ -205,8 +203,6 @@ class User extends Model implements AuthenticatableContract, CanResetPasswordCon
             return $this->image;
         }
 
-        #Until 1.0.1 is live
-        #return assets_resize(assets_get($this->image), $width, $height);
         return assets_resize(assets_get($this->image), $width, $height);
     }
 

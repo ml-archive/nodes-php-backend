@@ -17,8 +17,6 @@ class NStackController extends Controller
      */
     public function hook()
     {
-        return redirect()->route('nodes.backend')->with('error', 'asdasd')->with('info', 'asdas')->with('danger', 'asdas')->with('error', '222222');
-
         $config = config('nodes.backend.nstack');
 
         // Guard config

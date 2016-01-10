@@ -54,6 +54,8 @@ Setup alias in config/app.php
 
 Copy the config files from vendor/nodes/backend/config to config/nodes/backend
 
+Copy the route files from vendor/nodes/backend/routes to project/Routes/Backend
+
 ## Usage
 
 To do.

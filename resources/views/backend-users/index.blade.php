@@ -18,6 +18,22 @@
                     <span>Create backend user</span>
                 </a>
             @endcan
+                <form class="form-inline search-form pull-right">
+                    <div class="form-group action-wrapper">
+                        <input type="hidden" class="form-control" name="filter" value="{{ \Input::get('search') }}">
+
+                        <button type="submit"
+                                class="btn btn-transparent action-wrap-action action-wrap-right action-wrap-sm">
+                            {{--TODO place correct--}}
+                            {{--<i class="fa fa-search"></i>--}}
+                        </button>
+
+                        <input type="text" class="form-control input-sm action-wrap-item action-wrap-right"
+                               id="search" name="search"
+                               placeholder="Search"
+                               value="{{ \Input::get('search') }}">
+                    </div>
+                </form>
         </header>
         <div class="panel-body">
             <table class="table table-bordered table-striped">

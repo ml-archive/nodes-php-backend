@@ -69,3 +69,4 @@ This package is developed and maintained by the PHP team at [Nodes Agency](http:
 ### License
 
 This package is open-sourced software licensed under the [MIT license](http://opensource.org/licenses/MIT)
+>>>>>>> d28d6fd95a9de4f60935839abfda2f7677a8e69a

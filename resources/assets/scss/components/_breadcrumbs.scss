@@ -1,0 +1,39 @@
+.has-breadcrumbs {
+    @include whitespace($type: padding, $side: bottom, $size: 20px);
+
+    .breadcrumb {
+        @include whitespace($type: margin, $size: 0);
+        @include whitespace($type: padding, $side: vertical, $size: 8px);
+        @include whitespace($type: padding, $side: horizontal, $size: 15px);
+        border: 1px solid #dddddd;
+        background-color: $white;
+        list-style: none;
+
+        li {
+            color: $gray;
+
+            .fa {
+                margin-right: 3px;
+            }
+
+            a {
+                color: $gray;
+                text-decoration: none;
+
+                &:hover {
+                    color: $brand-primary;
+                }
+            }
+
+            &:not(:first-child):before {
+                content: '›';
+                margin: 0 0.5rem;
+                display: inline-block;
+            }
+
+            &:last-child {
+                color: $gray-darker;
+            }
+        }
+    }
+}

@@ -1,0 +1,72 @@
+.list-group {
+	margin-bottom: 0;
+}
+
+.list-group:not(.list-group-radius) .list-group-item {
+	&:first-child,
+	&:last-child {
+		border-radius: 0;
+	}
+}
+.list-group:not(.list-group-bordered) .list-group-item {
+	border: none;
+}
+
+.list-group-item {
+	padding: 0;
+	@include whitespace($side: horizontal);
+	@include whitespace($side: vertical, $size: sm);
+	@include layout($wrap: false);
+	align-items: center;
+	.btn-group {
+		margin-left: auto;
+		opacity: 0;
+		transition: opacity $animation-timing-short $animation-easing-relaxed;
+	}
+
+	&:hover, &.hover,
+	&:focus, &.focus,
+	&:active, &.active {
+		.btn-group {
+			opacity: 1;
+		}
+	}
+}
+
+.list-group.list-group-inverse .list-group-item {
+	@include background-color($secondary-color-dark);
+	color: $white;
+	border-left: 6px solid $secondary-color-dark;
+	&:hover, &.hover,
+	&:focus, &.focus,
+	&:active, &.active {
+		@include background-color($secondary-color-dark);
+	}
+
+	&:hover, &.hover {
+		&:not(.active) {
+			@include font-color($primary-color);
+		}
+		[class*="btn"] {
+			color: $white;
+		}
+	}
+
+	&:active, &.active {
+		border-color: $primary-color;
+	}
+
+	.btn-group .btn {
+		@include background-color(transparent);
+		border-color: $secondary-color;
+		&:hover, &.hover,
+		&:focus, &.focus,
+		&:active, &.active {
+			@include font-color(darken($white, 10%));
+		}
+	}
+}
+
+.list-group.list-group-transparent .list-group-item {
+	background-color: transparent;
+}

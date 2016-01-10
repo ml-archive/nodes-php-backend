@@ -1,0 +1,237 @@
+.app-tile {
+	position: relative;
+
+	a {
+		@include background-color($white);
+		@include shadow($distance: 1);
+
+		display: flex;
+		flex-direction: column;
+		justify-content: center;
+		align-items: center;
+
+		text-align: center;
+
+		border-radius: $border-radius-base;
+		overflow: hidden;
+		transition: box-shadow .2s;
+
+		&:hover, &:focus, &:active,
+		&.hover, &.focus, &.active {
+			text-decoration: none;
+			@include shadow($distance: 2);
+		}
+	}
+}
+
+.app-tile-primary a {
+	@include background-color($primary-color);
+	@include font-color($primary-color-darker);
+	&:hover, &:focus, &:active,
+	&.hover, &.focus, &.active {
+		@include font-color(darken($primary-color-darker, 5%));
+	}
+}
+
+.app-tile-secondary a {
+	@include background-color($secondary-color-dark);
+	@include font-color($secondary-color-light);
+	&:hover, &:focus, &:active,
+	&.hover, &.focus, &.active {
+		@include font-color(darken($secondary-color-light, 5%));
+	}
+}
+
+.app-tile-info a {
+	@include background-color($info-color-border);
+	@include font-color($white);
+	&:hover, &:focus, &:active,
+	&.hover, &.focus, &.active {
+		@include font-color($info-color-bg);
+	}
+}
+.app-tile-success a {
+	@include background-color($success-color-border);
+	@include font-color($white);
+	&:hover, &:focus, &:active,
+	&.hover, &.focus, &.active {
+		@include font-color($success-color-bg);
+	}
+}
+.app-tile-warning a {
+	@include background-color($warning-color-border);
+	@include font-color($white);
+	&:hover, &:focus, &:active,
+	&.hover, &.focus, &.active {
+		@include font-color($warning-color-bg);
+	}
+}
+.app-tile-danger a {
+	@include background-color($danger-color-border);
+	@include font-color($white);
+	&:hover, &:focus, &:active,
+	&.hover, &.focus, &.active {
+		@include font-color($danger-color-bg);
+	}
+}
+.app-tile-transparent a {
+	@include background-color(transparent);
+
+	&:hover, &:focus, &:active,
+	&.hover, &.focus, &.active {
+		@include background-color(transparent);
+	}
+
+	&.inverse {
+		@include font-color($secondary-color-light);
+		&:hover, &:focus, &:active,
+		&.hover, &.focus, &.active {
+			@include font-color(darken($secondary-color-light, 5%));
+		}
+	}
+}
+.app-tile-transparent-inverse a {
+	@include background-color(transparent);
+	@include font-color($secondary-color-light);
+
+	&:hover, &:focus, &:active,
+	&.hover, &.focus, &.active {
+		@include background-color(transparent);
+		@include font-color(darken($secondary-color-light, 5%));
+	}
+}
+
+
+.app-tile a {
+	.fa {
+		@include whitespace($type: margin, $side: bottom, $size: xs);
+		font-size: 20px;
+	}
+
+	@media (min-width: $screen-sm-min) {
+		.fa {
+			@include whitespace($type: margin, $side: bottom, $size: sm);
+			font-size: 40px;
+		}
+	}
+
+	@media (min-width: $screen-md-min) {
+		.fa {
+			@include whitespace($type: margin, $side: bottom);
+			font-size: 60px;
+		}
+	}
+
+	@media (min-width: $screen-lg-min) {
+		.fa {
+			@include whitespace($type: margin, $side: bottom);
+			font-size: 80px;
+		}
+	}
+}
+
+.app-tile a {
+	@include whitespace($size: xs);
+}
+.app-tile-sm {
+	@include whitespace($size: sm);
+}
+.app-tile-sm {
+	@include whitespace($size: xs);
+}
+
+.app-tile-xs a {
+	font-size: 12px;
+	margin: 5px !important;
+	width: calc(100% - 10px) !important;
+	height: calc(100% - 10px) !important;
+	.fa {
+		@include whitespace($type: margin, $side: bottom, $size: xs);
+		font-size: 20px;
+	}
+}
+
+.app-tile-sm a {
+	font-size: 14px;
+	margin: 10px !important;
+	width: calc(100% - 20px) !important;
+	height: calc(100% - 20px) !important;
+	.fa {
+		@include whitespace($type: margin, $side: bottom, $size: sm);
+		font-size: 20px;
+	}
+}
+
+@for $i from 1 through $block-layout-elements {
+	.small-block-layout-#{($i)} {
+		> li.app-tile-square {
+			padding-bottom: 100%/$i;
+
+			a {
+				position: absolute;
+				top: 0;
+				left: 0;
+				width: calc(100% - (#{$block-layout-spacing}*2));
+				height: calc(100% - (#{$block-layout-spacing}*2));
+				margin: $block-layout-spacing;
+			}
+		}
+	}
+}
+
+@media (min-width: $screen-sm-min) {
+	@for $i from 1 through $block-layout-elements {
+		.medium-block-layout-#{($i)} {
+			> li.app-tile-square {
+				padding-bottom: 100%/$i;
+
+				a {
+					position: absolute;
+					top: 0;
+					left: 0;
+					width: calc(100% - (#{$block-layout-spacing}*2));
+					height: calc(100% - (#{$block-layout-spacing}*2));
+					margin: $block-layout-spacing;
+				}
+			}
+		}
+	}
+}
+
+@media (min-width: $screen-md-min) {
+	@for $i from 1 through $block-layout-elements {
+		.large-block-layout-#{($i)} {
+			> li.app-tile-square {
+				padding-bottom: 100%/$i;
+
+				a {
+					position: absolute;
+					top: 0;
+					left: 0;
+					width: calc(100% - (#{$block-layout-spacing}*2));
+					height: calc(100% - (#{$block-layout-spacing}*2));
+					margin: $block-layout-spacing;
+				}
+			}
+		}
+	}
+}
+
+@media (min-width: $screen-lg-min) {
+	@for $i from 1 through $block-layout-elements {
+		.x-large-block-layout-#{($i)} {
+			> li.app-tile-square {
+				padding-bottom: 100%/$i;
+
+				a {
+					position: absolute;
+					top: 0;
+					left: 0;
+					width: calc(100% - (#{$block-layout-spacing}*2));
+					height: calc(100% - (#{$block-layout-spacing}*2));
+					margin: $block-layout-spacing;
+				}
+			}
+		}
+	}
+}

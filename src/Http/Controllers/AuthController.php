@@ -2,7 +2,7 @@
 namespace Nodes\Backend\Http\Controllers;
 
 use Illuminate\Routing\Controller;
-use Nodes\Backend\Support\FlashAlert;
+use Nodes\Backend\Support\FlashRestorer;
 use Nodes\Database\Exceptions\EntityNotFoundException;
 use Symfony\Component\HttpFoundation\Session\SessionInterface;
 
@@ -52,7 +52,7 @@ class AuthController extends Controller
         // If user is already authenticated,
         // redirect user to dashboard
         if (backend_user_check()) {
-            return $this->redirectSuccess(new FlashAlert());
+            return $this->redirectSuccess(new FlashRestorer());
         }
 
         return view('nodes.backend::login.default');
@@ -175,7 +175,7 @@ class AuthController extends Controller
         }
 
         // Apply flash messages from previous route, if they are passed
-        if ($flashAlert && $flashAlert instanceof FlashAlert) {
+        if ($flashAlert && $flashAlert instanceof FlashRestorer) {
             $flashAlert->apply($redirectResponse);
         }
 

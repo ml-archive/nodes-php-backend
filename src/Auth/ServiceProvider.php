@@ -193,27 +193,27 @@ class ServiceProvider extends IlluminateAuthServiceProvider
                 return false;
             }
 
-            // Developer, yes
+            // Developer, yes to everything
             if($authedUser->user_role == 'developer') {
                 return true;
             }
 
-            // Super admins, yes
-            if($authedUser->user_role == 'super-admin') {
+            // Super admins, yes to everything besides developer
+            if($authedUser->user_role == 'super-admin' && $user->user_role != 'developer') {
                 return true;
             }
 
-            // Admins can edit other admins and users
-            if($authedUser->user_role == 'admin' && $user->user_role != 'super-admin') {
+            // Admins, yes to users
+            if($authedUser->user_role == 'admin' && $user->user_role == 'user') {
                 return true;
             }
 
-            // If your self
+            // Yes to your self
             if($authedUser->id == $user->id) {
                 return true;
             }
 
-            // Others cant
+            // All other cases fail
             return false;
         });
     }

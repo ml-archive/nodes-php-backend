@@ -9,7 +9,7 @@ if (!function_exists('backend_router')) {
      */
     function backend_router()
     {
-        return \NodesBackendRouter();
+        return \NodesBackend::router();
     }
 }
 
@@ -25,7 +25,7 @@ if (!function_exists('backend_router_pattern')) {
 
     function backend_router_pattern($patterns)
     {
-        return \NodesBackendRouter::pattern($patterns);
+        return \NodesBackend::router()->pattern($patterns);
     }
 }
 
@@ -41,6 +41,6 @@ if (!function_exists('backend_router_alias')) {
 
     function backend_router_alias($aliases)
     {
-        return \NodesBackendRouter::alias($aliases);
+        return \NodesBackend::router()->alias($aliases);
     }
 }

@@ -47,9 +47,6 @@ Setup alias in config/app.php
 
 ```
 'NodesBackend' => Nodes\Backend\Support\Facades\Backend::class,
-'NodesBackendAuth' => Nodes\Backend\Support\Facades\Authenticator::class,
-'NodesBackendRouter' => Nodes\Backend\Support\Facades\Router::class,
-'NodesQueryRestorer' => Nodes\Backend\Support\Facades\QueryRestorer::class,
 ```
 
 Copy the config files from vendor/nodes/backend/config to config/nodes/backend

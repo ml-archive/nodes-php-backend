@@ -57,7 +57,7 @@ class UsersController extends Controller
         }
 
         // Run query restorer
-        if($route = query_restore()) {
+        if($route = query_restorer([], ['search'])) {
             return redirect()->to($route);
         }
 

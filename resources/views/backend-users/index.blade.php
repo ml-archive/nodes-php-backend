@@ -20,8 +20,6 @@
             @endcan
                 <form class="form-inline search-form pull-right">
                     <div class="form-group action-wrapper">
-                        <input type="hidden" class="form-control" name="filter" value="{{ \Input::get('search') }}">
-
                         <button type="submit"
                                 class="btn btn-transparent action-wrap-action action-wrap-right action-wrap-sm">
                             {{--TODO place correct--}}

@@ -11,7 +11,7 @@
 @can('super-admin')
     {{--NStack--}}
     <li class="{{ backend_router_alias('nodes.backend.nstack') }}">
-        <a href="{{ route('nodes.backend.nstack') }}">
+        <a href="{{ route('nodes.backend.nstack') }}" target="_blank">
 
             <span class="icon">
                 <span class="fa">
@@ -48,7 +48,7 @@
 @can('admin')
 {{--Backend users--}}
 <li class="{{ backend_router_alias(['nodes.backend.users', 'nodes.backend.users.create', 'nodes.backend.users.edit', 'nodes.backend.users.profile']) }}">
-    <a href="{{ route('nodes.backend.users') }}">
+    <a href="{{ route('nodes.backend.users', ['page' => 1]) }}">
             <span class="icon">
                 <span class="fa fa-street-view"></span>
             </span>

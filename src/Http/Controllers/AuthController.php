@@ -2,6 +2,7 @@
 namespace Nodes\Backend\Http\Controllers;
 
 use Illuminate\Routing\Controller;
+use Nodes\Backend\Support\FlashAlert;
 use Nodes\Database\Exceptions\EntityNotFoundException;
 use Symfony\Component\HttpFoundation\Session\SessionInterface;
 
@@ -51,7 +52,7 @@ class AuthController extends Controller
         // If user is already authenticated,
         // redirect user to dashboard
         if (backend_user_check()) {
-            return $this->redirectSuccess();
+            return $this->redirectSuccess(new FlashAlert());
         }
 
         return view('nodes.backend::login.default');
@@ -126,11 +127,11 @@ class AuthController extends Controller
             // Redirect into backend
             return $this->redirectSuccess();
 
-        } catch(\Exception $e) {
+        } catch (\Exception $e) {
             // Notify bugsnag
             try {
                 app('nodes.bugsnag')->notifyException($e, null, 'error');
-            } catch(\Exception $e) {
+            } catch (\Exception $e) {
                 // Fail silent
             }
 
@@ -158,17 +159,26 @@ class AuthController extends Controller
     /**
      * Redirect user upon successfully authenticate
      *
-     * @author Morten Rugaard <moru@nodes.dk>
-     * @access protected
+     * @author Casper Rasmussen <cr@nodes.dk>
+     * @param FlashAlert|null $flashAlert
      * @return \Illuminate\Http\RedirectResponse
      */
-    protected function redirectSuccess()
+    protected function redirectSuccess($flashAlert = null)
     {
-        if(backend_user()->change_password) {
-            return redirect()->route('nodes.backend.users.change-password')->with('info', 'Please update your password');
+        // Check if user should redirect to change pw
+        if (backend_user()->change_password) {
+            $redirectResponse = redirect()->route('nodes.backend.users.change-password')->with('info', 'Please update your password');
+        } else {
+            // Else redirect to success route from config
+            $route = config('nodes.backend.auth.routes.success');
+            $redirectResponse = $route ? redirect()->route($route)->with('success', 'Logged in as: ' . backend_user()->email) : redirect()->to('/admin');
         }
 
-        $route = config('nodes.backend.auth.routes.success');
-        return $route ? redirect()->route($route)->with('success', 'Logged in as: ' . backend_user()->email) : redirect()->to('/admin');
+        // Apply flash messages from previous route, if they are passed
+        if ($flashAlert && $flashAlert instanceof FlashAlert) {
+            $flashAlert->apply($redirectResponse);
+        }
+
+        return $redirectResponse;
     }
 }

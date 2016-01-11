@@ -25,7 +25,8 @@
         "nodes/core": "^0.1",
         "nodes/database": "^0.1",
         "nodes/translate": "^0.1",
-        "nodes/validation": "^0.1"
+        "nodes/validation": "^0.1",
+        "nodes/assets": "^1.0",
     },
     "autoload": {
         "psr-4": {

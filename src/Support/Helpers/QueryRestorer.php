@@ -1,4 +1,5 @@
 <?php
+use Illuminate\Support\Facades\Cookie;
 
 if (!function_exists('query_restore')) {
     /**
@@ -9,7 +10,27 @@ if (!function_exists('query_restore')) {
      */
     function query_restore($params = [], $blacklist = [])
     {
-        return \NodesQueryRestorer::fire($params, $blacklist);
+
+        // Store and return
+        if(!empty(\Input::get())) {
+            \Cookie::queue(Cookie::make(md5(\Request::url() . '?' . http_build_query($params)), \Input::get(), 5));
+
+            return false;
+        }
+
+        // Retrieve
+        $query = Cookie::get(\Request::url() . '?' . http_build_query($params));
+
+        foreach($blacklist as $key) {
+            unset($query[$key]);
+        }
+
+        // Redirect with queries
+        if(!empty($query) && is_array($query)) {
+            return \Request::url() . '?' . http_build_query($query);
+        }
+
+        return false;
     }
 }
 

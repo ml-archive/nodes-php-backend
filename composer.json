@@ -33,7 +33,8 @@
         },
         "files": [
             "src/Support/Helpers/Auth.php",
-            "src/Support/Helpers/Router.php"
+            "src/Support/Helpers/Router.php",
+            "src/Support/Helpers/QueryRestorer.php"
         ]
     }
 }

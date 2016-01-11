@@ -56,6 +56,11 @@ class UsersController extends Controller
             abort(403);
         }
 
+        // Run query restorer
+        if($route = query_restorer([], ['search'])) {
+            return redirect()->to($route);
+        }
+
         // Retrieve all users
         $users = $this->userRepository->getPaginated();
 

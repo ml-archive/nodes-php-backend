@@ -128,8 +128,17 @@ class UserRepository extends Repository
      */
     public function getPaginated($limit = 25, $fields = ['*'])
     {
-        return $this->orderBy('name', 'ASC')
-                    ->paginate($limit, $fields);
+        $query = $this->orderBy('name', 'ASC');
+
+        // Apply search conditions if search is set
+        if(\Input::get('search')) {
+            $query->where(function($q) {
+               $q->orWhere('name', 'LIKE', '%' . \Input::get('search') . '%')
+                   ->orWhere('email', 'LIKE', '%' . \Input::get('search') . '%');
+            });
+        }
+
+        return $query->paginate($limit, $fields);
     }
 
     /**

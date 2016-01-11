@@ -15,7 +15,7 @@ class CreateBackendUsersTable extends Migration {
         Schema::create('backend_users', function(Blueprint $table)
         {
             $table->increments('id');
-            $table->string('image_path')->nullable();
+            $table->string('image')->nullable();
             $table->string('name', 255);
             $table->string('email', 255)->unique();
             $table->string('password', 255);

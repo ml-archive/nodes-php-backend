@@ -40,7 +40,19 @@ return [
     'routes' => [
         'success' => 'nodes.backend.dashboard'
     ],
-
+    /*
+      |--------------------------------------------------------------------------
+      | Gates
+      |--------------------------------------------------------------------------
+      |
+      | There is defined a handful of gates for the standard backend
+      |
+      | Note: Setting this to false, means you have to define gates your self, or remove all the gate checks
+      |
+      */
+    'gates' => [
+        'define' => true
+    ],
     /*
     |--------------------------------------------------------------------------
     | Providers

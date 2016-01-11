@@ -4,8 +4,8 @@ namespace Nodes\Backend\Auth;
 use Illuminate\Auth\Access\Gate;
 use Illuminate\Contracts\Auth\Access\Gate as GateContract;
 use Illuminate\Foundation\Support\Providers\AuthServiceProvider as IlluminateAuthServiceProvider;
-use Nodes\Backend\Auth\Exception\InvalidUserModelException;
-use Nodes\Backend\Auth\Exception\InvalidUserRepositoryException;
+use Nodes\Backend\Auth\Exceptions\InvalidUserModelException;
+use Nodes\Backend\Auth\Exceptions\InvalidUserRepositoryException;
 use Nodes\Backend\Models\User\User;
 use Nodes\Backend\Models\User\UserRepository;
 
@@ -34,65 +34,9 @@ class ServiceProvider extends IlluminateAuthServiceProvider
      */
     public function boot(GateContract $gate)
     {
-        // Register gates for user types
-        $this->registerPolicies($gate);
-
-        $gate->before(function ($authedUser, $ability) {
-            if (!$authedUser) {
-                return false;
-            }
-        });
-
-        // Define super admin
-        $gate->define('developer', function ($authedUser) {
-            return $authedUser->user_role == 'developer';
-        });
-
-        $gate->define('super-admin', function ($authedUser) {
-            return in_array($authedUser->user_role, ['developer', 'super-admin']);
-        });
-
-        // Define admin
-        $gate->define('admin', function ($authedUser) {
-            return in_array($authedUser->user_role, ['developer', 'super-admin', 'admin']);
-        });
-
-        // Define can edit, should only be possible to edit higher level than your self
-        $gate->define('edit-user', function ($authedUser, $user = null) {
-
-            // If the user is empty, it means they are creating it
-            if(empty($user)) {
-                return true;
-            }
-
-            // Don't change anything in the manager user
-            if($user->email == config('nodes.backend.manager.email')) {
-                return false;
-            }
-
-            // Developer, yes
-            if($authedUser->user_role == 'developer') {
-                return true;
-            }
-
-            // Super admins, yes
-            if($authedUser->user_role == 'super-admin') {
-                return true;
-            }
-
-            // Admins can edit other admins and users
-            if($authedUser->user_role == 'admin' && $user->user_role != 'super-admin') {
-                return true;
-            }
-
-            // If your self
-            if($authedUser->id == $user->id) {
-                return true;
-            }
-
-            // Others cant
-            return false;
-        });
+        if(config('nodes.backend.auth.gates.define', true)) {
+            $this->defineGates($gate);
+        }
     }
 
     /**
@@ -203,6 +147,74 @@ class ServiceProvider extends IlluminateAuthServiceProvider
             return new Gate($app, function () use ($app) {
                 return $app['nodes.backend.auth']->getUser();
             });
+        });
+    }
+
+    /**
+     * Define gates for standard user roles
+     *
+     * @author Casper Rasmussen <cr@nodes.dk>
+     * @param \Illuminate\Contracts\Auth\Access\Gate $gate
+     */
+    private function defineGates(GateContract $gate) {
+        // Register gates for user types
+        $this->registerPolicies($gate);
+
+        $gate->before(function ($authedUser, $ability) {
+            if (!$authedUser) {
+                return false;
+            }
+        });
+
+        // Define super admin
+        $gate->define('developer', function ($authedUser) {
+            return $authedUser->user_role == 'developer';
+        });
+
+        $gate->define('super-admin', function ($authedUser) {
+            return in_array($authedUser->user_role, ['developer', 'super-admin']);
+        });
+
+        // Define admin
+        $gate->define('admin', function ($authedUser) {
+            return in_array($authedUser->user_role, ['developer', 'super-admin', 'admin']);
+        });
+
+        // Define can edit, should only be possible to edit higher level than your self
+        $gate->define('edit-user', function ($authedUser, $user = null) {
+
+            // If the user is empty, it means they are creating it
+            if(empty($user)) {
+                return true;
+            }
+
+            // Don't change anything in the manager user
+            if($user->email == config('nodes.backend.manager.email')) {
+                return false;
+            }
+
+            // Developer, yes
+            if($authedUser->user_role == 'developer') {
+                return true;
+            }
+
+            // Super admins, yes
+            if($authedUser->user_role == 'super-admin') {
+                return true;
+            }
+
+            // Admins can edit other admins and users
+            if($authedUser->user_role == 'admin' && $user->user_role != 'super-admin') {
+                return true;
+            }
+
+            // If your self
+            if($authedUser->id == $user->id) {
+                return true;
+            }
+
+            // Others cant
+            return false;
         });
     }
 }

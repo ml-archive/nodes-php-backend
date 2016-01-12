@@ -12,6 +12,21 @@ use Illuminate\Routing\Controller;
 class NStackController extends Controller
 {
     /**
+     * NStackController constructor
+     *
+     * @author Casper Rasmussen <cr@nodes.dk>
+     *
+     * @access public
+     * @throws \Symfony\Component\HttpKernel\Exception\HttpException
+     */
+    public function __construct()
+    {
+        if (\Gate::denies('super-admin')) {
+            abort(403);
+        }
+    }
+
+    /**
      * @author Casper Rasmussen <cr@nodes.dk>
      * @return \Illuminate\Http\RedirectResponse
      */
@@ -29,7 +44,7 @@ class NStackController extends Controller
             'appId' => $config['credentials']['appId'],
             'masterKey' => $config['credentials']['masterKey'],
             'role' => $config['role'],
-            'url' => url(),
+            'url' => url('/'),
             'user' => [
                 'name' => backend_user()->name,
                 'email' => backend_user()->email

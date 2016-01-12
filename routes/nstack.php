@@ -1,6 +1,6 @@
 <?php
 
-Route::group(['namespace' => 'Nodes\Backend\Http\Controllers', 'prefix' => '/nstack'], function() {
+Route::group(['namespace' => 'Nodes\Backend\Http\Controllers', 'prefix' => '/nstack', 'middleware' => ['ssl', 'backend']], function() {
 
     // NStack hook
     Route::get('/', [

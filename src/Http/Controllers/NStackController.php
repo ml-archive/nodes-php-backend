@@ -12,6 +12,21 @@ use Illuminate\Routing\Controller;
 class NStackController extends Controller
 {
     /**
+     * NStackController constructor
+     *
+     * @author Casper Rasmussen <cr@nodes.dk>
+     *
+     * @access public
+     * @throws \Symfony\Component\HttpKernel\Exception\HttpException
+     */
+    public function __construct()
+    {
+        if (\Gate::denies('super-admin')) {
+            abort(403);
+        }
+    }
+
+    /**
      * @author Casper Rasmussen <cr@nodes.dk>
      * @return \Illuminate\Http\RedirectResponse
      */

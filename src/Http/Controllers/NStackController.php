@@ -44,7 +44,7 @@ class NStackController extends Controller
             'appId' => $config['credentials']['appId'],
             'masterKey' => $config['credentials']['masterKey'],
             'role' => $config['role'],
-            'url' => url(),
+            'url' => url('/'),
             'user' => [
                 'name' => backend_user()->name,
                 'email' => backend_user()->email

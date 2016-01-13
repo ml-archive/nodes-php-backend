@@ -1,5 +1,7 @@
-@extends('nodes.backend::layout')
+@extends('nodes.backend::layouts.base')
+
 @section('content')
+
     <div class="row">
         @foreach($dashboardCollection as $dashboard)
             @if($dashboard->getType() == 'i-frame')
@@ -54,52 +56,55 @@
     </div>
 @endsection
 
-@section('backend-js')
+@section('project-js')
     <script>
+
+
         // Bar charts
-        var arr = {!! json_encode($dashboardCollection->getBarChartsAsChartData()) !!};
-        for (var i = 0; i < arr.length; i++) {
-            if (!arr[i]) {
+        var arrA = {!! json_encode($dashboardCollection->getBarChartsAsChartData()) !!};
+        console.log(arrA);
+        for (var i = 0; i < arrA.length; i++) {
+            if (!arrA[i]) {
                 continue;
             }
-            var ctx = $("#" + arr[i].id).get(0).getContext("2d");
+            var ctx = $("#" + arrA[i].id).get(0).getContext("2d");
             var myNewChart = new Chart(ctx).Bar({
-                labels: arr[i]['labels'],
+                labels: arrA[i]['labels'],
                 datasets: [
                     {
-                        label: arr[i].title,
+                        label: arrA[i].title,
                         fillColor: "rgba(220,220,220,0.2)",
                         strokeColor: "rgba(220,220,220,1)",
                         pointColor: "rgba(220,220,220,1)",
                         pointStrokeColor: "#fff",
                         pointHighlightFill: "#fff",
                         pointHighlightStroke: "rgba(220,220,220,1)",
-                        data: arr[i]['data']
+                        data: arrA[i]['data']
                     }
                 ]
             });
         }
 
         // Bar charts
-        var arr = {!! json_encode($dashboardCollection->getLineChartsAsChartData()) !!};
-        for (var i = 0; i < arr.length; i++) {
-            if (!arr[i]) {
+        var arrB = {!! json_encode($dashboardCollection->getLineChartsAsChartData()) !!};
+        for (var i = 0; i < arrB.length; i++) {
+            if (!arrB[i]) {
                 continue;
             }
 
-            var ctx = $("#" + arr[i].id).get(0).getContext("2d");
+            var ctx = $("#" + arrB[i].id).get(0).getContext("2d");
             var myNewChart = new Chart(ctx).Line({
-                labels: arr[i]['labels'],
+                labels: arrB[i]['labels'],
                 datasets: [
                     {
-                        label: arr[i].title,
+                        label: arrB[i].title,
                         fillColor: "rgba(220,220,220,0.2)",
                         strokeColor: "rgba(220,220,220,1)",
                         pointColor: "rgba(220,220,220,1)",
                         pointStrokeColor: "#fff",
                         pointHighlightFill: "#fff",
                         pointHighlightStroke: "rgba(220,220,220,1)",
-                        data: arr[i]['data']
+                        data: arrB[i]['data']
                     }
                 ]
             });

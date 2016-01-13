@@ -181,5 +181,6 @@ abstract class Statistic
         }
 
         $this->chartData = $chartData;
+
     }
 }

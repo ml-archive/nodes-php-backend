@@ -16,8 +16,8 @@ class RouteServiceProvider extends IlluminateRouteServiceProvider
      * @var array
      */
     protected $routeMiddleware = [
-        'backend' => 'Nodes\Backend\Http\Middlewares\BackendMiddleware',
-        'ssl' => 'Nodes\Backend\Http\Middlewares\SSLMiddleware'
+        'backend' => 'Nodes\Backend\Http\Middleware\Backend',
+        'ssl' => 'Nodes\Backend\Http\Middleware\SSL'
     ];
 
     /**

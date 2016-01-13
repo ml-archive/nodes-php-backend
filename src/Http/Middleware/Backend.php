@@ -1,15 +1,15 @@
 <?php
-namespace Nodes\Backend\Http\Middlewares;
+namespace Nodes\Backend\Http\Middleware;
 
 use Closure;
 use Nodes\Backend\Support\FlashRestorer;
 
 /**
- * Class BackendMiddleware
+ * Class Backend
  *
  * @package Nodes\Backend\Http\Middleware
  */
-class BackendMiddleware
+class Backend
 {
     /**
      * Check to see if user is authenticated.

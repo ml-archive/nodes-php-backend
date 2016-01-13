@@ -1,32 +1,23 @@
 {
-  "tasksPath": "./vendor/nodesagency/backend/gulp/tasks/",
-  "backend": {
-    "src": {
-      "scss": "./vendor/nodesagency/backend/resources/assets/scss",
-      "scripts": "./vendor/nodesagency/backend/resources/assets/js",
-      "views": "./vendor/nodesagency/backend/resources/views"
-    },
-    "dest": {
-      "css": "./public/vendor/nodes/backend/css",
-      "scripts": "./public/vendor/nodes/backend/js",
-      "views": "./resources/views/vendor/nodes.backend"
-    },
-    "relativePath": "../../../../../public/"
-  },
-  "project": {
-    "src": {
-      "scss": "./resources/assets/scss",
-      "scripts": "./resources/assets/js",
-      "views": "./resources/views"
-    },
-    "dest": {
-      "css": "./public/css",
-      "scripts": "./public/js",
-      "views": ""
-    },
-    "bower": {
-      "directory": "./bower_components",
-      "bowerJson": "./bower.json"
-    }
-  }
+	"tasksPath": "./gulp/tasks/",
+	"project": {
+		"src": {
+			"scss": "./resources/assets/scss",
+			"scripts": "./resources/assets/js",
+			"views": "./resources/views"
+		},
+		"dest": {
+			"css": "./public/css",
+			"scripts": "./public/js",
+			"views": ""
+		},
+		"bower": {
+			"directory": "./bower_components",
+			"bowerJson": "./bower.json"
+		}
+	},
+	"ignoredBowerPkgs": [
+		"!**/bower_components/bootstrap/dist/js/bootstrap.js",
+		"!**/bower_components/blueimp-tmpl/js/tmpl.js"
+	]
 }

@@ -1,12 +1,8 @@
-<?xml version="1.0" encoding="UTF-8" standalone="no"?>
 <svg width="48px" height="48px" viewBox="0 0 48 48" version="1.1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" xmlns:sketch="http://www.bohemiancoding.com/sketch/ns">
-    <!-- Generator: bin/sketchtool 1.4 (305) - http://www.bohemiancoding.com/sketch -->
-    <title>NStack_Logo</title>
-    <desc>Created with bin/sketchtool.</desc>
     <defs>
         <linearGradient x1="0%" y1="100%" x2="100%" y2="0%" id="linearGradient-1">
-            <stop stop-color="#37DDAD" offset="0%"></stop>
-            <stop stop-color="#37EF81" offset="100%"></stop>
+            <stop class="logo-gradient__0"  offset="0%"></stop>
+            <stop class="logo-gradient__100" stop-color="#37EF81" offset="100%"></stop>
         </linearGradient>
     </defs>
     <g id="00_Guides-/-00.00_Mobile" stroke="none" stroke-width="1" fill="none" fill-rule="evenodd" sketch:type="MSPage">

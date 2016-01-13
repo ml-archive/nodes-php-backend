@@ -9,13 +9,15 @@ var rename 					= require('gulp-rename');
 
 var Elixir = require('laravel-elixir');
 
+var gulpConfig = require('../config.json');
+
 var Task = Elixir.Task;
 
 Elixir.extend('projectStyles', function(jsOutputFile, jsOutputFolder, cssOutputFile, cssOutputFolder) {
 
-    var cssFile = cssOutputFile || 'project.css';
+    var cssFileName = cssOutputFile || 'project.css';
 
-    var scssRoot = './resources/assets/scss/';
+	var scssRoot = gulpConfig.project.src.scss;
     var scssSources = path.join(scssRoot, '**/*.scss');
     var scssMainFile = path.join(scssRoot, 'project.scss');
 
@@ -24,7 +26,8 @@ Elixir.extend('projectStyles', function(jsOutputFile, jsOutputFolder, cssOutputF
         return gulp.src(scssMainFile)
             .pipe(sourcemaps.init())
             .pipe(sass({
-                outputStyle: Elixir.config.production ? 'compressed' : 'expanded'
+                outputStyle: Elixir.config.production ? 'compressed' : 'expanded',
+                includePaths: ['bower_components']
             })).on('error', sass.logError)
             .pipe(postcss([
                 autoprefixer({
@@ -32,7 +35,7 @@ Elixir.extend('projectStyles', function(jsOutputFile, jsOutputFolder, cssOutputF
                 })
             ]))
             .pipe(sourcemaps.write())
-            .pipe(rename(cssFile))
+            .pipe(rename(cssFileName))
             .pipe(gulp.dest(cssOutputFolder || Elixir.config.css.outputFolder));
 
     }).watch(scssSources);

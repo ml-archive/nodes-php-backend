@@ -1,15 +1,15 @@
 <?php
 
-namespace Nodes\Backend\Http\Middlewares;
+namespace Nodes\Backend\Http\Middleware;
 
 use Closure;
 
 /**
- * Class HttpsProtocolMiddleware
+ * Class SSL
  * @author Casper Rasmussen <cr@nodes.dk>
- * @package Baas\Middleware
+ * @package Nodes\Backend\Http\Middleware
  */
-class SSLMiddleware
+class SSL
 {
     /**
      * @author Casper Rasmussen <cr@nodes.dk>

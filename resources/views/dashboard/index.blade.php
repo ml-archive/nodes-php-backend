@@ -15,7 +15,7 @@
                             <h3 class="panel-title">{{$dashboard->getTitle()}}</h3>
                         </div>
                         <div class="panel-body">
-                            <iframe src="{{$dashboard->getUrl()}}" width=100% height="300" scrolling="no" frameborder="no"></iframe>
+                            <iframe class="iframe" src="{{$dashboard->getUrl()}}" width=100% height="300" scrolling="no" frameborder="no"></iframe>
                         </div>
                     </div>
                 </div>
@@ -28,7 +28,7 @@
                         </div>
                         <div class="panel-body">
                             @if($dashboard->getChartData())
-                                <div class="chart-responsive">
+                                <div class="chart-responsive bar-chart">
                                     <style>
                                         #{{$dashboard->getId()}} {
                                             height: 300px !important;
@@ -51,7 +51,7 @@
                         </div>
                         <div class="panel-body" >
                             @if($dashboard->getChartData())
-                                <div class="chart-responsive">
+                                <div class="chart-responsive line-chart">
                                     <style>
                                         #{{$dashboard->getId()}} {
                                             height: 300px !important;

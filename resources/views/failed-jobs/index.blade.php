@@ -1,11 +1,7 @@
-@extends('nodes.backend::layout')
+@extends('nodes.backend::layouts.base')
 
-@section('breadcrumbs')
-    @parent
-    <li class="active">
-        <span class="fa fa-cogs"></span>
-        Failed jobs
-    </li>
+@section('page-header-top')
+    <h1>Failed jobs</h1>
 @endsection
 
 @section('content')

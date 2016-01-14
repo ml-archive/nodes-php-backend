@@ -1,5 +1,9 @@
 @extends('nodes.backend::layouts.base')
 
+@section('page-header-top')
+    <h1>Dashboard</h1>
+@endsection
+
 @section('content')
 
     <div class="row">
@@ -22,9 +26,14 @@
                         <div class="panel-heading border">
                             <h3 class="panel-title">{{$dashboard->getTitle()}}</h3>
                         </div>
-                        <div class="panel-body" style="height: 300px">
+                        <div class="panel-body">
                             @if($dashboard->getChartData())
                                 <div class="chart-responsive">
+                                    <style>
+                                        #{{$dashboard->getId()}} {
+                                            height: 300px !important;
+                                        }
+                                    </style>
                                     <canvas id="{{$dashboard->getId()}}"></canvas>
                                 </div>
                             @else
@@ -40,9 +49,14 @@
                         <div class="panel-heading border">
                             <h3 class="panel-title">{{$dashboard->getTitle()}}</h3>
                         </div>
-                        <div class="panel-body" style="height: 300px">
+                        <div class="panel-body" >
                             @if($dashboard->getChartData())
                                 <div class="chart-responsive">
+                                    <style>
+                                        #{{$dashboard->getId()}} {
+                                            height: 300px !important;
+                                        }
+                                    </style>
                                     <canvas id="{{$dashboard->getId()}}"></canvas>
                                 </div>
                             @else
@@ -59,55 +73,59 @@
 @section('project-js')
     <script>
 
+        $(document).ready(function() {
 
-        // Bar charts
-        var arrA = {!! json_encode($dashboardCollection->getBarChartsAsChartData()) !!};
-        console.log(arrA);
-        for (var i = 0; i < arrA.length; i++) {
-            if (!arrA[i]) {
-                continue;
-            }
-            var ctx = $("#" + arrA[i].id).get(0).getContext("2d");
-            var myNewChart = new Chart(ctx).Bar({
-                labels: arrA[i]['labels'],
-                datasets: [
-                    {
-                        label: arrA[i].title,
-                        fillColor: "rgba(220,220,220,0.2)",
-                        strokeColor: "rgba(220,220,220,1)",
-                        pointColor: "rgba(220,220,220,1)",
-                        pointStrokeColor: "#fff",
-                        pointHighlightFill: "#fff",
-                        pointHighlightStroke: "rgba(220,220,220,1)",
-                        data: arrA[i]['data']
-                    }
-                ]
-            });
-        }
+            // Bar charts
+            var arrA = {!! json_encode($dashboardCollection->getBarChartsAsChartData()) !!};
 
-        // Bar charts
-        var arrB = {!! json_encode($dashboardCollection->getLineChartsAsChartData()) !!};
-        for (var i = 0; i < arrB.length; i++) {
-            if (!arrB[i]) {
-                continue;
+            for (var i = 0; i < arrA.length; i++) {
+                if (!arrA[i]) {
+                    continue;
+                }
+                var ctx = $("#" + arrA[i].id).get(0).getContext("2d");
+                var myNewChart = new Chart(ctx).Bar({
+                    labels: arrA[i]['labels'],
+                    datasets: [
+                        {
+                            label: arrA[i].title,
+                            fillColor: "rgba(220,220,220,0.2)",
+                            strokeColor: "rgba(220,220,220,1)",
+                            pointColor: "rgba(220,220,220,1)",
+                            pointStrokeColor: "#fff",
+                            pointHighlightFill: "#fff",
+                            pointHighlightStroke: "rgba(220,220,220,1)",
+                            data: arrA[i]['data']
+                        }
+                    ]
+                });
             }
 
-            var ctx = $("#" + arrB[i].id).get(0).getContext("2d");
-            var myNewChart = new Chart(ctx).Line({
-                labels: arrB[i]['labels'],
-                datasets: [
-                    {
-                        label: arrB[i].title,
-                        fillColor: "rgba(220,220,220,0.2)",
-                        strokeColor: "rgba(220,220,220,1)",
-                        pointColor: "rgba(220,220,220,1)",
-                        pointStrokeColor: "#fff",
-                        pointHighlightFill: "#fff",
-                        pointHighlightStroke: "rgba(220,220,220,1)",
-                        data: arrB[i]['data']
-                    }
-                ]
-            });
-        }
+            // Bar charts
+            var arrB = {!! json_encode($dashboardCollection->getLineChartsAsChartData()) !!};
+            for (var i = 0; i < arrB.length; i++) {
+                if (!arrB[i]) {
+                    continue;
+                }
+
+                var ctx = $("#" + arrB[i].id).get(0).getContext("2d");
+                var myNewChart = new Chart(ctx).Line({
+                    labels: arrB[i]['labels'],
+                    datasets: [
+                        {
+                            label: arrB[i].title,
+                            fillColor: "rgba(220,220,220,0.2)",
+                            strokeColor: "rgba(220,220,220,1)",
+                            pointColor: "rgba(220,220,220,1)",
+                            pointStrokeColor: "#fff",
+                            pointHighlightFill: "#fff",
+                            pointHighlightStroke: "rgba(220,220,220,1)",
+                            data: arrB[i]['data']
+                        }
+                    ]
+                }, {responsive: true});
+            }
+
+        });
+
     </script>
 @endsection

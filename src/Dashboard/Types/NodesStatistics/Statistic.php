@@ -73,7 +73,8 @@ abstract class Statistic
         $this->gaId = $config['gaId'];
 
         // Assign random id
-        $this->id = Str::random();
+//        $this->id = Str::random();
+        $this->id = self::randomString();
 
         $this->prepareChartData();
     }
@@ -182,5 +183,15 @@ abstract class Statistic
 
         $this->chartData = $chartData;
 
+    }
+
+    /**
+     * @author Dennis Haulund Nielsen <dhni@nodes.dk>
+     * @param int $length
+     * @return string
+     */
+    private static function randomString($length = 16) {
+        $pool = 'abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ';
+        return substr(str_shuffle(str_repeat($pool, 5)), 0, $length);
     }
 }

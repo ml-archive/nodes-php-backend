@@ -17,10 +17,16 @@
             </div>
 
             <div class="core-layout__content">
-                @include('nodes.backend::partials.alerts')
-                @yield('content')
+                @include('nodes.backend::partials.core.core-page-header')
+                <div class="page-content">
+                    <div class="container-fluid">
+                        @yield('content')
+                    </div>
+                </div>
             </div>
         </div>
+
+        @include('nodes.backend::partials.alerts')
 
     </div>
 @endsection

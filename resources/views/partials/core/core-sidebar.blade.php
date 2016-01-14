@@ -16,10 +16,13 @@
 </div>
 
 <div class="sidebar sidebar__navigation">
-    @include('nodes.backend::partials.sidebar.top-actions')
+    {{--Must be in one line--}}
+    <div class="sidebar__navigation-top">@include('nodes.backend::partials.sidebar.top-actions')</div>
 
-    <div class="list-group list-group-inverse">
+    <div class="sidebar__navigation-middle list-group list-group-inverse">
         @include('nodes.backend::partials.sidebar.navigation')
     </div>
-    @include('nodes.backend::partials.sidebar.bottom-actions')
+
+    {{--Must be in one line--}}
+    <div class="sidebar__navigation-bottom">@include('nodes.backend::partials.sidebar.bottom-actions')</div>
 </div>

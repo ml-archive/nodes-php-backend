@@ -36,7 +36,7 @@
                 </p>
                 <div class="user">
                     <div class="user__profile">
-                        <img class="img-responsive" src="//placehold.it/300x300"/>
+                        <img class="user__info-avatar img-responsive img-circle" src="{{backend_user()->getImageUrl()}}"/>
                     </div>
                     <div class="user__info">
                         <span class="user__info-name" title="John Doe">

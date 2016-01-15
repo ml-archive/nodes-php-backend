@@ -26,7 +26,9 @@
             </div>
         </div>
 
-        @include('nodes.backend::partials.alerts')
+        <div class="page-alerts">
+            @include('nodes.backend::partials.alerts')
+        </div>
 
     </div>
 @endsection

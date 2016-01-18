@@ -20,7 +20,7 @@ class Router
      * Name of active class
      * @var string
      */
-    protected $activeClass = 'selected';
+    protected $activeClass = 'active';
 
     /**
      * Name of inactive class

@@ -1,21 +1,12 @@
-@extends('nodes.backend::base')
+@extends('nodes.backend::reset-password.reset-template')
 
-@section('layout')
-    <div id="login">
-        <div class="col-xs-10 col-sm-3">
-            <div class="panel panel-default">
-                <div class="panel-body">
-                    <div class="panel-heading">
-                        <h3 class="panel-title">Reset password</h3>
-                    </div>
-                    <div class="panel-body">
-                        <div class="alert alert-danger text-center" role="alert">
-                            Invalid token!
-                        </div>
-                        <p>The token you're trying to use is invalid. Either this is because the token doesn't exist or because it has already been used.</p>
-                    </div>
-                </div>
-            </div>
-        </div>
+@section('feedback-header')
+    <h3 class="panel-title">Reset password</h3>
+@endsection
+
+@section('feedback-message')
+    <div class="alert alert-danger text-center" role="alert">
+        Invalid token!
     </div>
-@stop
+    <p class="padding-vertical">The token you're trying to use is invalid. Either this is because the token doesn't exist or because it has already been used.</p>
+@endsection

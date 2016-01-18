@@ -1,41 +1,54 @@
+var path = require('path');
+var fs = require('fs');
+
 var gulp = require('gulp');
 var mainBowerFiles = require('main-bower-files');
 var uglify = require('gulp-uglify');
 var concatSourcemaps = require('gulp-concat-sourcemap');
 var concat = require('gulp-concat');
 var gulpIf = require('gulp-if');
-var debug = require('gulp-debug');
 
 var Elixir = require('laravel-elixir');
 
-var Task = Elixir.Task;
+var gulpConfig = require('../config.json');
+var NODES_BOWER_PACKAGES = require('../../bower_components/nodes-ui/bower.json');
+var PROJECT_BOWER_PACKAGES = require('../../bower.json');
 
-var ignoredBowerPkgs 	= [
-    // Bootbox has a dependency on the "raw" bootstrap, we dont want it imported twice. -dhni
-    '!**/bower_components/bootstrap/dist/js/bootstrap.js',
-    // We don't use the templating features of blueimp fileupload -dhni
-    '!**/bower_components/blueimp-tmpl/js/tmpl.js'
-];
+var Task = Elixir.Task;
 
 Elixir.extend('vendorScripts', function(jsOutputFile, jsOutputFolder) {
 
-    var jsFile = jsOutputFile || 'vendor.js';
+	var MERGED_PKGS = PROJECT_BOWER_PACKAGES;
 
-    var filterFiles = ['**/*.js'].concat(ignoredBowerPkgs);
+	for(var pkg in NODES_BOWER_PACKAGES.dependencies) {
+		if(!PROJECT_BOWER_PACKAGES.dependencies.hasOwnProperty(pkg)) {
+			MERGED_PKGS.dependencies[pkg] = NODES_BOWER_PACKAGES.dependencies[pkg];
+		}
+	}
 
-    if(!Elixir.config.production) {
-        concat = concatSourcemaps;
-    }
+	try {
+		fs.writeFileSync('bower.json', JSON.stringify(MERGED_PKGS, null, '\t'));
+	} catch(err) {
+		return console.log('Error updating project bower.json file!', err);
+	}
 
-    new Task('vendor-scripts', function() {
+	var jsFileName = jsOutputFile || 'vendor.js';
 
-        return gulp.src(mainBowerFiles({
-            filter: filterFiles
-        }))
-            .pipe(concat(jsFile, {sourcesContent: true}))
-            .pipe(gulpIf(Elixir.config.production, uglify()))
-            .pipe(gulp.dest(jsOutputFolder || Elixir.config.js.outputFolder));
+	var filterFiles = ['**/*.js'].concat(gulpConfig.ignoredBowerPkgs);
 
-    }).watch('bower.json');
+	if(!Elixir.config.production) {
+		concat = concatSourcemaps;
+	}
+
+	new Task('vendor-scripts', function() {
+
+		return gulp.src(mainBowerFiles({
+			filter: filterFiles
+		}))
+			.pipe(concat(jsFileName, {sourcesContent: true}))
+			.pipe(gulpIf(Elixir.config.production, uglify()))
+			.pipe(gulp.dest(jsOutputFolder || Elixir.config.js.outputFolder));
+
+	}).watch('bower.json');
 
 });

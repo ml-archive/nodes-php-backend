@@ -1,42 +1,38 @@
-@extends('nodes.backend::layout')
+@extends('nodes.backend::layouts.base')
+
+@section('page-header-top')
+    <h1>
+        Update password
+        <small class="text-gray-dark">(min. 6 characters)</small>
+    </h1>
+@endsection
 
 @section('content')
-    <section class="panel panel-default">
-        <header class="panel-heading border clearfix">
-            <h3 class="panel-title">Update password</h3>
-        </header>
-        <div class="panel-body">
-            <div class="row">
-                <div class="col-xs-12 col-sm-6">
-                    {!! Form::model(backend_user(), ['method' => 'patch', 'route' => ['nodes.backend.users.update-password'], 'class' => 'form-horizontal']) !!}
-                    <input type="hidden" name="id" value="{{ backend_user()->id }}">
-                    <h4 class="bordered">
-                            Change password
-                        <small>(min. 6 characters)</small>
-                    </h4>
-                    {{--Password--}}
-                    <div class="form-group">
-                        <label for="backendUserFormPassword" class="col-sm-3 control-label">Password</label>
-                        <div class="col-sm-9 @if(validation_key_failed('password')) has-error @endif}}">
-                            {!! Form::password('password', ['id' => 'backendUserFormPassword', 'class' => 'form-control']) !!}
-                        </div>
-                    </div>
-                    {{--Password confirm--}}
-                    <div class="form-group">
-                        <label for="backendUserFormRepeatPassword" class="col-sm-3 control-label">Repeat password</label>
-                        <div class="col-sm-9 @if(validation_key_failed('password')) has-error @endif}}">
-                            {!! Form::password('password_confirmation', ['id' => 'backendUserFormRepeatPassword', 'class' => 'form-control']) !!}
-                        </div>
-                    </div>
+    <div class="row">
+        <div class="col-xs-12 col-md-6 margin-top">
+            {!! Form::model(backend_user(), ['method' => 'patch', 'route' => ['nodes.backend.users.update-password']]) !!}
+            <input type="hidden" name="id" value="{{ backend_user()->id }}">
 
-                    <div class="form-group">
-                        <div class="col-sm-offset-3 col-sm-9">
-                            <input type="submit" class="btn btn-primary form-control" value="Save">
-                        </div>
-                    </div>
-                    {!! Form::close() !!}
+            {{--Password--}}
+            <div class="form-group">
+                <label for="backendUserFormPassword">Password</label>
+                <div class="@if(validation_key_failed('password')) has-error @endif}}">
+                    {!! Form::password('password', ['id' => 'backendUserFormPassword', 'class' => 'form-control']) !!}
                 </div>
             </div>
+            {{--Password confirm--}}
+            <div class="form-group">
+                <label for="backendUserFormRepeatPassword">Repeat password</label>
+                <div class="@if(validation_key_failed('password')) has-error @endif}}">
+                    {!! Form::password('password_confirmation', ['id' => 'backendUserFormRepeatPassword', 'class' => 'form-control']) !!}
+                </div>
+            </div>
+
+            <div class="form-group">
+                <input type="submit" class="btn btn-primary" value="Save">
+            </div>
+            {!! Form::close() !!}
         </div>
-    </section>
+    </div>
+
 @endsection

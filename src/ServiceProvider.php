@@ -243,7 +243,7 @@ class ServiceProvider extends NodesAbstractServiceProvider
      */
     protected function finishInstall()
     {
-        $this->getInstaller()->comment('Installing node modules (this could take while, hang on) ...');
+        $this->getInstaller()->comment('Installing node modules (be patient, this could take while) ...');
         passthru('sudo npm install');
 
         $this->getInstaller()->comment('Installing bower components ...');

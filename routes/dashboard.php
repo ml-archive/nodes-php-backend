@@ -1,5 +1,5 @@
 <?php
-Route::group(['namespace' => 'Nodes\Backend\Http\Controllers', 'prefix' => 'admin/', 'middleware' => ['ssl', 'backend']], function() {
+Route::group(['namespace' => 'Nodes\Backend\Http\Controllers', 'prefix' => 'admin/', 'middleware' => ['backend.ssl', 'backend.auth']], function() {
 
     // Dashboard
     Route::get('/', [

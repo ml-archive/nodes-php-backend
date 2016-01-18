@@ -28,7 +28,6 @@ return [
     |   'type' => 'nodes-statistics-monthly',
     |   'title' => 'Monthly',
     |   'gaId' => 'UA-50813164-10'
-
     */
     'list' => [
         [

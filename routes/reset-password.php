@@ -1,5 +1,5 @@
 <?php
-Route::group(['namespace' => 'Nodes\Backend\Auth\ResetPassword', 'prefix' =>'/admin/login/reset', 'middleware' => ['ssl']], function() {
+Route::group(['namespace' => 'Nodes\Backend\Auth\ResetPassword', 'prefix' =>'/admin/login/reset', 'middleware' => ['backend.ssl']], function() {
     // Generate reset password token
     Route::post('/', [
         'uses' => 'ResetPasswordController@generateResetToken',

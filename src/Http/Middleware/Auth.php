@@ -5,11 +5,11 @@ use Closure;
 use Nodes\Backend\Support\FlashRestorer;
 
 /**
- * Class Backend
+ * Class Auth
  *
  * @package Nodes\Backend\Http\Middleware
  */
-class Backend
+class Auth
 {
     /**
      * Check to see if user is authenticated.

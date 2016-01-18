@@ -41,5 +41,13 @@
             "src/Support/Helpers/Router.php",
             "src/Support/Helpers/QueryRestorer.php"
         ]
+    },
+    "scripts": {
+        "post-install-cmd": [
+            "php -f nodes/core/install.php nodes:package:install nodes/backend"
+        ],
+        "post-update-cmd": [
+            "php -f nodes/core/install.php nodes:package:install nodes/backend"
+        ]
     }
 }

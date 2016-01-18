@@ -42,21 +42,20 @@
                     </div>
 
                     {{--Image--}}
-                    <div class="form-group">
-                        <div class="@if(validation_key_failed('image')) has-error @endif}}">
-                            <label class="file-picker" data-filepicker>
-                                <span class="file-picker__label">Image</span>
-                                <img src="@if(!empty($user)) {{ $user->image }} @endif" alt="" class="file-picker__preview img-thumbnail">
-                                {!! Form::file('image', null, ['id' => 'backendUserFormImage']) !!}
-                                <div class="file-picker__actions">
-                                    <button type="button" class="file-picker__button btn btn-default">Browse</button>
-                                    <button type="button" class="file-picker__clear btn btn-transparent">
-                                        clear
-                                    </button>
-                                </div>
+                    <label for="backendUserFormImage">Image</label>
+                    <div class="form-group input-group @if(validation_key_failed('image')) has-error @endif">
 
-                            </label>
-                        </div>
+
+                        <span class="input-group-btn">
+                            <span class=" file-input btn btn-default btn-file">
+                                Browse
+                                {!! Form::file('image', null, ['id' => 'backendUserFormImage']) !!}
+                            </span>
+                        </span>
+
+                            <input type="text" class="form-control" readonly>
+
+
                     </div>
 
                     {{--Role--}}

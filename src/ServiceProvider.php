@@ -4,6 +4,8 @@ namespace Nodes\Backend;
 use Nodes\AbstractServiceProvider as NodesAbstractServiceProvider;
 use Nodes\Backend\Http\Middleware\Auth as NodesBackendHttpMiddlewareAuth;
 use Nodes\Backend\Http\Middleware\SSL as NodesBackendHttpMiddlewareSSL;
+use Nodes\Backend\Routing\Router as NodesBackendRouter;
+use Nodes\Backend\Support\Facades\Backend as NodesBackendFacadeBackend;
 
 /**
  * Class ServiceProvider
@@ -18,6 +20,15 @@ class ServiceProvider extends NodesAbstractServiceProvider
      * @var string
      */
     protected $package = 'backend';
+
+    /**
+     * Facades to install
+     *
+     * @var array
+     */
+    protected $facades = [
+        'NodesBackend' => NodesBackendFacadeBackend::class
+    ];
 
     /**
      * Array of configs to copy
@@ -46,7 +57,8 @@ class ServiceProvider extends NodesAbstractServiceProvider
      * @var array
      */
     protected $assets = [
-        'public/im' => 'public/vendor/nodes/backend/images'
+        'public/images' => 'public/vendor/nodes/backend/images',
+        'resources/assets' => 'resources/assets'
     ];
 
     /**
@@ -110,7 +122,30 @@ class ServiceProvider extends NodesAbstractServiceProvider
      */
     public function register()
     {
+        // Register router
+        $this->registerRouter();
+
+        // Register auth service provider
         $this->app->register(\Nodes\Backend\Auth\ServiceProvider::class);
+    }
+
+    /**
+     * Register backend router
+     *
+     * @author Morten Rugaard <moru@nodes.dk>
+     *
+     * @access protected
+     * @return void
+     */
+    protected function registerRouter()
+    {
+        $this->app->singleton('nodes.backend.router', function ($app) {
+            return new NodesBackendRouter($app['router']);
+        });
+
+        $this->app->bind('Nodes\Backend\Routing\Router', function ($app) {
+            return $app['nodes.backend.router'];
+        });
     }
 
     /**
@@ -196,5 +231,25 @@ class ServiceProvider extends NodesAbstractServiceProvider
         file_put_contents(app_path('Http/Middleware/VerifyCsrfToken.php'), implode('', $file));
 
         return true;
+    }
+
+    /**
+     * Finish install
+     *
+     * @author Morten Rugaard <moru@nodes.dk>
+     *
+     * @access protected
+     * @return void
+     */
+    protected function finishInstall()
+    {
+        $this->getInstaller()->comment('Installing node modules (this could take while, hang on) ...');
+        passthru('sudo npm install');
+
+        $this->getInstaller()->comment('Installing bower components ...');
+        passthru('bower install');
+
+        $this->getInstaller()->comment('Running first gulp build ...');
+        passthru('gulp build');
     }
 }

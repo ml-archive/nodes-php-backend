@@ -34,7 +34,7 @@
     },
     "autoload": {
         "psr-4": {
-           "Nodes\\Backend\\": "src"
+           "Nodes\\Backend\\": "src/"
         },
         "files": [
             "src/Support/Helpers/Auth.php",
@@ -44,10 +44,10 @@
     },
     "scripts": {
         "post-install-cmd": [
-            "php -f nodes/core/install.php nodes:package:install nodes/backend"
+            "php -f vendor/nodes/core/install.php nodes:package:install nodes/backend"
         ],
         "post-update-cmd": [
-            "php -f nodes/core/install.php nodes:package:install nodes/backend"
+            "php -f vendor/nodes/core/install.php nodes:package:install nodes/backend"
         ]
     }
 }

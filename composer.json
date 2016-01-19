@@ -28,7 +28,6 @@
     "require": {
         "composer-plugin-api": "^1.0",
         "laravel/framework": "5.1.*||5.2.*",
-        "nodes/core": "^0.1",
         "nodes/assets": "^1.0",
         "nodes/database": "^0.1",
         "nodes/translate": "^0.1",

@@ -28,7 +28,7 @@
     "require": {
         "composer-plugin-api": "^1.0",
         "laravel/framework": "5.1.*||5.2.*",
-        "nodes/core": "dev-composer-plugin"
+        "nodes/core": "dev-feature/composer-plugin"
     },
     "autoload": {
         "psr-4": {

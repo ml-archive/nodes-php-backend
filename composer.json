@@ -9,6 +9,7 @@
         "admin system",
         "laravel"
     ],
+    "type": "composer-plugin",
     "authors": [
         {
             "name": "Morten Rugaard",
@@ -25,12 +26,8 @@
         }
     ],
     "require": {
-        "laravel/framework": "5.1.*||5.2.*",
-        "nodes/core": "^0.1",
-        "nodes/assets": "^1.0",
-        "nodes/database": "^0.1",
-        "nodes/translate": "^0.1",
-        "nodes/validation": "^0.1"
+        "composer-plugin-api": "^1.0",
+        "laravel/framework": "5.1.*||5.2.*"
     },
     "autoload": {
         "psr-4": {
@@ -42,12 +39,7 @@
             "src/Support/Helpers/QueryRestorer.php"
         ]
     },
-    "scripts": {
-        "post-install-cmd": [
-            "php -f vendor/nodes/core/install.php nodes:package:install nodes/backend"
-        ],
-        "post-update-cmd": [
-            "php -f vendor/nodes/core/install.php nodes:package:install nodes/backend"
-        ]
+    "extra": {
+        "class": "Nodes\\Support\\Composer"
     }
 }

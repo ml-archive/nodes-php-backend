@@ -1,5 +1,3 @@
-@extends('nodes.backend::layout')
-
 @section('content')
     <div class="alert alert-danger alert-dismissible fade in" role="alert">
         <button type="button" class="close" data-dismiss="alert" aria-label="Close">

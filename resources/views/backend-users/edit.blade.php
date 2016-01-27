@@ -71,7 +71,7 @@
             </div>
 
             <div class="col-xs-12 col-md-6">
-                @can('edit-user', !empty($user) ? $user : null)
+                @can('backend-edit-user', !empty($user) ? $user : null)
                 <h4 class="margin-top">
                     @if (!empty($user))
                         Change password
@@ -101,7 +101,7 @@
                     </div>
 
                     {{--Force user to reset pw on next login--}}
-                    @can('admin')
+                    @can('backend-admin')
                     <div class="form-group">
                         <input name="should_reset_password" value="false" type="hidden">
 

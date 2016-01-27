@@ -52,7 +52,7 @@ class UsersController extends Controller
     public function index()
     {
         // Check user level
-        if(\Gate::denies('admin')) {
+        if(\Gate::denies('backend-admin')) {
             abort(403);
         }
 
@@ -77,7 +77,7 @@ class UsersController extends Controller
     public function create()
     {
         // Check user level
-        if(\Gate::denies('admin')) {
+        if(\Gate::denies('backend-admin')) {
             abort(403);
         }
 
@@ -99,7 +99,7 @@ class UsersController extends Controller
     public function store(UserValidator $userValidator)
     {
         // Check user level
-        if(\Gate::denies('admin')) {
+        if(\Gate::denies('backend-admin')) {
             abort(403);
         }
 
@@ -147,7 +147,7 @@ class UsersController extends Controller
         }
 
         // Make sure user has access to edit this user
-        if(\Gate::denies('edit-user', $user)) {
+        if(\Gate::denies('backend-edit-user', $user)) {
             abort(403);
         }
 
@@ -174,7 +174,7 @@ class UsersController extends Controller
         }
 
         // Make sure user has access to edit this user
-        if(\Gate::denies('edit-user', $user)) {
+        if(\Gate::denies('backend-edit-user', $user)) {
             abort(403);
         }
 
@@ -237,7 +237,7 @@ class UsersController extends Controller
         }
 
         // Make sure user has access to edit this user
-        if(\Gate::denies('edit-user', $user)) {
+        if(\Gate::denies('backend-edit-user', $user)) {
             abort(403);
         }
 

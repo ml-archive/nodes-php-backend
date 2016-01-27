@@ -21,7 +21,7 @@ class NStackController extends Controller
      */
     public function __construct()
     {
-        if (\Gate::denies('super-admin')) {
+        if (\Gate::denies('backend-super-admin')) {
             abort(403);
         }
     }

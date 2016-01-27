@@ -51,13 +51,13 @@ class RoleRepository extends NodesRepository
         $list = $this->getList();
 
         // If user is developer, give the full list
-        if(\Gate::allows('developer')) {
+        if(\Gate::allows('backend-developer')) {
             return $list;
         }
 
         // This means user is not developer, let's unset that option
         unset($list['developer']);
-        if(\Gate::allows('super-admin')) {
+        if(\Gate::allows('backend-super-admin')) {
             return $list;
         }
 
@@ -66,7 +66,7 @@ class RoleRepository extends NodesRepository
 
 
         // If user is admin, we return the list
-        if(\Gate::allows('admin')) {
+        if(\Gate::allows('backend-admin')) {
             return $list;
         }
 

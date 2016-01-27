@@ -167,21 +167,21 @@ class ServiceProvider extends IlluminateAuthServiceProvider
         });
 
         // Define super admin
-        $gate->define('developer', function ($authedUser) {
+        $gate->define('backend-developer', function (User $authedUser) {
             return $authedUser->user_role == 'developer';
         });
 
-        $gate->define('super-admin', function ($authedUser) {
+        $gate->define('backend-super-admin', function (User $authedUser) {
             return in_array($authedUser->user_role, ['developer', 'super-admin']);
         });
 
         // Define admin
-        $gate->define('admin', function ($authedUser) {
+        $gate->define('backend-admin', function (User $authedUser) {
             return in_array($authedUser->user_role, ['developer', 'super-admin', 'admin']);
         });
 
         // Define can edit, should only be possible to edit higher level than your self
-        $gate->define('edit-user', function ($authedUser, $user = null) {
+        $gate->define('backend-edit-user', function (User $authedUser, $user = null) {
 
             // If the user is empty, it means they are creating it
             if(empty($user)) {

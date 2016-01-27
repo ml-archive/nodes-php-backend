@@ -29,7 +29,7 @@ class RolesController extends Controller
      */
     public function __construct(RoleRepository $roleRepository)
     {
-        if (\Gate::denies('developer')) {
+        if (\Gate::denies('backend-developer')) {
             abort(403);
         }
 

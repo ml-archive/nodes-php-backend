@@ -21,7 +21,7 @@
                     </div>
                 </form>
 
-                @can('admin')
+                @can('backend-admin')
                 <a href="{{ route('nodes.backend.users.create') }}" class="btn btn-primary btn-sm pull-right">
                     <span class="fa fa-user-plus"></span>
                     <span class="hidden-xs">Create backend user</span>
@@ -68,11 +68,11 @@
                     </td>
                     <td class="col-xs-2 text-center va-middle">{{ $user->role->title }}</td>
                     <td class="col-xs-2 text-center va-middle">
-                        <a href="{{ route('nodes.backend.users.edit', $user->id) }}" class="btn btn-sm btn-default @cannot('edit-user', $user) disabled @endcan" data-tooltip="true" title="Edit details">
+                        <a href="{{ route('nodes.backend.users.edit', $user->id) }}" class="btn btn-sm btn-default @cannot('backend-edit-user', $user) disabled @endcan" data-tooltip="true" title="Edit details">
                             <span class="fa fa-pencil"></span>
                             <span class="sr-only">Edit details</span>
                         </a>
-                        <a href="{{ route('nodes.backend.users.destroy', $user->id) }}" class="btn btn-sm btn-default @cannot('edit-user', $user) disabled @endcan" data-delete="true" data-token="{{ csrf_token() }}" data-tooltip="true" title="Delete user">
+                        <a href="{{ route('nodes.backend.users.destroy', $user->id) }}" class="btn btn-sm btn-default @cannot('backend-edit-user', $user) disabled @endcan" data-delete="true" data-token="{{ csrf_token() }}" data-tooltip="true" title="Delete user">
                             <span class="fa fa-times"></span>
                             <span class="sr-only">Delete user</span>
                         </a>

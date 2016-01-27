@@ -181,7 +181,7 @@ class ServiceProvider extends IlluminateAuthServiceProvider
         });
 
         // Define can edit, should only be possible to edit higher level than your self
-        $gate->define('backend-edit-user', function (User $authedUser, $user = null) {
+        $gate->define('backend-edit-backend-user', function (User $authedUser, $user = null) {
 
             // If the user is empty, it means they are creating it
             if(empty($user)) {

@@ -147,7 +147,7 @@ class UsersController extends Controller
         }
 
         // Make sure user has access to edit this user
-        if(\Gate::denies('backend-edit-user', $user)) {
+        if(\Gate::denies('backend-edit-backend-user', $user)) {
             abort(403);
         }
 
@@ -174,7 +174,7 @@ class UsersController extends Controller
         }
 
         // Make sure user has access to edit this user
-        if(\Gate::denies('backend-edit-user', $user)) {
+        if(\Gate::denies('backend-edit-backend-user', $user)) {
             abort(403);
         }
 
@@ -237,7 +237,7 @@ class UsersController extends Controller
         }
 
         // Make sure user has access to edit this user
-        if(\Gate::denies('backend-edit-user', $user)) {
+        if(\Gate::denies('backend-edit-backend-user', $user)) {
             abort(403);
         }
 

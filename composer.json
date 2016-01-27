@@ -38,8 +38,5 @@
             "src/Support/Helpers/Router.php",
             "src/Support/Helpers/QueryRestorer.php"
         ]
-    },
-    "extra": {
-        "class": "Nodes\\Support\\Composer"
     }
 }

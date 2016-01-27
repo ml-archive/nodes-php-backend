@@ -194,7 +194,7 @@ class UsersController extends Controller
             $this->userRepository->updateUser($user, $data);
 
             // Only admins have access to list of users, users need to go to
-            if(\Gate::allows('admin')) {
+            if(\Gate::allows('backend-admin')) {
                 return redirect()->route('nodes.backend.users')->with('success', 'User was successfully updated');
             } else {
                 return redirect()->route(config('nodes.backend.auth.routes.success'))->with('success', 'User was successfully updated');

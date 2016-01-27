@@ -9,7 +9,6 @@
         "admin system",
         "laravel"
     ],
-    "type": "composer-plugin",
     "authors": [
         {
             "name": "Morten Rugaard",
@@ -26,7 +25,6 @@
         }
     ],
     "require": {
-        "composer-plugin-api": "^1.0",
         "laravel/framework": "5.1.*||5.2.*"
     },
     "autoload": {

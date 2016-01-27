@@ -52,7 +52,7 @@ class UsersController extends Controller
     public function index()
     {
         // Check user level
-        if(\Gate::denies('admin')) {
+        if(\Gate::denies('backend-admin')) {
             abort(403);
         }
 
@@ -77,7 +77,7 @@ class UsersController extends Controller
     public function create()
     {
         // Check user level
-        if(\Gate::denies('admin')) {
+        if(\Gate::denies('backend-admin')) {
             abort(403);
         }
 
@@ -99,7 +99,7 @@ class UsersController extends Controller
     public function store(UserValidator $userValidator)
     {
         // Check user level
-        if(\Gate::denies('admin')) {
+        if(\Gate::denies('backend-admin')) {
             abort(403);
         }
 
@@ -147,7 +147,7 @@ class UsersController extends Controller
         }
 
         // Make sure user has access to edit this user
-        if(\Gate::denies('edit-user', $user)) {
+        if(\Gate::denies('backend-edit-backend-user', $user)) {
             abort(403);
         }
 
@@ -174,7 +174,7 @@ class UsersController extends Controller
         }
 
         // Make sure user has access to edit this user
-        if(\Gate::denies('edit-user', $user)) {
+        if(\Gate::denies('backend-edit-backend-user', $user)) {
             abort(403);
         }
 
@@ -202,7 +202,6 @@ class UsersController extends Controller
             }
 
         } catch(\Exception $e) {
-            dd($e);
             return redirect()->back()->withInput()->with('error', 'Could not update user');
         }
     }
@@ -229,20 +228,17 @@ class UsersController extends Controller
      */
     public function delete($id)
     {
-        // Authenticated user
-        $authedUser = \NodesBackend::user();
-
-        // Validate permissions
-        if (!$authedUser->isNodesOrAdmin()) {
-            return redirect()->route('nodes.backend.errors.permission-denied');
-        }
-
         // Retrieve user we're about to delete
         $user = $this->userRepository->getById($id);
         if (empty($user)) {
             return redirect()->route('nodes.backend.users.list')->with([
                 'error' => 'The user you are trying delete does not exist.'
             ]);
+        }
+
+        // Make sure user has access to edit this user
+        if(\Gate::denies('backend-edit-backend-user', $user)) {
+            abort(403);
         }
 
         // Make sure we're not trying to delete a Nodes user
@@ -253,7 +249,7 @@ class UsersController extends Controller
         }
 
         // Make sure user is not trying delete him-/herself
-        if ($user->id == \NodesBackend::user()->id) {
+        if ($user->id == backend_user()->id) {
             return redirect()->route('nodes.backend.users.list')->with('error', 'Sorry. You can not delete yourself.');
         }
 

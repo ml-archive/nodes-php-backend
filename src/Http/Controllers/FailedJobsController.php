@@ -24,7 +24,7 @@ class FailedJobsController extends Controller
      */
     public function __construct(FailedJobRepository $failedJobRepository)
     {
-        if (\Gate::denies('developer')) {
+        if (\Gate::denies('backend-developer')) {
             abort(403);
         }
 

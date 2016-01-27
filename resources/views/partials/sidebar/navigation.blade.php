@@ -6,7 +6,7 @@
 </a>
 
 
-@can('super-admin')
+@can('backend-super-admin')
 {{--NStack--}}
     <a class="list-group-item {{ backend_router_alias('nodes.backend.nstack') }}"
        href="{{ route('nodes.backend.nstack') }}" target="_blank">
@@ -22,7 +22,7 @@
     </a>
 @endcan
 
-@can('developer')
+@can('backend-developer')
 {{--Failed jobs--}}
     <a class="list-group-item {{ backend_router_alias('nodes.backend.failed-jobs') }}"
        href="{{ route('nodes.backend.failed-jobs') }}">
@@ -43,7 +43,7 @@
 
 @endcan
 
-@can('admin')
+@can('backend-admin')
 {{--Backend users--}}
 
     <a class="list-group-item {{ backend_router_alias(['nodes.backend.users', 'nodes.backend.users.create', 'nodes.backend.users.edit', 'nodes.backend.users.profile']) }}"

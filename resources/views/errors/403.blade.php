@@ -1,4 +1,4 @@
-@extends('nodes.backend::layout')
+@extends('nodes.backend::layouts.base')
 
 @section('content')
     <div class="alert alert-danger alert-dismissible fade in" role="alert">

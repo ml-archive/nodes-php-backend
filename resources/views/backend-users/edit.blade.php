@@ -42,21 +42,18 @@
                     </div>
 
                     {{--Image--}}
-                    <label for="backendUserFormImage">Image</label>
-                    <div class="form-group input-group @if(validation_key_failed('image')) has-error @endif">
-
-
-                        <span class="input-group-btn">
-                            <span class=" file-input btn btn-default btn-file">
-                                Browse
-                                {!! Form::file('image', null, ['id' => 'backendUserFormImage']) !!}
-                            </span>
-                        </span>
-
-                            <input type="text" class="form-control" readonly>
-
-
-                    </div>
+                    @if (!empty($user))
+                        {{--edit--}}
+                        @include('nodes.backend::partials.components.file-picker', [
+                            'label' => 'Image',
+                            'image' => assets_get($user->image)
+                        ])
+                    @else
+                        {{--create--}}
+                        @include('nodes.backend::partials.components.file-picker', [
+                            'label' => 'Image'
+                        ])
+                    @endif
 
                     {{--Role--}}
                     <div class="form-group">

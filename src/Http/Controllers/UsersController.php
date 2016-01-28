@@ -4,7 +4,6 @@ namespace Nodes\Backend\Http\Controllers;
 use Illuminate\Routing\Controller;
 use Illuminate\Support\Str;
 use Nodes\Backend\Models\Role\RoleRepository;
-use Nodes\Backend\Models\User\UserRepository;
 use Nodes\Backend\Models\User\Validation\UserValidator;
 
 /**

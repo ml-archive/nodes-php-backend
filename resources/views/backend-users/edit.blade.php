@@ -71,7 +71,7 @@
             </div>
 
             <div class="col-xs-12 col-md-6">
-                @can('backend-edit-user', !empty($user) ? $user : null)
+                @can('backend-edit-backend-user', !empty($user) ? $user : null)
                 <h4 class="margin-top">
                     @if (!empty($user))
                         Change password

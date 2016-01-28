@@ -164,7 +164,7 @@ class UsersController extends Controller
     public function update(UserValidator $userValidator)
     {
         // Retrieve posted data
-        $data = \Input::get();
+        $data = \Input::all();
 
         // Retrieve user to update
         $user = $this->userRepository->getById($data['id']);

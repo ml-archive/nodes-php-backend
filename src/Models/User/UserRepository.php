@@ -245,8 +245,19 @@ class UserRepository extends Repository
             unset($data['password'], $data['password_repeat']);
         }
 
+
         // Fill with new data
         $user->update($data);
+
+        // Add image to user if one has been uploaded
+        if (!empty($data['image']) && $data['image'] instanceof UploadedFile) {
+            try {
+                $imagePath = assets_add_uploaded_file($data['image'], 'backend_user_images');
+                $user->update(['image' => $imagePath]);
+            } catch (Exception $e) {
+                // Do nothing
+            }
+        }
 
         // Return
         return $user;

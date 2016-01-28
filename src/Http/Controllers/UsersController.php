@@ -195,7 +195,7 @@ class UsersController extends Controller
             $this->userRepository->updateUser($user, $data);
 
             // Only admins have access to list of users, users need to go to
-            if(\Gate::allows('admin')) {
+            if(\Gate::allows('backend-admin')) {
                 return redirect()->route('nodes.backend.users')->with('success', 'User was successfully updated');
             } else {
                 return redirect()->route(config('nodes.backend.auth.routes.success'))->with('success', 'User was successfully updated');
@@ -231,7 +231,7 @@ class UsersController extends Controller
         // Retrieve user we're about to delete
         $user = $this->userRepository->getById($id);
         if (empty($user)) {
-            return redirect()->route('nodes.backend.users.list')->with([
+            return redirect()->route('nodes.backend.users')->with([
                 'error' => 'The user you are trying delete does not exist.'
             ]);
         }
@@ -241,22 +241,15 @@ class UsersController extends Controller
             abort(403);
         }
 
-        // Make sure we're not trying to delete a Nodes user
-        if ($user->isNodes()) {
-            return redirect()->route('nodes.backend.users.list')->with([
-                'error' => 'Sorry. It is not possible to delete the Nodes user.'
-            ]);
-        }
-
         // Make sure user is not trying delete him-/herself
         if ($user->id == backend_user()->id) {
-            return redirect()->route('nodes.backend.users.list')->with('error', 'Sorry. You can not delete yourself.');
+            return redirect()->route('nodes.backend.users')->with('error', 'Sorry. You can not delete yourself.');
         }
 
         if (!$user->delete()) {
             return redirect()->back()->with('error', 'Could not delete user. Try again or contact an administrator.');
         } else {
-            return redirect()->route('nodes.backend.users.list')->with('success', 'User was successfully deleted.');
+            return redirect()->route('nodes.backend.users')->with('success', 'User was successfully deleted.');
         }
     }
 

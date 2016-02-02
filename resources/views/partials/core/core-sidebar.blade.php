@@ -19,7 +19,7 @@
     {{--Must be in one line--}}
     <div class="sidebar__navigation-top">@include('nodes.backend::partials.sidebar.top-actions')</div>
 
-    <div class="sidebar__navigation-middle list-group list-group-inverse">
+    <div class="sidebar__navigation-middle">
         @include('nodes.backend::partials.sidebar.navigation')
     </div>
 

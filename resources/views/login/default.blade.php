@@ -19,15 +19,19 @@
                 @include('nodes.backend::partials.alerts')
 
                 {!! Form::open(['method' => 'post', 'route' => 'nodes.backend.login.authenticate']) !!}
-                    <div class="form-group has-feedback">
+                    <div class="form-group action-wrapper">
                         {!! Form::label('login-email', 'E-mail address', ['class' => 'sr-only']) !!}
                         {!! Form::email('email', \Input::get('email') ? \Input::get('email') : Session::get('email'), ['id' => 'login-email', 'class' => 'form-control', 'placeholder' => 'E-mail address']) !!}
-                        <span class="fa fa-envelope-o fa-lg form-control-feedback" aria-hidden="true"></span>
+                        <span class="action-wrap-action action-wrap-right">
+                            <i class="fa fa-envelope-o fa-lg" aria-hidden="true"></i>
+                        </span>
                     </div>
-                    <div class="form-group has-feedback">
+                    <div class="form-group action-wrapper">
                         {!! Form::label('login-password', 'Password', ['class' => 'sr-only']) !!}
                         {!! Form::password('password', ['id' => 'login-password', 'class' => 'form-control', 'placeholder' => 'Password']) !!}
-                        <span class="fa fa-lock fa-lg form-control-feedback" aria-hidden="true"></span>
+                        <span class="action-wrap-action action-wrap-right">
+                            <i class="fa fa-lock fa-lg" aria-hidden="true"></i>
+                        </span>
                     </div>
                     <div class="form-group clearfix">
                         <div class="checkbox pull-left">

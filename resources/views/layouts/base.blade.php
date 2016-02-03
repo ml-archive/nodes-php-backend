@@ -4,29 +4,29 @@
     <div class="layout vertical core-layout">
 
         <div class="core-layout__topbar">
-            <div class="top-bar">
+            <section class="top-bar">
                 @include('nodes.backend::partials.core.core-topbar')
-            </div>
+            </section>
         </div>
 
         <div class="core-layout__page">
             <div class="core-layout__sidebar-wrapper">
-                <div class="core-layout__sidebar">
+                <section class="core-layout__sidebar">
                     @include('nodes.backend::partials.core.core-sidebar')
-                </div>
+                </section>
             </div>
 
-            <div class="core-layout__content">
+            <section class="core-layout__content">
                 @include('nodes.backend::partials.core.core-page-header')
                 <div class="page-content">
                     <div class="container-fluid">
                         @yield('content')
                     </div>
                 </div>
-            </div>
+            </section>
         </div>
 
-        <div class="page-alerts">
+        <div class="page-toasts">
             @include('nodes.backend::partials.alerts')
         </div>
 

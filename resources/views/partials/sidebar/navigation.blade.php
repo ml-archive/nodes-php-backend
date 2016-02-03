@@ -1,60 +1,64 @@
-{{--Dashboard--}}
-<a class="list-group-item {{ backend_router_alias('nodes.backend.dashboard') }}"
-   href="{{ route('nodes.backend.dashboard') }}">
-    <i class="fa fa-dashboard"></i>
-    Dashboard
-</a>
+<nav class="list-group list-group-inverse">
+    <ul>
+        {{--Dashboard--}}
+        <li class="list-group-item {{ backend_router_alias('nodes.backend.dashboard') }}">
+            <a href="{{ route('nodes.backend.dashboard') }}">
+                <i class="fa fa-dashboard"></i>
+                Dashboard
+            </a>
+        </li>
+
+        @can('backend-super-admin')
+            <li class="list-group-heading">
+                Super Admin
+            </li>
+            {{--NStack--}}
+            <li class="list-group-item {{ backend_router_alias('nodes.backend.nstack') }}">
+                <a href="{{ route('nodes.backend.nstack') }}" target="_blank">
+                    <i class="fa fa-nodes logo">
+                        @include('nodes.backend::partials.elements.logo-icon-svg')
+                    </i>
+                    NStack
+                </a>
+            </li>
+        @endcan
 
 
-@can('backend-super-admin')
-{{--NStack--}}
-    <a class="list-group-item {{ backend_router_alias('nodes.backend.nstack') }}"
-       href="{{ route('nodes.backend.nstack') }}" target="_blank">
-        <i class="fa fa-nodes logo">
-            @include('nodes.backend::partials.elements.logo-icon-svg')
-        </i>
-            {{--<span class="icon">--}}
-                {{--<span class="fa">--}}
-                    {{--<img style="width: 20px; height: 20px" src="/img/n-stack-logo.svg" class="logo logo-small"/>--}}
-                {{--</span>--}}
-            {{--</span>--}}
-        <span>NStack</span>
-    </a>
-@endcan
+        @can('backend-developer')
+            <li class="list-group-heading">
+                Developer
+            </li>
+            {{--Failed jobs--}}
+            <li class="list-group-item {{ backend_router_alias('nodes.backend.failed-jobs') }}">
+                <a href="{{ route('nodes.backend.failed-jobs') }}">
+                    <i class="fa fa-cogs"></i>
+                    Failed jobs
+                </a>
+            </li>
 
-@can('backend-developer')
-{{--Failed jobs--}}
-    <a class="list-group-item {{ backend_router_alias('nodes.backend.failed-jobs') }}"
-       href="{{ route('nodes.backend.failed-jobs') }}">
-                <span class="icon">
-                    <span class="fa fa-cogs"></span>
-                </span>
-        <span>Failed jobs</span>
-    </a>
-{{--Roles--}}
+            {{--Roles--}}
+            <li class="list-group-item {{ backend_router_alias('nodes.backend.users.roles') }}">
+                <a href="{{ route('nodes.backend.users.roles') }}">
+                    <i class="fa fa-graduation-cap"></i>
+                    Roles
+                </a>
+            </li>
+        @endcan
 
-    <a class="list-group-item {{ backend_router_alias('nodes.backend.users.roles') }}"
-       href="{{ route('nodes.backend.users.roles') }}">
-            <span class="icon">
-                <span class="fa fa-graduation-cap"></span>
-            </span>
-        <span>Roles</span>
-    </a>
+        @can('backend-admin')
+            <li class="list-group-heading">
+                Admin
+            </li>
+            {{--Backend users--}}
+            <li class="list-group-item {{ backend_router_alias(['nodes.backend.users', 'nodes.backend.users.create', 'nodes.backend.users.edit', 'nodes.backend.users.profile']) }}">
+                <a href="{{ route('nodes.backend.users', ['page' => 1]) }}">
+                    <i class="fa fa-street-view"></i>
+                    Backend users
+                </a>
+            </li>
+        @endcan
 
-@endcan
+        @yield('core-sidebar-navigation')
 
-@can('backend-admin')
-{{--Backend users--}}
-
-    <a class="list-group-item {{ backend_router_alias(['nodes.backend.users', 'nodes.backend.users.create', 'nodes.backend.users.edit', 'nodes.backend.users.profile']) }}"
-       href="{{ route('nodes.backend.users', ['page' => 1]) }}">
-            <span class="icon">
-                <span class="fa fa-street-view"></span>
-            </span>
-        <span>Backend users</span>
-    </a>
-
-@endcan
-
-@yield('core-sidebar-navigation')
-
+    </ul>
+</nav>

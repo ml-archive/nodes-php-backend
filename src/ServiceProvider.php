@@ -1,7 +1,7 @@
 <?php
 namespace Nodes\Backend;
 
-use Nodes\AbstractServiceProvider as NodesAbstractServiceProvider;
+use Nodes\AbstractServiceProvider;
 use Nodes\Backend\Http\Middleware\Auth as NodesBackendHttpMiddlewareAuth;
 use Nodes\Backend\Http\Middleware\SSL as NodesBackendHttpMiddlewareSSL;
 use Nodes\Backend\Routing\Router as NodesBackendRouter;
@@ -12,7 +12,7 @@ use Nodes\Backend\Support\Facades\Backend as NodesBackendFacadeBackend;
  *
  * @package Nodes
  */
-class ServiceProvider extends NodesAbstractServiceProvider
+class ServiceProvider extends AbstractServiceProvider
 {
     /**
      * Package name
@@ -243,13 +243,21 @@ class ServiceProvider extends NodesAbstractServiceProvider
      */
     protected function finishInstall()
     {
-        $this->getCommand()->comment('Installing node modules (be patient, this could take while) ...');
-        passthru('sudo npm install');
+        // Make user confirm before running time-consuming task
+        if (!$this->getCommand()->confirm(sprintf('Do you wish to install required <comment>[%s]</comment> components for generating CSS/JS?', $this->getInstaller()->getVendorPackageName()), true)) {
+            return;
+        }
 
+        // Install node.js components
+        $this->getCommand()->comment('Installing node modules (be patient, this could take while) ...');
+        passthru('npm install');
+
+        // Install bower components
         $this->getCommand()->comment('Installing bower components ...');
         passthru('bower install');
 
-        $this->getCommand()->comment('Running first gulp build ...');
+        // Build first version of CSS/JS by running gulp
+        $this->getCommand()->comment('Running initial gulp build ...');
         passthru('gulp build');
     }
 }

@@ -23,12 +23,17 @@
             "name": "Dennis Haulund Nielsen",
             "email": "dhni@nodes.dk",
             "role": "Lead Front-end Developer"
+        }, {
+            "name": "Bo Mouridsen",
+            "email": "bomo@nodes.dk",
+            "role": "Designer"
         }
     ],
     "require": {
         "composer-plugin-api": "^1.0",
         "laravel/framework": "5.1.*||5.2.*",
-        "nodes/core": "dev-feature/composer-plugin"
+        "nodes/core": "dev-feature/composer-plugin",
+        "nodes/database": "^0.1"
     },
     "autoload": {
         "psr-4": {

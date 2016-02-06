@@ -243,13 +243,13 @@ class ServiceProvider extends NodesAbstractServiceProvider
      */
     protected function finishInstall()
     {
-        $this->getInstaller()->comment('Installing node modules (be patient, this could take while) ...');
+        $this->getCommand()->comment('Installing node modules (be patient, this could take while) ...');
         passthru('sudo npm install');
 
-        $this->getInstaller()->comment('Installing bower components ...');
+        $this->getCommand()->comment('Installing bower components ...');
         passthru('bower install');
 
-        $this->getInstaller()->comment('Running first gulp build ...');
+        $this->getCommand()->comment('Running first gulp build ...');
         passthru('gulp build');
     }
 }

@@ -160,6 +160,12 @@ class ServiceProvider extends AbstractServiceProvider
     {
         // Copy backend routes to application
         $this->copyFilesAndDirectories(['routes/' => 'project/Routes/Backend']);
+
+        // Add route folders to Nodes autoload config
+        add_to_autoload_config('project/Routes/Backend/');
+
+        // Add to Composer's autoload
+        add_to_composer_autoload('classmap', 'project');
     }
 
     /**

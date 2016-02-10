@@ -1,16 +1,20 @@
 @extends('nodes.backend::layouts.base')
 
+@section('breadcrumbs')
+    <li>
+        <a href="#">Roles</a>
+    </li>
+@endsection
+
 @section('page-header-top')
-    <div class="layout horizontal center justified">
-        <div>
-            <h1>Roles</h1>
-        </div>
-        <div>
-            <button type="button" class="btn btn-primary btn-sm pull-right" data-toggle="modal" data-target="#roleModal">
-                <span class="fa fa-plus"></span>
-                <span>Create role</span>
-            </button>
-        </div>
+    <div>
+        <h1>Roles</h1>
+    </div>
+    <div>
+        <button type="button" class="btn btn-primary btn-sm pull-right" data-toggle="modal" data-target="#roleModal">
+            <span class="fa fa-plus"></span>
+            <span>Create role</span>
+        </button>
     </div>
 @endsection
 

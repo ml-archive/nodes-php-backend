@@ -1,11 +1,16 @@
 @extends('nodes.backend::layouts.base')
 
+@section('breadcrumbs')
+    <li>
+        <a href="#">Backend users</a>
+    </li>
+@endsection
+
 @section('page-header-top')
-    <div class="row no-gutter center-vertical-md">
-        <div class="col-sm-12 col-md-6">
+        <div>
             <h1>Backend users</h1>
         </div>
-        <div class="col-sm-12 col-md-6">
+        <div>
             <div class="layout horizontal center justified padding-vertical-sm">
                 <form class="form-inline search-form margin-right margin-left-md-auto">
                     <div class="form-group action-wrapper no-margin-bottom">
@@ -29,17 +34,6 @@
                 @endcan
             </div>
         </div>
-    </div>
-
-    <div class="layout horizontal center justified">
-        <div>
-
-        </div>
-        <div class="layout horizontal center justified">
-
-
-        </div>
-    </div>
 @endsection
 
 @section('content')

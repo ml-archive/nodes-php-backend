@@ -1,16 +1,20 @@
 @extends('nodes.backend::layouts.base')
 
+@section('breadcrumbs')
+    <li>
+        <a href="#">Failed jobs</a>
+    </li>
+@endsection
+
 @section('page-header-top')
-    <div class="layout horizontal center justified">
-        <div>
-            <h1>Failed jobs</h1>
-        </div>
-        <div>
-            <a href="{{ route('nodes.backend.failed-jobs.restart-all') }}" class="btn btn btn-primary btn-sm" data-method="POST" data-confirm="true" data-token="{{ csrf_token() }}">
-                <span class="fa fa-play-circle"></span>
-                <span>Restart all</span>
-            </a>
-        </div>
+    <div>
+        <h1>Failed jobs</h1>
+    </div>
+    <div>
+        <a href="{{ route('nodes.backend.failed-jobs.restart-all') }}" class="btn btn btn-primary btn-sm" data-method="POST" data-confirm="true" data-token="{{ csrf_token() }}">
+            <span class="fa fa-play-circle"></span>
+            <span>Restart all</span>
+        </a>
     </div>
 @endsection
 

@@ -1,5 +1,14 @@
 @extends('nodes.backend::layouts.base')
 
+@section('breadcrumbs')
+    <li>
+        <a href="{{ route('nodes.backend.users', ['page' => 1]) }}">Backend users</a>
+    </li>
+    <li>
+        <a href="#">Edit backend user</a>
+    </li>
+@endsection
+
 @section('page-header-top')
     <h1>
         @if (!empty($user))

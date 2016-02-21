@@ -6,9 +6,12 @@
 )
 <div class="page-header">
 
-    @if(!empty($__env->yieldContent('breadcrumbs')))
-        @include('nodes.backend::partials.breadcrumbs')
-    @endif
+    {{--
+        This space is reserved for future implementation of:
+        @include('nodes.backend::partials.alerts')
+    --}}
+
+    @include('nodes.backend::partials.breadcrumbs')
 
     @if(!empty($__env->yieldContent('page-header-actions')))
         @include('nodes.backend::partials.page-header.page-header-actions')

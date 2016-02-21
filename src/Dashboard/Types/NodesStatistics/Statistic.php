@@ -4,7 +4,6 @@ namespace Nodes\Backend\Dashboard\Types\NodesStatistics;
 
 use Carbon\Carbon;
 use GuzzleHttp\Client;
-use Illuminate\Support\Str;
 use Nodes\Backend\Dashboard\Exceptions\MissingConfigException;
 
 /**

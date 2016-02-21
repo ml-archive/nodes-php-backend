@@ -134,16 +134,15 @@ abstract class Statistic
         // Generate query
         if ($this->period == 'monthly') {
             $query = [
-                'from' => Carbon::now()->subMonth()->format('Y-m-d'),
-                'to' => Carbon::now()->format('Y-m-d'),
-                'group' => 'day'
+                'from'  => Carbon::now()->subMonth()->format('Y-m-d'),
+                'to'    => Carbon::now()->format('Y-m-d'),
+                'group' => 'day',
             ];
-
         } else {
             $query = [
-                'from' => Carbon::now()->format('Y-m-d'),
-                'to' => Carbon::now()->addDay()->format('Y-m-d'),
-                'group' => 'hour'
+                'from'  => Carbon::now()->format('Y-m-d'),
+                'to'    => Carbon::now()->addDay()->format('Y-m-d'),
+                'group' => 'hour',
             ];
         }
 
@@ -151,28 +150,39 @@ abstract class Statistic
         $url .= '?' . http_build_query($query);
 
         $chartData = [
-            'id' => $this->id,
-            'title' => $this->title,
-            'data' => [],
-            'labels' => []
+            'id'     => $this->id,
+            'title'  => $this->title,
+            'data'   => [],
+            'labels' => [],
         ];
 
-        if(!$response = \Cache::get($url)) {
-            // Do api call
-            try{
-                $client = new Client();
+        // Look up in cache
+        $response = \Cache::get($url);
+
+        $client = new Client();
+        if (!$response) {
+            // Do api call in request
+            try {
                 $response = json_decode($client->get($url)->getBody(), true);
 
-                \Cache::put($url, $response, 1440);
-            } catch(\Exception $e) {
+                \Cache::put($url, $response, 60);
+            } catch (\Exception $e) {
                 return false;
             }
+        } else {
+            // Look up async and cache it for next time
+            $request = new \GuzzleHttp\Psr7\Request('GET', $url);
+            $client->sendAsync($request)->then(function($response) use ($url) {
+                $response = json_decode($response->getBody(), true);
+
+                \Cache::put($url, $response, 60);
+            });
         }
 
         // Now get total visitors and from those platforms
-        foreach($response['data'] as $data) {
+        foreach ($response['data'] as $data) {
             $time = Carbon::createFromFormat('Y-m-d H:i:s', $data['time']);
-            if($this->period == 'monthly') {
+            if ($this->period == 'monthly') {
                 $label = $time->format('m/d');
             } else {
                 $label = $time->format('m/d H:00');
@@ -184,7 +194,6 @@ abstract class Statistic
         }
 
         $this->chartData = $chartData;
-
     }
 
     /**
@@ -192,8 +201,10 @@ abstract class Statistic
      * @param int $length
      * @return string
      */
-    private static function randomString($length = 16) {
+    private static function randomString($length = 16)
+    {
         $pool = 'abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ';
+
         return substr(str_shuffle(str_repeat($pool, 5)), 0, $length);
     }
 }

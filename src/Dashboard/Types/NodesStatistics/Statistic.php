@@ -73,7 +73,6 @@ abstract class Statistic
         $this->gaId = $config['gaId'];
 
         // Assign random id
-//        $this->id = Str::random();
         $this->id = self::randomString();
 
         $this->prepareChartData();
@@ -159,12 +158,16 @@ abstract class Statistic
             'labels' => []
         ];
 
-        // Do api call
-        try{
-            $client = new Client();
-            $response = json_decode($client->get($url)->getBody(), true);
-        } catch(\Exception $e) {
-            return false;
+        if(!$response = \Cache::get($url)) {
+            // Do api call
+            try{
+                $client = new Client();
+                $response = json_decode($client->get($url)->getBody(), true);
+
+                \Cache::put($url, $response, 1440);
+            } catch(\Exception $e) {
+                return false;
+            }
         }
 
         // Now get total visitors and from those platforms

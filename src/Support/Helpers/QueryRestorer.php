@@ -1,5 +1,4 @@
 <?php
-
 if (!function_exists('query_restorer')) {
     /**
      * Will store the current query, if there is no query it will look up in cookies and redirect if found

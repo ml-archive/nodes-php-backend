@@ -1,7 +1,7 @@
 @extends('nodes.backend::layouts.base')
 
 @section('page-header-top')
-    <h1>Dashboard</h1>
+    <h3>Dashboard</h3>
 @endsection
 
 @section('content')

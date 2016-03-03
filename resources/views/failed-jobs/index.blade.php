@@ -1,14 +1,12 @@
 @extends('nodes.backend::layouts.base')
 
 @section('breadcrumbs')
-    <li>
-        <a href="#">Failed jobs</a>
-    </li>
+    <li class="active">Failed jobs</li>
 @endsection
 
 @section('page-header-top')
     <div>
-        <h1>Failed jobs</h1>
+        <h3>Failed jobs</h3>
     </div>
     <div>
         <a href="{{ route('nodes.backend.failed-jobs.restart-all') }}" class="btn btn btn-primary btn-sm" data-method="POST" data-confirm="true" data-token="{{ csrf_token() }}">
@@ -19,69 +17,73 @@
 @endsection
 
 @section('content')
-
-    <table class="table table-striped">
-        <thead>
-            <tr>
-                <th class="col-xs-1 text-center">ID</th>
-                <th class="col-xs-2 text-center">Connection</th>
-                <th class="col-xs-2 text-center">Queue</th>
-                <th class="col-xs-3 text-center">Payload</th>
-                <th class="col-xs-2 text-center">Date / Time</th>
-                <th class="col-xs-2 text-right">Actions</th>
-            </tr>
-        </thead>
-        <tbody>
-            @forelse ($failedJobs as $failedJob)
-                <tr>
-                    <td class="col-xs-1 text-center">{{ $failedJob->id }}</td>
-                    <td class="col-xs-2 text-center">{{ $failedJob->connection }}</td>
-                    <td class="col-xs-2 text-center">{{$failedJob->queue }}</td>
-                    <td class="col-xs-3 text-center">
-                        <button type="button" class="btn btn-sm btn-default" data-toggle="payload-modal" data-changelog-template="#changelogModal" data-resolve="{{ $failedJob->payload }}">
-                            <span class="fa fa-rocket"></span>
-                            View payload
-                        </button>
-                    </td>
-                    <td class="col-xs-2 text-center">{{ $failedJob->getHumanReadable('failed_at') }}</td>
-                    <td class="col-xs-2 text-right">
-                        <div class="table-dropdown">
-                            <button class="btn btn-transparent" data-dropdown data-options="{position: 'bottom right'}">
-                                <i class="fa fa-ellipsis-v"></i>
-                            </button>
-                            <ul class="dropdown-menu">
-                                <li>
-                                    <a href="{{ route('nodes.backend.failed-jobs.restart', $failedJob->id) }}" data-method="POST" data-confirm="true" data-token="{{ csrf_token() }}">
-                                        <i class="fa fa-play-circle"></i>
-                                        Restart
-                                    </a>
-                                </li>
-                                <li>
-                                    <a href="{{ route('nodes.backend.failed-jobs.forget', $failedJob->id) }}" data-method="POST" data-confirm="true" data-token="{{ csrf_token() }}">
-                                        <i class="fa fa-trash-o"></i>
-                                        Forget
-                                    </a>
-                                </li>
-                            </ul>
-                        </div>
-                    </td>
-                </tr>
-            @empty
-                <tr>
-                    <td colspan="6" class="text-center">No failed jobs <span class="fa fa-thumbs-o-up"></span></td>
-                </tr>
-            @endforelse
-        </tbody>
-    </table>
-    @if ($failedJobs->total() > 1)
-        <div class="row">
-            <div class="col-xs-12">
-                <nav class="paginator text-center">
-                    {!! $failedJobs->render() !!}
-                </nav>
-            </div>
+    <div class="row">
+        <div class="col-xs-12">
+            <br>
+            <table class="table table-striped">
+                <thead>
+                    <tr>
+                        <th class="col-xs-1 text-center">ID</th>
+                        <th class="col-xs-2 text-center">Connection</th>
+                        <th class="col-xs-2 text-center">Queue</th>
+                        <th class="col-xs-3 text-center">Payload</th>
+                        <th class="col-xs-2 text-center">Date / Time</th>
+                        <th class="col-xs-2 text-right">Actions</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    @forelse ($failedJobs as $failedJob)
+                        <tr>
+                            <td class="col-xs-1 text-center">{{ $failedJob->id }}</td>
+                            <td class="col-xs-2 text-center">{{ $failedJob->connection }}</td>
+                            <td class="col-xs-2 text-center">{{$failedJob->queue }}</td>
+                            <td class="col-xs-3 text-center">
+                                <button type="button" class="btn btn-sm btn-default" data-toggle="payload-modal" data-changelog-template="#changelogModal" data-resolve="{{ $failedJob->payload }}">
+                                    <span class="fa fa-rocket"></span>
+                                    View payload
+                                </button>
+                            </td>
+                            <td class="col-xs-2 text-center">{{ $failedJob->getDateHumanReadable('failed_at') }}</td>
+                            <td class="col-xs-2 text-right">
+                                <div class="table-dropdown">
+                                    <button class="btn btn-transparent" data-dropdown data-options="{position: 'bottom right'}">
+                                        <i class="fa fa-ellipsis-v"></i>
+                                    </button>
+                                    <ul class="dropdown-menu">
+                                        <li>
+                                            <a href="{{ route('nodes.backend.failed-jobs.restart', $failedJob->id) }}" data-method="POST" data-confirm="true" data-token="{{ csrf_token() }}">
+                                                <i class="fa fa-play-circle"></i>
+                                                Restart
+                                            </a>
+                                        </li>
+                                        <li>
+                                            <a href="{{ route('nodes.backend.failed-jobs.forget', $failedJob->id) }}" data-method="POST" data-confirm="true" data-token="{{ csrf_token() }}">
+                                                <i class="fa fa-trash-o"></i>
+                                                Forget
+                                            </a>
+                                        </li>
+                                    </ul>
+                                </div>
+                            </td>
+                        </tr>
+                    @empty
+                        <tr>
+                            <td colspan="6" class="text-center">No failed jobs <span class="fa fa-thumbs-o-up"></span></td>
+                        </tr>
+                    @endforelse
+                </tbody>
+            </table>
+            @if ($failedJobs->total() > 1)
+                <div class="row">
+                    <div class="col-xs-12">
+                        <nav class="paginator text-center">
+                            {!! $failedJobs->render() !!}
+                        </nav>
+                    </div>
+                </div>
+            @endif
         </div>
-    @endif
+    </div>
 
     <div class="hidden">
         <div class="row" id="changelogModal">
@@ -104,8 +106,8 @@
             </div>
         </div>
     </div>
-
 @endsection
+
 @section('project-js')
     <script>
         // Custom Dialogs

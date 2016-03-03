@@ -4,16 +4,14 @@
     <li>
         <a href="{{ route('nodes.backend.users', ['page' => 1]) }}">Backend users</a>
     </li>
-    <li>
-        <a href="#">Update password</a>
-    </li>
+    <li class="active">Update password</li>
 @endsection
 
 @section('page-header-top')
-    <h1>
+    <h3>
         Update password
         <small class="text-gray-dark">(min. 6 characters)</small>
-    </h1>
+    </h3>
 @endsection
 
 @section('content')
@@ -38,7 +36,7 @@
             </div>
 
             <div class="form-group">
-                <input type="submit" class="btn btn-primary" value="Save">
+                <input type="submit" class="btn btn-primary form-control" value="Save">
             </div>
             {!! Form::close() !!}
         </div>

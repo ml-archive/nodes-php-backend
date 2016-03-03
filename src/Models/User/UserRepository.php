@@ -185,7 +185,7 @@ class UserRepository extends Repository
 
             // Generate token for user
             $user->createToken();
-        } catch(Exception $e) {
+        } catch (Exception $e) {
             $this->rollbackTransaction();
             throw new SaveFailedException(sprintf('Could not create new user. Reason %s', $e->getMessage()));
         }

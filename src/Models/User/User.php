@@ -152,7 +152,7 @@ class User extends Model implements AuthenticatableContract, CanResetPasswordCon
             'token' => Hash::make(str_random())
         ]));
 
-        if (!empty($token)) {
+        if (empty($token)) {
             throw new SaveFailedException('Failed to create a token for user');
         }
 
@@ -168,36 +168,19 @@ class User extends Model implements AuthenticatableContract, CanResetPasswordCon
      * @access public
      * @param  integer $width
      * @param  integer $height
-     * @return string|null
+     * @return string
      */
     public function getImageUrl($width = 100, $height = 100)
     {
-        $imageUrl = $this->getImageUrlOrNull($width, $height);
-        if (!empty($imageUrl)) {
-            return assets_resize(config('nodes.backend.general.user_fallback_image_url'), $width, $height);
-        }
-
-        return $imageUrl;
-    }
-
-    /**
-     * Retrieve users image or null if not set
-     *
-     * The image can be resized if CDN has it supported
-     *
-     * @author Casper Rasmussen <cr@nodes.dk>
-     *
-     * @access public
-     * @param  integer $width
-     * @param  integer $height
-     * @return string|null
-     */
-    public function getImageUrlOrNull($width = 100, $height = 100)
-    {
+        // If user does not have an image,
+        //we'll use a fallback one
         if (empty($this->image)) {
-            return null;
+            $fallbackImageUrl = config('nodes.backend.general.user_fallback_image_url');
+            return !empty($fallbackImageUrl) ? assets_resize($fallbackImageUrl, $width, $height) : null;
         }
 
+        // If user image is already an URL,
+        // we'll return it untouched
         if (filter_var($this->image, FILTER_VALIDATE_URL)) {
             return $this->image;
         }

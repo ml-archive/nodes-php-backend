@@ -1,6 +1,8 @@
 <?php
 namespace Nodes\Backend;
 
+use Collective\Html\FormFacade as CollectiveFormFacade;
+use Collective\Html\HtmlFacade as ColletiveHtmlFacade;
 use Nodes\AbstractServiceProvider;
 use Nodes\Backend\Http\Middleware\Auth as NodesBackendHttpMiddlewareAuth;
 use Nodes\Backend\Http\Middleware\SSL as NodesBackendHttpMiddlewareSSL;
@@ -27,7 +29,9 @@ class ServiceProvider extends AbstractServiceProvider
      * @var array
      */
     protected $facades = [
-        'NodesBackend' => NodesBackendFacadeBackend::class
+        'Form' => CollectiveFormFacade::class,
+        'Html' => ColletiveHtmlFacade::class,
+        'NodesBackend' => NodesBackendFacadeBackend::class,
     ];
 
     /**
@@ -127,6 +131,7 @@ class ServiceProvider extends AbstractServiceProvider
 
         // Register auth service provider
         $this->app->register(\Nodes\Backend\Auth\ServiceProvider::class);
+        $this->app->register(\Collective\Html\HtmlServiceProvider::class);
     }
 
     /**

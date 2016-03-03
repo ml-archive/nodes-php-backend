@@ -15,13 +15,15 @@ use Nodes\Database\Eloquent\Repository as NodesRepository;
 class ResetPasswordRepository extends NodesRepository
 {
     /**
-     * User model used by Nodes Auth
-     * @var mixed
+     * Used Nodes Auth model
+     *
+     * @var \Illuminate\Database\Eloquent\Model
      */
     protected $userModel;
 
     /**
-     * Error bag
+     * Error message bag
+     *
      * @var \Illuminate\Support\MessageBag
      */
     protected $errors;
@@ -114,8 +116,8 @@ class ResetPasswordRepository extends NodesRepository
             'project' => config('nodes.project.name')
         ], function($message) use ($user) {
             $message->to($user->email)
-                ->from(config('nodes.backend.reset-password.from.email', 'no-reply@nodes.dk'), config('nodes.backend.reset-password.from.name', 'Nodes'))
-                ->subject(config('nodes.backend.reset-password.subject', 'Reset password request'));
+                    ->from(config('nodes.backend.reset-password.from.email', 'no-reply@nodes.dk'), config('nodes.backend.reset-password.from.name', 'Nodes'))
+                    ->subject(config('nodes.backend.reset-password.subject', 'Reset password request'));
         });
 
         return (bool) $status;
@@ -127,7 +129,7 @@ class ResetPasswordRepository extends NodesRepository
      * @author Morten Rugaard <moru@nodes.dk>
      *
      * @access protected
-     * @param  \Nodes\Backend\Database\Model $user
+     * @param  \Illuminate\Database\Eloquent\Model $user
      * @return string
      */
     protected function generateResetPasswordToken(Model $user)

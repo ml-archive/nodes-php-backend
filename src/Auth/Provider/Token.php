@@ -19,30 +19,35 @@ class Token implements Provider
 {
     /**
      * User model
+     *
      * @var \Illuminate\Database\Eloquent\Model
      */
     protected $model;
 
     /**
      * Table name of user table
+     *
      * @var string
      */
     protected $userTable;
 
     /**
      * Table name of access token
+     *
      * @var string
      */
     protected $tokenTable;
 
     /**
      * Column mapping
+     *
      * @var array
      */
     protected $tokenColumns = [];
 
     /**
      * Lifetime of token
+     *
      * @var string
      */
     protected $tokenLifetime;
@@ -51,18 +56,16 @@ class Token implements Provider
      * Constructor
      *
      * @access public
-     * @throws \Nodes\Auth\Exception\TokenMethodException
+     * @throws \Nodes\Api\Auth\Exceptions\TokenMethodException
      */
     public function __construct()
     {
-        // USER MODEL CONFIG
         // Set user model
         $this->model = app('nodes.backend.auth.model');
 
         // Set user table name
         $this->userTable = $this->model->getTable();
 
-        // TOKEN CONFIG
         // Set table name of access token
         $this->tokenTable = config('nodes.backend.auth.token.table', 'backend_user_tokens');
 
@@ -156,7 +159,7 @@ class Token implements Provider
      *
      * @access public
      * @param  string $token
-     * @return bool
+     * @return boolean
      */
     private function updateTokenExpiry($token)
     {

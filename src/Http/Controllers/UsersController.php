@@ -1,7 +1,10 @@
 <?php
 namespace Nodes\Backend\Http\Controllers;
 
+use Exception;
 use Illuminate\Routing\Controller;
+use Illuminate\Support\Facades\Gate;
+use Illuminate\Support\Facades\Request;
 use Illuminate\Support\Str;
 use Nodes\Backend\Models\Role\RoleRepository;
 use Nodes\Backend\Models\User\Validation\UserValidator;
@@ -45,18 +48,19 @@ class UsersController extends Controller
      * List all users
      *
      * @author Morten Rugaard <moru@nodes.dk>
+     *
      * @access public
      * @return \Illuminate\View\View
      */
     public function index()
     {
         // Check user level
-        if(\Gate::denies('backend-admin')) {
+        if (Gate::denies('backend-admin')) {
             abort(403);
         }
 
         // Run query restorer
-        if($route = query_restorer([], ['search'])) {
+        if ($route = query_restorer([], ['search'])) {
             return redirect()->to($route);
         }
 
@@ -70,13 +74,14 @@ class UsersController extends Controller
      * Create new user form
      *
      * @author Morten Rugaard <moru@nodes.dk>
+     *
      * @access public
      * @return \Illuminate\View\View
      */
     public function create()
     {
         // Check user level
-        if(\Gate::denies('backend-admin')) {
+        if (Gate::denies('backend-admin')) {
             abort(403);
         }
 
@@ -90,7 +95,11 @@ class UsersController extends Controller
     }
 
     /**
+     * Save new user to database
+     *
      * @author Casper Rasmussen <cr@nodes.dk>
+     *
+     * @access public
      * @param \Nodes\Backend\Models\User\Validation\UserValidator $userValidator
      * @return \Illuminate\Http\RedirectResponse
      * @throws \Exception
@@ -98,20 +107,20 @@ class UsersController extends Controller
     public function store(UserValidator $userValidator)
     {
         // Check user level
-        if(\Gate::denies('backend-admin')) {
+        if (Gate::denies('backend-admin')) {
             abort(403);
         }
 
         // Retrieve posted data
-        $data = \Input::all();
+        $data = Request::all();
 
         // Random a password if it's left empty
-        if(empty($data['password'])) {
+        if (empty($data['password'])) {
             $data['password'] = $data['password_confirmation'] = Str::random(8);
         }
 
-        // Validate
-        if(!$userValidator->with($data)->validate()) {
+        // Validate user
+        if (!$userValidator->with($data)->validate()) {
             return redirect()->back()->withInput()->with(['error' => $userValidator->errorsBag()]);
         }
 
@@ -120,12 +129,12 @@ class UsersController extends Controller
             $user = $this->userRepository->createUser($data);
 
             // Send a email with information
-            if(filter_var($data['send_mail'], FILTER_VALIDATE_BOOLEAN)) {
+            if (filter_var($data['send_mail'], FILTER_VALIDATE_BOOLEAN)) {
                 $this->userRepository->sendWelcomeMail($user, $data['password']);
             }
 
             return redirect()->route('nodes.backend.users')->with('success', 'User was successfully created');
-        } catch(\Exception $e) {
+        } catch (Exception $e) {
             return redirect()->back()->withInput()->with('error', 'Could not create user');
         }
     }
@@ -141,12 +150,12 @@ class UsersController extends Controller
     {
         // Retrieve user by ID
         $user = $this->userRepository->getById($id);
-        if (!$user) {
+        if (empty($user)) {
             return redirect()->route('nodes.backend.users')->with('error', 'User was not found');
         }
 
         // Make sure user has access to edit this user
-        if(\Gate::denies('backend-edit-backend-user', $user)) {
+        if (Gate::denies('backend-edit-backend-user', $user)) {
             abort(403);
         }
 
@@ -164,28 +173,32 @@ class UsersController extends Controller
     public function update(UserValidator $userValidator)
     {
         // Retrieve posted data
-        $data = \Input::all();
+        $data = Request::all();
 
         // Retrieve user to update
         $user = $this->userRepository->getById($data['id']);
-        if (!$user) {
+        if (empty($user)) {
             return redirect()->route('nodes.backend.users')->with('error', 'User was not found');
         }
 
         // Make sure user has access to edit this user
-        if(\Gate::denies('backend-edit-backend-user', $user)) {
+        if (Gate::denies('backend-edit-backend-user', $user)) {
             abort(403);
         }
 
-        // Validate
-        if(!$userValidator->with($data)->validate()) {
+        // Validate user
+        if (!$userValidator->with($data)->validate()) {
             return redirect()->back()->withInput()->with(['error' => $userValidator->errorsBag()]);
         }
 
-        // Retrieve available roles for users user-role, and make sure that the selected role is within the access level
-        // of the authed user, else unset the role
+        // Retrieve available roles for users user-role,
+        // and make sure that the selected role is within
+        // the access level of the authed user.
+        //
+        // Otherwise remove "user_role" from the array of data
+        // we're about to update on the user
         $roles = $this->roleRepository->getListUserLevel();
-        if(!isset($roles[$data['user_role']])) {
+        if (empty($roles[$data['user_role']])) {
             unset($data['user_role']);
         }
 
@@ -194,13 +207,9 @@ class UsersController extends Controller
             $this->userRepository->updateUser($user, $data);
 
             // Only admins have access to list of users, users need to go to
-            if(\Gate::allows('backend-admin')) {
-                return redirect()->route('nodes.backend.users')->with('success', 'User was successfully updated');
-            } else {
-                return redirect()->route(config('nodes.backend.auth.routes.success'))->with('success', 'User was successfully updated');
-            }
-
-        } catch(\Exception $e) {
+            return Gate::allows('backend-admin') ? redirect()->route('nodes.backend.users')->with('success', 'User was successfully updated')
+                                                 : redirect()->route(config('nodes.backend.auth.routes.success'))->with('success', 'User was successfully updated');
+        } catch (Exception $e) {
             return redirect()->back()->withInput()->with('error', 'Could not update user');
         }
     }
@@ -209,6 +218,7 @@ class UsersController extends Controller
      * Edit authenticated user
      *
      * @author Morten Rugaard <moru@nodes.dk>
+     *
      * @access public
      * @return \Illuminate\View\View
      */
@@ -221,6 +231,7 @@ class UsersController extends Controller
      * Delete user
      *
      * @author Morten Rugaard <moru@nodes.dk>
+     *
      * @access public
      * @param  integer $id
      * @return \Illuminate\Http\RedirectResponse
@@ -230,13 +241,11 @@ class UsersController extends Controller
         // Retrieve user we're about to delete
         $user = $this->userRepository->getById($id);
         if (empty($user)) {
-            return redirect()->route('nodes.backend.users')->with([
-                'error' => 'The user you are trying delete does not exist.'
-            ]);
+            return redirect()->route('nodes.backend.users')->with('error', 'The user you are trying delete does not exist.');
         }
 
         // Make sure user has access to edit this user
-        if(\Gate::denies('backend-edit-backend-user', $user)) {
+        if (Gate::denies('backend-edit-backend-user', $user)) {
             abort(403);
         }
 
@@ -256,6 +265,8 @@ class UsersController extends Controller
      * Change password form
      *
      * @author Casper Rasmussen <cr@nodes.dk>
+     *
+     * @access public
      * @return \Illuminate\View\View
      */
     public function changePassword()
@@ -264,35 +275,36 @@ class UsersController extends Controller
     }
 
     /**
+     * Update user's password
+     *
      * @author Casper Rasmussen <cr@nodes.dk>
-     * @param \Nodes\Backend\Models\User\Validation\UserValidator $userValidator
+     *
+     * @access public
+     * @param  \Nodes\Backend\Models\User\Validation\UserValidator $userValidator
      * @return \Illuminate\Http\RedirectResponse
      */
     public function updatePassword(UserValidator $userValidator)
     {
         // Retrieve posted data
-        $data = \Input::get();
+        $data = Request::get();
 
         // Retrieve user to update
         $user = $this->userRepository->getById($data['id']);
-        if (!$user || $user->id != backend_user()->id) {
+        if (empty($user) || $user->id != backend_user()->id) {
             return redirect()->route('nodes.backend.users')->with('error', 'User was not found');
         }
 
-        // Validate
-        if(!$userValidator->with($data)->group('update-password')->validate()) {
+        // Validate user
+        if (!$userValidator->with($data)->group('update-password')->validate()) {
             return redirect()->back()->withInput()->with(['error' => $userValidator->errorsBag()]);
         }
 
-        // Set the state back
-        $data['change_password'] = false;
-
-        // Update user and redirect
         try {
-            $this->userRepository->updateUser($user, $data);
+            // Update user's password
+            $this->userRepository->updateUser($user, array_merge($data, ['change_password' => false]));
 
             return redirect()->route('nodes.backend.dashboard')->with('success', 'Password is updated');
-        } catch(\Exception $e) {
+        } catch (Exception $e) {
             return redirect()->back()->withInput()->with('error', 'Could not update password');
         }
     }

@@ -2,7 +2,7 @@
 namespace Nodes\Backend\Auth\ResetPassword;
 
 use Illuminate\Routing\Controller as IlluminateController;
-
+use Illuminate\Support\Facades\Request;
 
 /**
  * Class ResetPasswordController
@@ -56,7 +56,7 @@ class ResetPasswordController extends IlluminateController
     public function generateResetToken()
     {
         // Retrieve received e-mail
-        $email = \Input::get('email');
+        $email = Request::get('email');
 
         // Validate e-mail
         if (empty($email) || !filter_var($email, FILTER_VALIDATE_EMAIL)) {
@@ -121,7 +121,7 @@ class ResetPasswordController extends IlluminateController
     public function resetPassword()
     {
         // Retrieve received token
-        $token = \Input::get('token');
+        $token = Request::get('token');
 
         // Validate token
         $resetToken = $this->resetPasswordRepository->getByUnexpiredToken($token);
@@ -130,7 +130,7 @@ class ResetPasswordController extends IlluminateController
         }
 
         // Retrieve received e-mail
-        $email = \Input::get('email');
+        $email = Request::get('email');
 
         // Validate e-mail address
         if ($resetToken->email != $email) {
@@ -138,8 +138,8 @@ class ResetPasswordController extends IlluminateController
         }
 
         // Retrieve received passwords
-        $password = \Input::get('password');
-        $repeatPassword = \Input::get('repeat-password');
+        $password = Request::get('password');
+        $repeatPassword = Request::get('repeat-password');
 
         // Validate passwords
         if ($password != $repeatPassword) {

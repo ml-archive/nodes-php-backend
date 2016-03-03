@@ -1,10 +1,11 @@
 <?php
 namespace Nodes\Backend\Http\Controllers;
 
+use Exception;
 use Illuminate\Routing\Controller;
+use Illuminate\Support\Facades\Request;
 use Nodes\Backend\Support\FlashRestorer;
 use Nodes\Database\Exceptions\EntityNotFoundException;
-use Symfony\Component\HttpFoundation\Session\SessionInterface;
 
 /**
  * Class AuthController
@@ -21,29 +22,21 @@ class AuthController extends Controller
     protected $userRepository;
 
     /**
-     * Session
-     *
-     * @var \Symfony\Component\HttpFoundation\Session\SessionInterface
-     */
-    protected $session;
-
-    /**
      * Constructor
      *
      * @author Morten Rugaard <moru@nodes.dk>
      * @access public
-     * @param  \Symfony\Component\HttpFoundation\Session\SessionInterface $session
      */
-    public function __construct(SessionInterface $session)
+    public function __construct()
     {
         $this->userRepository = app('nodes.backend.auth.repository');
-        $this->session = $session;
     }
 
     /**
      * Login form
      *
      * @author Casper Rasmussen <cr@nodes.dk>
+     *
      * @access public
      * @return \Illuminate\View\View
      */
@@ -52,7 +45,7 @@ class AuthController extends Controller
         // If user is already authenticated,
         // redirect user to dashboard
         if (backend_user_check()) {
-            return $this->redirectSuccess(new FlashRestorer());
+            return $this->redirectSuccess(new FlashRestorer);
         }
 
         return view('nodes.backend::login.default');
@@ -62,17 +55,18 @@ class AuthController extends Controller
      * Authenticate user
      *
      * @author Morten Rugaard <moru@nodes.dk>
+     *
      * @access public
      * @return \Illuminate\Http\RedirectResponse
      */
     public function authenticate()
     {
         // Retrieve credentials
-        $data = \Input::only('email', 'password', 'remember');
+        $data = Request::only('email', 'password', 'remember');
 
         // Authenticate user
-        if (!backend_attempt(['email' => $data['email'], 'password' => $data['password']], (bool)$data['remember'])) {
-            return redirect()->back()->with('error', 'Invalid login. Try again.');
+        if (!backend_attempt(['email' => $data['email'], 'password' => $data['password']], (bool) $data['remember'])) {
+            return redirect()->route('nodes.backend.login.form')->with('error', 'Invalid login. Try again.');
         }
 
         return $this->redirectSuccess();
@@ -82,6 +76,7 @@ class AuthController extends Controller
      * SSO login form
      *
      * @author Morten Rugaard <moru@nodes.dk>
+     *
      * @access public
      * @return \Illuminate\View\View
      */
@@ -92,7 +87,7 @@ class AuthController extends Controller
             try {
                 $user = $this->userRepository->getManagerUser();
             } catch (EntityNotFoundException $e) {
-                return redirect()->back()->with('error', 'Manager user was not found.');
+                return redirect()->route('nodes.backend.login.form')->with('error', 'Manager user was not found.');
             }
 
             // Authenticate user
@@ -107,19 +102,21 @@ class AuthController extends Controller
     /**
      * Authenticate Nodes Manager
      *
-     * @author cr@nodes.dk
+     * @author Casper Rasmussen <cr@nodes.dk>
+     *
+     * @access public
      * @return \Illuminate\Http\RedirectResponse
      */
     public function manager()
     {
         // Check the passed token vs a hash of email, constant and server token for current build
-        if (hash('sha256', sprintf(env('NODES_MANAGER_SALT'), \Input::get('email'), env('NODES_MANAGER_TOKEN'))) != \Input::get('token')) {
+        if (hash('sha256', sprintf(env('NODES_MANAGER_SALT'), Request::get('email'), env('NODES_MANAGER_TOKEN'))) != Request::get('token')) {
             return redirect()->route('nodes.backend.login.form')->with('error', 'Manager token did not match');
         }
 
         try {
             // Retrieve the Nodes user
-            $user = $this->userRepository->loginUserFromManager(\Input::get());
+            $user = $this->userRepository->loginUserFromManager(Request::get());
 
             // Authenticate user
             backend_user_login($user);
@@ -127,11 +124,11 @@ class AuthController extends Controller
             // Redirect into backend
             return $this->redirectSuccess();
 
-        } catch (\Exception $e) {
-            // Notify bugsnag
+        } catch (Exception $e) {
             try {
+                // Notify bugsnag
                 app('nodes.bugsnag')->notifyException($e, null, 'error');
-            } catch (\Exception $e) {
+            } catch (Exception $e) {
                 // Fail silent
             }
 
@@ -144,6 +141,7 @@ class AuthController extends Controller
      * Log authenticated user out
      *
      * @author Morten Rugaard <moru@nodes.dk>
+     *
      * @access public
      * @return \Illuminate\Http\RedirectResponse
      */
@@ -157,21 +155,30 @@ class AuthController extends Controller
     }
 
     /**
-     * Redirect user upon successfully authenticate
+     * Redirect user upon successful authentication
      *
      * @author Casper Rasmussen <cr@nodes.dk>
-     * @param FlashAlert|null $flashAlert
+     *
+     * @access public
+     * @param  \Nodes\Backend\Support\FlashRestorer $flashAlert
      * @return \Illuminate\Http\RedirectResponse
      */
     protected function redirectSuccess($flashAlert = null)
     {
-        // Check if user should redirect to change pw
-        if (backend_user()->change_password) {
+        // Retrieve authenticated backend user
+        $backendUser = backend_user();
+
+        // If backend user is required to change his/her password
+        // we'll redirect the user to the "change password" form
+        //
+        // Otherwise we'll redirect the user to the designated route
+        // based on the route alias from the backend config file
+        if ($backendUser->change_password) {
             $redirectResponse = redirect()->route('nodes.backend.users.change-password')->with('info', 'Please update your password');
         } else {
             // Else redirect to success route from config
             $route = config('nodes.backend.auth.routes.success');
-            $redirectResponse = $route ? redirect()->route($route)->with('success', 'Logged in as: ' . backend_user()->email) : redirect()->to('/admin');
+            $redirectResponse = !empty($route) ? redirect()->route($route)->with('success', 'Logged in as: ' . $backendUser->email) : redirect()->to('/admin');
         }
 
         // Apply flash messages from previous route, if they are passed

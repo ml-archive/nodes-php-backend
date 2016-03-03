@@ -12,15 +12,15 @@ use Nodes\Backend\Dashboard\Types\TableCount;
 /**
  * Class DashboardCollection
  *
- * @author  Casper Rasmussen <cr@nodes.dk>
  * @package Nodes\Backend\Dashboard
  */
 class DashboardCollection extends Collection
 {
     /**
-     * DashboardCollection constructor.
+     * DashboardCollection constructor
      *
-     * @param array $configs
+     * @access public
+     * @param  array $configs
      * @throws \Exception
      */
     public function __construct($configs)
@@ -50,7 +50,11 @@ class DashboardCollection extends Collection
     }
 
     /**
+     * Retrieve bar charts
+     *
      * @author Casper Rasmussen <cr@nodes.dk>
+     *
+     * @access public
      * @return \Illuminate\Database\Eloquent\Collection
      */
     public function getBarCharts()
@@ -66,7 +70,11 @@ class DashboardCollection extends Collection
     }
 
     /**
+     * Retrieve bar charts as array
+     *
      * @author Casper Rasmussen <cr@nodes.dk>
+     *
+     * @access public
      * @return array
      */
     public function getBarChartsAsChartData()
@@ -81,7 +89,11 @@ class DashboardCollection extends Collection
     }
 
     /**
+     * Retrieve line charts
+     *
      * @author Casper Rasmussen <cr@nodes.dk>
+     *
+     * @access public
      * @return \Illuminate\Database\Eloquent\Collection
      */
     public function getLineCharts()
@@ -97,7 +109,11 @@ class DashboardCollection extends Collection
     }
 
     /**
+     * Retrieve line chart as array
+     *
      * @author Casper Rasmussen <cr@nodes.dk>
+     *
+     * @access public
      * @return array
      */
     public function getLineChartsAsChartData()

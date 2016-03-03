@@ -73,8 +73,6 @@ class Manager
     /**
      * Constructor
      *
-     * @author Morten Rugaard <moru@nodes.dk>
-     *
      * @access public
      * @param  \Nodes\Backend\Auth\Authenticator                          $auth
      * @param  \Symfony\Component\HttpFoundation\Session\SessionInterface $session

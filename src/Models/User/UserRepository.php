@@ -4,6 +4,7 @@ namespace Nodes\Backend\Models\User;
 use Exception;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Support\Facades\Mail;
+use Illuminate\Support\Facades\Request;
 use Illuminate\Support\Str;
 use Nodes\Backend\Auth\Exceptions\InvalidPasswordException;
 use Nodes\Database\Eloquent\Repository;
@@ -17,11 +18,8 @@ use Symfony\Component\HttpFoundation\File\UploadedFile;
  */
 class UserRepository extends Repository
 {
-
     /**
      * Constructor
-     *
-     * @author Morten Rugaard <moru@nodes.dk>
      *
      * @access public
      * @throws \Nodes\Backend\Auth\Exception\InvalidUserModelException
@@ -46,10 +44,10 @@ class UserRepository extends Repository
     {
         // Retrieve user by e-mail
         $user = $this->getBy('email', $data['email']);
-        if ($user) {
+        if (!empty($user)) {
             // Set image if its different
-            if (!$user->image) {
-                $user->image= $data['image'];
+            if (empty($user->image)) {
+                $user->image = $data['image'];
                 $user->save();
             }
 
@@ -57,16 +55,16 @@ class UserRepository extends Repository
         }
 
         // Only create separate users if config is set
-        if(config('nodes.backend.manager.separate_users')) {
-            $user = $this->createUser([
-               'name' => $data['name'],
-               'email' => $data['email'],
-               'user_role' => config('nodes.backend.manager.role'),
-               'password' => Str::random(16),
-            ]);
-
-            if($user) {
-                return $user;
+        if (config('nodes.backend.manager.separate_users', false)) {
+            try {
+                return $this->createUser([
+                    'name'      => $data['name'],
+                    'email'     => $data['email'],
+                    'user_role' => config('nodes.backend.manager.role', 'developer'),
+                    'password'  => Str::random(16),
+                ]);
+            } catch (Exception $e) {
+                // Do nothing
             }
         }
 
@@ -131,10 +129,10 @@ class UserRepository extends Repository
         $query = $this->orderBy('name', 'ASC');
 
         // Apply search conditions if search is set
-        if(\Input::get('search')) {
-            $query->where(function($q) {
-               $q->orWhere('name', 'LIKE', '%' . \Input::get('search') . '%')
-                   ->orWhere('email', 'LIKE', '%' . \Input::get('search') . '%');
+        if (Request::get('search', null)) {
+            $query->where(function($query) {
+                $query->orWhere('name', 'LIKE', '%' . Request::get('search') . '%')
+                      ->orWhere('email', 'LIKE', '%' . Request::get('search') . '%');
             });
         }
 
@@ -142,7 +140,7 @@ class UserRepository extends Repository
     }
 
     /**
-     * Retrieve manager user, set in config
+     * Retrieve manager user from config
      *
      * @author Casper Rasmussen <cr@nodes.dk>
      *
@@ -244,7 +242,6 @@ class UserRepository extends Repository
         if (empty($data['password'])) {
             unset($data['password'], $data['password_repeat']);
         }
-
 
         // Fill with new data
         $user->update($data);

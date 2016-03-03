@@ -1,9 +1,8 @@
 <?php
 namespace Nodes\Backend\Auth;
 
-use Illuminate\Container\Container;
-use Illuminate\Contracts\Hashing\Hasher;
-use Illuminate\Routing\Router;
+use Illuminate\Routing\Router as IlluminateRouter;
+use Illuminate\Support\Facades\Hash;
 use Nodes\Backend\Auth\Exceptions\UnauthorizedException;
 use Nodes\Backend\Auth\Contracts\Authenticatable;
 use Symfony\Component\HttpKernel\Exception\BadRequestHttpException;
@@ -17,31 +16,22 @@ use Symfony\Component\HttpKernel\Exception\UnauthorizedHttpException;
 class Authenticator
 {
     /**
-     * IoC container
-     * @var \Illuminate\Container\Container
-     */
-    protected $container;
-
-    /**
      * Router instance
+     *
      * @var \Illuminate\Routing\Router
      */
     protected $router;
 
     /**
-     * Hasher
-     * @var \Illuminate\Contracts\Hashing\Hasher
-     */
-    protected $hasher;
-
-    /**
      * User repository
+     *
      * @var \Nodes\Backend\Models\User\UserRepository
      */
     protected $userRepository;
 
     /**
      * The provider used for authentication
+     *
      * @var \Nodes\Backend\Auth\Contracts\ProviderInterface
      */
     protected $providerUsed;
@@ -49,18 +39,12 @@ class Authenticator
     /**
      * Constructor
      *
-     * @author Morten Rugaard <moru@nodes.dk>
-     *
      * @access public
-     * @param  \Illuminate\Container\Container       $container
-     * @param  \Illuminate\Routing\Router            $router
-     * @param  \Illuminate\Contracts\Hashing\Hasher  $hasher
+     * @param  \Illuminate\Routing\Router $router
      */
-    public function __construct(Container $container, Router $router, Hasher $hasher)
+    public function __construct(IlluminateRouter $router)
     {
-        $this->container = $container;
         $this->router = $router;
-        $this->hasher = $hasher;
         $this->userRepository = app('nodes.backend.auth.repository');
     }
 
@@ -135,7 +119,7 @@ class Authenticator
      */
     public function validateCredentials(Authenticatable $user, array $credentials)
     {
-        return !empty($credentials['password']) ? $this->hasher->check($credentials['password'], $user->getAuthPassword()) : false;
+        return !empty($credentials['password']) ? Hash::check($credentials['password'], $user->getAuthPassword()) : false;
     }
 
     /**

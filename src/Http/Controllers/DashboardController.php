@@ -12,9 +12,10 @@ use Nodes\Backend\Dashboard\DashboardCollection;
 class DashboardController extends Controller
 {
     /**
-     * Dashboard
+     * Generate dashboard
      *
      * @author Casper Rasmussen <cr@nodes.dk>
+     *
      * @access public
      * @return \Illuminate\View\View
      */

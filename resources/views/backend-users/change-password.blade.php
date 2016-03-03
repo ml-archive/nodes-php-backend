@@ -22,14 +22,14 @@
             {!! Form::model(backend_user(), ['method' => 'patch', 'route' => ['nodes.backend.users.update-password']]) !!}
             <input type="hidden" name="id" value="{{ backend_user()->id }}">
 
-            {{--Password--}}
+            {{-- Password --}}
             <div class="form-group">
                 <label for="backendUserFormPassword">Password</label>
                 <div class="@if(validation_key_failed('password')) has-error @endif}}">
                     {!! Form::password('password', ['id' => 'backendUserFormPassword', 'class' => 'form-control']) !!}
                 </div>
             </div>
-            {{--Password confirm--}}
+            {{-- Password confirm --}}
             <div class="form-group">
                 <label for="backendUserFormRepeatPassword">Repeat password</label>
                 <div class="@if(validation_key_failed('password')) has-error @endif}}">

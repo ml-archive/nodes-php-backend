@@ -1,9 +1,7 @@
 @extends('nodes.backend::layouts.base')
 
 @section('breadcrumbs')
-    <li>
-        <a href="#">Backend users</a>
-    </li>
+    <li class="active">Backend users</li>
 @endsection
 
 @section('page-header-top')
@@ -14,15 +12,10 @@
             <div class="layout horizontal center justified padding-vertical-sm">
                 <form class="form-inline search-form margin-right margin-left-md-auto">
                     <div class="form-group action-wrapper no-margin-bottom">
-                        <button type="submit"
-                                class="btn btn-transparent action-wrap-action action-wrap-right action-wrap-sm">
+                        <button type="submit" class="btn btn-transparent action-wrap-action action-wrap-right action-wrap-sm">
                             <i class="fa fa-search"></i>
                         </button>
-
-                        <input type="text" class="form-control input-sm action-wrap-item action-wrap-right"
-                               id="search" name="search"
-                               placeholder="Search"
-                               value="{{ \Input::get('search') }}">
+                        <input type="text" id="search" class="form-control input-sm action-wrap-item action-wrap-right" name="search" placeholder="Search" value="{{ Request::get('search') }}">
                     </div>
                 </form>
 

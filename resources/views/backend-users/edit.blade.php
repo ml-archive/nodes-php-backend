@@ -4,9 +4,7 @@
     <li>
         <a href="{{ route('nodes.backend.users', ['page' => 1]) }}">Backend users</a>
     </li>
-    <li>
-        <a href="#">Edit backend user</a>
-    </li>
+    <li class="active">Edit backend user</li>
 @endsection
 
 @section('page-header-top')
@@ -34,7 +32,7 @@
                 <hr/>
 
                 <div class="margin-vertical-sm">
-                    {{--Name--}}
+                    {{-- Name --}}
                     <div class="form-group">
                         <label for="backendUserFormName">Name</label>
                         <div class="@if(validation_key_failed('name')) has-error @endif}}">
@@ -42,7 +40,7 @@
                         </div>
                     </div>
 
-                    {{--Email--}}
+                    {{-- E-mail --}}
                     <div class="form-group">
                         <label for="backendUserFormEmail">E-mail</label>
                         <div class="@if(validation_key_failed('email')) has-error @endif}}">
@@ -50,21 +48,21 @@
                         </div>
                     </div>
 
-                    {{--Image--}}
+                    {{-- Image --}}
                     @if (!empty($user))
-                        {{--edit--}}
+                        {{-- Edit --}}
                         @include('nodes.backend::partials.components.file-picker', [
                             'label' => 'Image',
                             'image' => assets_get($user->image)
                         ])
                     @else
-                        {{--create--}}
+                        {{-- Create --}}
                         @include('nodes.backend::partials.components.file-picker', [
                             'label' => 'Image'
                         ])
                     @endif
 
-                    {{--Role--}}
+                    {{-- Role --}}
                     <div class="form-group">
                         <label for="backendUserFormRole">Role</label>
                         @if(validation_key_failed('user_role'))
@@ -90,7 +88,7 @@
                 <hr/>
 
                 <div class="margin-top">
-                    {{--Password--}}
+                    {{-- Password --}}
                     <div class="form-group">
                         <label for="backendUserFormPassword">Password</label>
                         <div class="@if(validation_key_failed('password')) has-error @endif}}">
@@ -98,7 +96,7 @@
                         </div>
                     </div>
 
-                    {{--Password confirm--}}
+                    {{-- Password confirm --}}
                     <div class="form-group">
                         <label for="backendUserFormRepeatPassword">Repeat password</label>
                         <div class="@if(validation_key_failed('password')) has-error @endif}}">
@@ -106,7 +104,7 @@
                         </div>
                     </div>
 
-                    {{--Force user to reset pw on next login--}}
+                    {{-- Force user to reset pw on next login --}}
                     @can('backend-admin')
                     <div class="form-group">
                         <input name="should_reset_password" value="false" type="hidden">
@@ -122,7 +120,7 @@
             </div>
 
             <div class="col-xs-12 margin-top">
-                {{--Send mail with info--}}
+                {{-- Send mail with info --}}
                 @if (empty($user))
                     <div class="form-group">
                         <input name="send_mail" value="false" type="hidden">

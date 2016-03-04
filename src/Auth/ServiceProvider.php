@@ -6,6 +6,7 @@ use Illuminate\Contracts\Auth\Access\Gate as GateContract;
 use Illuminate\Foundation\Support\Providers\AuthServiceProvider as IlluminateAuthServiceProvider;
 use Nodes\Backend\Auth\Exceptions\InvalidUserModelException;
 use Nodes\Backend\Auth\Exceptions\InvalidUserRepositoryException;
+use Nodes\Backend\Http\Middleware\ApiAuth as NodesBackendHttpMiddlewareApiAuth;
 use Nodes\Backend\Models\User\User;
 use Nodes\Backend\Models\User\UserRepository;
 
@@ -27,6 +28,10 @@ class ServiceProvider extends IlluminateAuthServiceProvider
      */
     public function boot(GateContract $gate)
     {
+        // Register middlewares with router
+        $this->app['router']->middleware('backend.api.auth', NodesBackendHttpMiddlewareApiAuth::class);
+
+        // Define gates and policies
         if (config('nodes.backend.auth.gates.define', true)) {
             $this->defineGates($gate);
         }
@@ -58,8 +63,8 @@ class ServiceProvider extends IlluminateAuthServiceProvider
     protected function registerAuthenticator()
     {
         $this->app->singleton('nodes.backend.auth', function ($app) {
-            $authenticator = $app->make(\Nodes\Backend\Auth\Authenticator::class);
-            return new Manager($authenticator, $app['session.store']);
+            $providers = prepare_config_instances(config('nodes.backend.auth.providers'));
+            return new Manager($app['nodes.backend.auth.model'], $app['session.store'], $app['router'], $providers);
         });
     }
 
@@ -75,7 +80,7 @@ class ServiceProvider extends IlluminateAuthServiceProvider
     {
         $this->app->singleton('nodes.backend.auth.model', function ($app) {
             // Try and instantiate nodes.backend.backend user model
-            $userModel = !empty(config('nodes.backend.auth.model')) ? app(config('nodes.backend.auth.model')) : app(\Nodes\Backend\Models\User\User::class);
+            $userModel = !empty(config('nodes.backend.auth.model')) ? prepare_config_instance(config('nodes.backend.auth.model')) : app(\Nodes\Backend\Models\User\User::class);
 
             // Validate user model instance
             if (empty($userModel) || !$userModel instanceof User) {

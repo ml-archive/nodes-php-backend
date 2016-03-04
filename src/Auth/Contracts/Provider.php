@@ -10,7 +10,7 @@ use Illuminate\Routing\Route;
  * @interface
  * @package Nodes\Backend\Auth\Contracts
  */
-interface ProviderInterface
+interface Provider
 {
     /**
      * Authenticate the request and return the authenticated user instance

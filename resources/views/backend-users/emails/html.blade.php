@@ -1,27 +1,23 @@
 <html>
 <head>
-    <title>Welcome to {{ucfirst($project)}}</title>
+    <title>Invitation to {{ ucfirst($project) }} admin backend</title>
 </head>
 
 <body>
-    <h4>Hello {{$user->name}}</h4>
+    <h4><strong>Hello</strong> {{ $user->name }},</h4>
+    <p>You have been invited to join {{ ucfirst($project) }} admin backend.</p>
+    <p>The backend can be accessed here:<br><a href="{{ $url }}">{{ $url }}</a></p>
     <p>
-        You have been invited to join {{ucfirst($project)}} admin backend
+        You can login with following credentials:<br>
         <br>
-        The backend can be accessed <a href="{{$url}}">Here!</a>
+        <strong>E-mail</strong>: {{ $user->email }}
         <br>
-        You can login with following credentials
-        <br>
-        Email: {{$user->email}}
-        <br>
-        Password: {{$password}}
+        <strong>Password</strong>: {{ $password }}
     </p>
-    @if($user->should_reset_password)
-        <p>
-            After login in, you will be asked to change your password
-        </p>
+    @if($user->change_password)
+        <p><em>Note: Password was randomly generated. You will be asked to change your password at your first login.</em></p>
     @endif
-    <p>Best regards {{ucfirst($project)}}</p>
+    <p><strong>Best regards</strong><br>{{ ucfirst($project) }}</p>
 </body>
 </html>
 

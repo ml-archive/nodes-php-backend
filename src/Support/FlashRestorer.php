@@ -1,43 +1,47 @@
 <?php
-
 namespace Nodes\Backend\Support;
 
 use Symfony\Component\HttpFoundation\RedirectResponse;
 
 /**
  * Class FlashRestorer
- * @author  Casper Rasmussen <cr@nodes.dk>
  *
  * @package Nodes\Backend\Support
  */
 class FlashRestorer
 {
     /**
-     * Variable for error
+     * Error flash
+     *
      * @var string|array
      */
     protected $error;
 
     /**
-     * Variable for success
+     * Success flash
+     *
      * @var string|array
      */
     protected $success;
 
     /**
-     * Variable for info
+     * Info flash
+     *
      * @var string|array
      */
     protected $info;
 
     /**
-     * Variable for warning
+     * Warning flash
+     *
      * @var string|array
      */
     protected $warning;
 
     /**
-     * FlashRestorer constructor.
+     * FlashRestorer constructor
+     *
+     * @access public
      */
     public function __construct()
     {
@@ -48,73 +52,93 @@ class FlashRestorer
     }
 
     /**
+     * Set error flash
+     *
      * @author Casper Rasmussen <cr@nodes.dk>
-     * @param string|array $error
+     *
+     * @access public
+     * @param  string|array $error
      * @return $this
      */
-    public function setError($error) {
+    public function setError($error)
+    {
         $this->error = $error;
-
         return $this;
     }
 
     /**
+     * Set success flash
+     *
      * @author Casper Rasmussen <cr@nodes.dk>
-     * @param string|array $success
+     *
+     * @access public
+     * @param  string|array $success
      * @return $this
      */
-    public function setSuccess($success) {
+    public function setSuccess($success)
+    {
         $this->success = $success;
-
         return $this;
     }
 
     /**
+     * Set info flash
+     *
      * @author Casper Rasmussen <cr@nodes.dk>
-     * @param string|array $info
+     *
+     * @access public
+     * @param  string|array $info
      * @return $this
      */
-    public function setInfo($info) {
+    public function setInfo($info)
+    {
         $this->info = $info;
-
         return $this;
     }
 
     /**
+     * Set warning flash
+     *
      * @author Casper Rasmussen <cr@nodes.dk>
-     * @param string|array $warning
+     *
+     * @access public
+     * @param  string|array $warning
      * @return $this
      */
-    public function setWarning($warning) {
+    public function setWarning($warning)
+    {
         $this->warning = $warning;
-
         return $this;
     }
 
     /**
+     * Apply flash
+     *
      * @author Casper Rasmussen <cr@nodes.dk>
-     * @param \Symfony\Component\HttpFoundation\RedirectResponse $redirectResponse
+     *
+     * @access public
+     * @param  \Symfony\Component\HttpFoundation\RedirectResponse $redirectResponse
      * @return \Symfony\Component\HttpFoundation\RedirectResponse
      */
     public function apply(RedirectResponse &$redirectResponse)
     {
-        // Apply error
-        if($this->error) {
+        // Apply error flash
+        if (!empty($this->error)) {
             $redirectResponse->with('error', $this->error);
         }
 
-        // Apply success
-        if($this->success) {
+        // Apply success flash
+        if (!empty($this->success)) {
             $redirectResponse->with('success', $this->success);
         }
 
-        // Apply info
-        if($this->info) {
+        // Apply info flash
+        if (!empty($this->info)) {
             $redirectResponse->with('info', $this->info);
         }
 
-        // Apply warning
-        if($this->warning) {
+        // Apply warning flash
+        if (!empty($this->warning)) {
             $redirectResponse->with('warning', $this->warning);
         }
 

@@ -4,24 +4,20 @@
     <li>
         <a href="{{ route('nodes.backend.users', ['page' => 1]) }}">Backend users</a>
     </li>
-    <li>
-        <a href="#">Edit backend user</a>
-    </li>
+    <li class="active">Edit backend user</li>
 @endsection
 
 @section('page-header-top')
-    <h1>
+    <h3>
         @if (!empty($user))
             Edit backend user
         @else
             Create backend user
         @endif
-    </h1>
+    </h3>
 @endsection
 
 @section('content')
-    <div class="row">
-
         @if (!empty($user))
             {!! Form::model($user, ['method' => 'patch', 'files' => true, 'route' => ['nodes.backend.users.update']]) !!}
             <input type="hidden" name="id" value="{{ $user->id }}">
@@ -29,12 +25,12 @@
             {!! Form::open(['method' => 'post', 'files' => true, 'route' => 'nodes.backend.users.store']) !!}
         @endif
 
+        <div class="row">
             <div class="col-xs-12 col-md-6">
                 <h4 class="margin-top">User details</h4>
                 <hr/>
-
                 <div class="margin-vertical-sm">
-                    {{--Name--}}
+                    {{-- Name --}}
                     <div class="form-group">
                         <label for="backendUserFormName">Name</label>
                         <div class="@if(validation_key_failed('name')) has-error @endif}}">
@@ -42,7 +38,7 @@
                         </div>
                     </div>
 
-                    {{--Email--}}
+                    {{-- E-mail --}}
                     <div class="form-group">
                         <label for="backendUserFormEmail">E-mail</label>
                         <div class="@if(validation_key_failed('email')) has-error @endif}}">
@@ -50,21 +46,7 @@
                         </div>
                     </div>
 
-                    {{--Image--}}
-                    @if (!empty($user))
-                        {{--edit--}}
-                        @include('nodes.backend::partials.components.file-picker', [
-                            'label' => 'Image',
-                            'image' => assets_get($user->image)
-                        ])
-                    @else
-                        {{--create--}}
-                        @include('nodes.backend::partials.components.file-picker', [
-                            'label' => 'Image'
-                        ])
-                    @endif
-
-                    {{--Role--}}
+                    {{-- Role --}}
                     <div class="form-group">
                         <label for="backendUserFormRole">Role</label>
                         @if(validation_key_failed('user_role'))
@@ -73,10 +55,14 @@
                             {!! Form::select('user_role', $roles, !empty($user) ? $user->user_role : $roleDefault, ['id' => 'backendUserFormRole', 'class' => 'form-control']) !!}
                         @endif
                     </div>
+                    <div class="form-group">
+                        <input name="send_mail" value="false" type="hidden">
+                        <label>
+                            {!! Form::checkbox('send_mail', true, true, ['id' => 'backendUserFormSendMail']) !!} Send email with information
+                        </label>
+                    </div>
                 </div>
-            </div>
-
-            <div class="col-xs-12 col-md-6">
+                <br>
                 @can('backend-edit-backend-user', !empty($user) ? $user : null)
                 <h4 class="margin-top">
                     @if (!empty($user))
@@ -86,11 +72,9 @@
                     @endif
                     <small class="text-gray-dark">(min. 6 characters)</small>
                 </h4>
-
                 <hr/>
-
                 <div class="margin-top">
-                    {{--Password--}}
+                    {{-- Password --}}
                     <div class="form-group">
                         <label for="backendUserFormPassword">Password</label>
                         <div class="@if(validation_key_failed('password')) has-error @endif}}">
@@ -98,7 +82,7 @@
                         </div>
                     </div>
 
-                    {{--Password confirm--}}
+                    {{-- Password confirm --}}
                     <div class="form-group">
                         <label for="backendUserFormRepeatPassword">Repeat password</label>
                         <div class="@if(validation_key_failed('password')) has-error @endif}}">
@@ -106,7 +90,7 @@
                         </div>
                     </div>
 
-                    {{--Force user to reset pw on next login--}}
+                    {{-- Force user to reset pw on next login --}}
                     @can('backend-admin')
                     <div class="form-group">
                         <input name="should_reset_password" value="false" type="hidden">
@@ -120,27 +104,34 @@
                 </div>
                 @endcan
             </div>
-
-            <div class="col-xs-12 margin-top">
-                {{--Send mail with info--}}
-                @if (empty($user))
+            <div class="col-xs-12 col-md-6">
+                {{-- Image --}}
+                <h4 class="margin-top">Image</h4>
+                <hr>
+                <div class="margin-vertical-sm">
                     <div class="form-group">
-                        <input name="send_mail" value="false" type="hidden">
-                        <label>
-                            {!! Form::checkbox('send_mail', true, true, ['id' => 'backendUserFormSendMail']) !!} Send email with information
-                        </label>
+                        <label for="companyImage">Upload image</label>
+                        <div class="@if (validation_key_failed('image')) has-error @endif">
+                            {!! Form::file('image', null, ['id' => 'image', 'class' => 'form-control']) !!}
+                        </div>
                     </div>
-                @endif
-
-                <div class="form-group">
-                    @if (!empty($user))
-                        <input type="submit" class="btn btn-primary" value="Update backend user">
-                    @else
-                        <input type="submit" class="btn btn-primary" value="Create backend user">
+                    @if (!empty($user) && !empty($user->getImageUrl()))
+                        <div class="form-group">
+                            <img class="img-thumbnail" src="{{ $user->getImageUrl(250, 250) }}" alt="Image of {{ $user->name }}">
+                        </div>
                     @endif
                 </div>
             </div>
+        </div>
+        <div class="row">
+            <div class="col-xs-12">
+                <hr>
+                @if (!empty($user))
+                    <input type="submit" class="btn btn-primary form-control" value="Update backend user">
+                @else
+                    <input type="submit" class="btn btn-primary form-control" value="Create backend user">
+                @endif
+            </div>
+        </div>
         {!! Form::close() !!}
-
-    </div>
 @endsection

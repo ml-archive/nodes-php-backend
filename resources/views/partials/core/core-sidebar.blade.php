@@ -16,13 +16,13 @@
 </div>
 
 <div class="sidebar sidebar__navigation">
-    {{--Must be in one line--}}
+    {{-- Must be in one line --}}
     <div class="sidebar__navigation-top">@include('nodes.backend::partials.sidebar.top-actions')</div>
 
     <div class="sidebar__navigation-middle">
         @include('nodes.backend::partials.sidebar.navigation')
     </div>
 
-    {{--Must be in one line--}}
+    {{-- Must be in one line --}}
     <div class="sidebar__navigation-bottom">@include('nodes.backend::partials.sidebar.bottom-actions')</div>
 </div>

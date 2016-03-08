@@ -3,13 +3,13 @@ namespace Nodes\Backend\Models\User;
 
 use Illuminate\Auth\Authenticatable;
 use Illuminate\Auth\Passwords\CanResetPassword;
-use Illuminate\Database\Eloquent\Model;
 use Illuminate\Support\Facades\Hash;
 use Nodes\Backend\Auth\Contracts\Authenticatable as AuthenticatableContract;
 use Nodes\Backend\Auth\Contracts\CanResetPassword as CanResetPasswordContract;
 use Nodes\Backend\Models\User\Token\Token;
 use Nodes\CounterCache\CounterCacheable;
 use Nodes\CounterCache\Traits\CounterCache;
+use Nodes\Database\Eloquent\Model;
 use Nodes\Database\Exceptions\SaveFailedException;
 
 /**
@@ -24,14 +24,14 @@ class User extends Model implements AuthenticatableContract, CanResetPasswordCon
         CounterCache;
 
     /**
-     * Database table
+     * The table associated with the model.
      *
      * @var string
      */
     protected $table = 'backend_users';
 
     /**
-     * Fillable columns
+     * The attributes that are mass assignable.
      *
      * @var array
      */
@@ -46,7 +46,7 @@ class User extends Model implements AuthenticatableContract, CanResetPasswordCon
     ];
 
     /**
-     * Sensitive columns
+     * The attributes that should be hidden for arrays.
      *
      * @var array
      */
@@ -56,7 +56,7 @@ class User extends Model implements AuthenticatableContract, CanResetPasswordCon
     ];
 
     /**
-     * Typecast columns
+     * The attributes that should be cast to native types.
      *
      * @var array
      */
@@ -133,7 +133,6 @@ class User extends Model implements AuthenticatableContract, CanResetPasswordCon
     public function deleteAllTokensAndCreateNew()
     {
         $this->token()->delete();
-
         return $this->createToken();
     }
 
@@ -153,7 +152,7 @@ class User extends Model implements AuthenticatableContract, CanResetPasswordCon
             'token' => Hash::make(str_random())
         ]));
 
-        if (!$token) {
+        if (empty($token)) {
             throw new SaveFailedException('Failed to create a token for user');
         }
 
@@ -169,36 +168,19 @@ class User extends Model implements AuthenticatableContract, CanResetPasswordCon
      * @access public
      * @param  integer $width
      * @param  integer $height
-     * @return string|null
+     * @return string
      */
     public function getImageUrl($width = 100, $height = 100)
     {
-        $imageUrl = $this->getImageUrlOrNull($width, $height);
-        if (!$imageUrl) {
-            return assets_resize(config('nodes.backend.general.user_fallback_image_url'), $width, $height);
-        }
-
-        return $imageUrl;
-    }
-
-    /**
-     * Retrieve users image or null if not set
-     *
-     * The image can be resized if CDN has it supported
-     *
-     * @author Casper Rasmussen <cr@nodes.dk>
-     *
-     * @access public
-     * @param  integer $width
-     * @param  integer $height
-     * @return string|null
-     */
-    public function getImageUrlOrNull($width = 100, $height = 100)
-    {
+        // If user does not have an image,
+        //we'll use a fallback one
         if (empty($this->image)) {
-            return null;
+            $fallbackImageUrl = config('nodes.backend.general.user_fallback_image_url');
+            return !empty($fallbackImageUrl) ? assets_resize($fallbackImageUrl, $width, $height) : null;
         }
 
+        // If user image is already an URL,
+        // we'll return it untouched
         if (filter_var($this->image, FILTER_VALIDATE_URL)) {
             return $this->image;
         }
@@ -257,8 +239,6 @@ class User extends Model implements AuthenticatableContract, CanResetPasswordCon
      */
     public function counterCaches()
     {
-        return [
-            'user_count' => 'role',
-        ];
+        return ['user_count' => 'role'];
     }
 }

@@ -2,14 +2,15 @@
 namespace Nodes\Backend\Http\Middleware;
 
 use Closure;
-use Nodes\Backend\Support\FlashRestorer;
+use Nodes\Backend\Auth\Auth;
+use Nodes\Backend\Auth\Authenticator;
 
 /**
- * Class Auth
+ * Class ApiAuth
  *
  * @package Nodes\Backend\Http\Middleware
  */
-class Auth
+class ApiAuth
 {
     /**
      * Check to see if user is authenticated.
@@ -32,14 +33,19 @@ class Auth
             try {
                 backend_user_authenticate();
             } catch (\Exception $e) {
-                // Create redirect response
-                $redirectResponse = redirect()->route('nodes.backend.login.form')->with('warning', 'Oops! You\'re not logged in.');
+                $data = [
+                    'message' => $e->getMessage(),
+                    'code' => $e->getCode()
+                ];
 
-                // Apply existing flash messages
-                (new FlashRestorer)->apply($redirectResponse);
+                if (env('APP_DEBUG')) {
+                    $data['class'] = get_class($e);
+                    $data['file'] = $e->getFile();
+                    $data['line'] = $e->getLine();
+                    $data['trace'] = explode("\n", $e->getTraceAsString());
+                }
 
-                // Redirect
-                return $redirectResponse;
+                return response()->json($data, $e->getCode());
             }
         }
 

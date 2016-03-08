@@ -1,14 +1,12 @@
 @extends('nodes.backend::layouts.base')
 
 @section('breadcrumbs')
-    <li>
-        <a href="#">Roles</a>
-    </li>
+    <li class="active">Roles</li>
 @endsection
 
 @section('page-header-top')
     <div>
-        <h1>Roles</h1>
+        <h3>Roles</h3>
     </div>
     <div>
         <button type="button" class="btn btn-primary btn-sm pull-right" data-toggle="modal" data-target="#roleModal">
@@ -19,65 +17,68 @@
 @endsection
 
 @section('content')
-    <table class="table table-striped">
-        <thead>
-            <tr>
-                <th class="col-xs-4">Title</th>
-                <th class="col-xs-4">Slug</th>
-                <th class="col-xs-1 text-center">Default</th>
-                <th class="col-xs-1 text-center">Users</th>
-                <th class="col-xs-2 text-center">Actions</th>
-            </tr>
-        </thead>
-        <tbody>
-            @foreach ($roles as $role)
-                <tr>
-                    <td class="col-xs-4">{{ $role->title }}</td>
-                    <td class="col-xs-4">{{ $role->slug }}</td>
-                    <td class="col-xs-1 text-center">
-                        @if ($role->isDefault())
-                            <span class="fa fa-check text-success"></span>
-                        @else
-                            <span class="fa fa-times text-danger"></span>
-                    @endif
-                    <td class="col-xs-1 text-center">{{ $role->user_count }}</td>
-                    <td class="col-xs-2 text-center">
-                        {{-- Edit role --}}
-                        <button type="button" data-href="{{ route('nodes.backend.users.roles.update', $role->id) }}" data-tooltip="true" class="btn btn-sm btn-default role-edit" data-toggle="modal" data-target="#roleModal" data-role="{{ $role->title }}" data-role-id="{{ $role->id }}" title="Edit role">
-                            <span class="fa fa-pencil"></span>
-                            <span class="sr-only">Edit details</span>
-                        </button>
+    <div class="row">
+        <div class="col-xs-12">
+            <br>
+            <table class="table table-striped">
+                <thead>
+                    <tr>
+                        <th class="col-xs-4">Title</th>
+                        <th class="col-xs-3">Slug</th>
+                        <th class="col-xs-2 text-center">Users</th>
+                        <th class="col-xs-1 text-center">Default</th>
+                        <th class="col-xs-2 text-center">Actions</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    @foreach ($roles as $role)
+                        <tr>
+                            <td>{{ $role->title }}</td>
+                            <td>{{ $role->slug }}</td>
+                            <td class="text-center">{{ $role->user_count }}</td>
+                            @if ($role->isDefault())
+                                <td class="text-center success">
+                                    <span class="fa fa-check"></span>
+                                </td>
+                            @else
+                                <td class="text-center danger">
+                                    <span class="fa fa-times"></span>
+                                </td>
+                            @endif
+                            <td class="text-center">
+                                {{-- Set default --}}
+                                <a href="{{ route('nodes.backend.users.roles.default', $role->id) }}" class="btn btn-sm btn-default @if($role->isDefault()) disabled @endif" data-toggle="tooltip" data-method="POST" data-confirm="true" data-token="{{ csrf_token() }}" title="Set role as default">
+                                    <span class="fa fa-heart"></span>
+                                    <span class="sr-only">Set role as default</span>
+                                </a>
 
-                        {{-- Delete role --}}
-                        <a href="{{ route('nodes.backend.users.roles.destroy', $role->id) }}" data-tooltip="true" class="btn btn-sm btn-default" data-delete="true" data-token="{{ csrf_token() }}" title="Delete role">
-                            <span class="fa fa-times"></span>
-                            <span class="sr-only"> Delete Roll </span>
-                        </a>
+                                {{-- Edit role --}}
+                                <button type="button" data-href="{{ route('nodes.backend.users.roles.update', $role->id) }}" data-tooltip="true" class="btn btn-sm btn-default role-edit" data-toggle="modal" data-target="#roleModal" data-role="{{ $role->title }}" data-role-id="{{ $role->id }}" title="Edit role">
+                                    <span class="fa fa-pencil"></span>
+                                    <span class="sr-only">Edit details</span>
+                                </button>
 
-                        {{--Set default--}}
-                        <a href="{{ route('nodes.backend.users.roles.default', $role->id) }}"
-                           class="btn btn-sm btn-default" data-toggle="tooltip"
-                           data-method="POST" data-confirm="true"
-                           data-token="{{ csrf_token() }}" title="Set default"
-                                {{$role->isDefault() ? 'disabled' : ''}}>
-                            <span class="fa fa-heart"></span>
-                            <span class="sr-only">Set default</span>
-                        </a>
-
-                    </td>
-                </tr>
-            @endforeach
-        </tbody>
-    </table>
-    @if ($roles->total() > 1)
-        <div class="row">
-            <div class="col-xs-12">
-                <nav class="paginator text-center">
-                    {!! $roles->render() !!}
-                </nav>
-            </div>
+                                {{-- Delete role --}}
+                                <a href="{{ route('nodes.backend.users.roles.destroy', $role->id) }}" data-tooltip="true" class="btn btn-sm btn-danger" data-delete="true" data-token="{{ csrf_token() }}" title="Delete role">
+                                    <span class="fa fa-times"></span>
+                                    <span class="sr-only"> Delete Role</span>
+                                </a>
+                            </td>
+                        </tr>
+                    @endforeach
+                </tbody>
+            </table>
+            @if ($roles->total() > 1)
+                <div class="row">
+                    <div class="col-xs-12">
+                        <nav class="paginator text-center">
+                            {!! $roles->render() !!}
+                        </nav>
+                    </div>
+                </div>
+            @endif
         </div>
-    @endif
+    </div>
 
     <div id="roleModal" class="modal fade" tabindex="-1" role="dialog" aria-labelledby="roleModalLabel" aria-hidden="true">
         <div class="modal-dialog">

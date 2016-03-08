@@ -1,6 +1,4 @@
 <?php
-use Nodes\Backend\Auth\Contracts\Authenticatable;
-
 if (!function_exists('backend_auth')) {
     /**
      * Retrieve authenticator instance
@@ -11,7 +9,7 @@ if (!function_exists('backend_auth')) {
      */
     function backend_auth()
     {
-        return \NodesBackend::auth();
+        return app('nodes.backend.auth');
     }
 }
 
@@ -25,7 +23,7 @@ if (!function_exists('backend_user')) {
      */
     function backend_user()
     {
-        return \NodesBackend::auth()->user();
+        return app('nodes.backend.auth')->getUser();
     }
 }
 
@@ -39,7 +37,21 @@ if (!function_exists('backend_user_check')) {
      */
     function backend_user_check()
     {
-        return \NodesBackend::auth()->check();
+        return app('nodes.backend.auth')->check();
+    }
+}
+
+if (!function_exists('backend_user_authenticate')) {
+    /**
+     * Try and authenticate user by available providers
+     *
+     * @author Casper Rasmussen <cr@nodes.dk>
+     *
+     * @return boolean
+     */
+    function backend_user_authenticate()
+    {
+        return app('nodes.backend.auth')->authenticate();
     }
 }
 
@@ -49,11 +61,13 @@ if (!function_exists('backend_user_login')) {
      *
      * @author Casper Rasmussen <cr@nodes.dk>
      *
+     * @param  \Nodes\Backend\Auth\Contracts\Authenticatable $user
+     * @param  boolean                                       $remember
      * @return \Nodes\Backend\Auth\Manager
      */
-    function backend_user_login(Authenticatable $user, $remember = false)
+    function backend_user_login(\Nodes\Backend\Auth\Contracts\Authenticatable $user, $remember = false)
     {
-        return \NodesBackend::auth()->login($user, $remember);
+        return app('nodes.backend.auth')->createLoginSession($user, $remember);
     }
 }
 
@@ -67,7 +81,7 @@ if (!function_exists('backend_user_logout')) {
      */
     function backend_user_logout()
     {
-        return \NodesBackend::auth()->logout();
+        return app('nodes.backend.auth')->logout();
     }
 }
 
@@ -84,7 +98,7 @@ if (!function_exists('backend_attempt')){
      */
     function backend_attempt(array $credentials = [], $remember = false, $login = true)
     {
-        return \NodesBackend::auth()->attempt($credentials, $remember, $login);
+        return app('nodes.backend.auth')->attempt($credentials, $remember, $login);
     }
 }
 

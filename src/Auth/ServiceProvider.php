@@ -6,6 +6,7 @@ use Illuminate\Contracts\Auth\Access\Gate as GateContract;
 use Illuminate\Foundation\Support\Providers\AuthServiceProvider as IlluminateAuthServiceProvider;
 use Nodes\Backend\Auth\Exceptions\InvalidUserModelException;
 use Nodes\Backend\Auth\Exceptions\InvalidUserRepositoryException;
+use Nodes\Backend\Http\Middleware\ApiAuth as NodesBackendHttpMiddlewareApiAuth;
 use Nodes\Backend\Models\User\User;
 use Nodes\Backend\Models\User\UserRepository;
 
@@ -17,13 +18,6 @@ use Nodes\Backend\Models\User\UserRepository;
 class ServiceProvider extends IlluminateAuthServiceProvider
 {
     /**
-     * Indicates if loading of the provider is deferred.
-     *
-     * @var boolean
-     */
-    protected $defer = false;
-
-    /**
      * Boot service provider
      *
      * @author Casper Rasmussen <cr@nodes.dk>
@@ -34,7 +28,11 @@ class ServiceProvider extends IlluminateAuthServiceProvider
      */
     public function boot(GateContract $gate)
     {
-        if(config('nodes.backend.auth.gates.define', true)) {
+        // Register middlewares with router
+        $this->app['router']->middleware('backend.api.auth', NodesBackendHttpMiddlewareApiAuth::class);
+
+        // Define gates and policies
+        if (config('nodes.backend.auth.gates.define', true)) {
             $this->defineGates($gate);
         }
     }
@@ -65,8 +63,8 @@ class ServiceProvider extends IlluminateAuthServiceProvider
     protected function registerAuthenticator()
     {
         $this->app->singleton('nodes.backend.auth', function ($app) {
-            $authenticator = $app->make(\Nodes\Backend\Auth\Authenticator::class);
-            return new Manager($authenticator, $app['session.store']);
+            $providers = prepare_config_instances(config('nodes.backend.auth.providers'));
+            return new Manager($app['nodes.backend.auth.model'], $app['session.store'], $app['router'], $providers);
         });
     }
 
@@ -74,6 +72,7 @@ class ServiceProvider extends IlluminateAuthServiceProvider
      * Register authentication user model
      *
      * @author Morten Rugaard <moru@nodes.dk>
+     *
      * @access protected
      * @return void
      */
@@ -81,10 +80,10 @@ class ServiceProvider extends IlluminateAuthServiceProvider
     {
         $this->app->singleton('nodes.backend.auth.model', function ($app) {
             // Try and instantiate nodes.backend.backend user model
-            $userModel = !empty(config('nodes.backend.auth.model')) ? app(config('nodes.backend.auth.model')) : app(\Nodes\Backend\Models\User\User::class);
+            $userModel = !empty(config('nodes.backend.auth.model')) ? prepare_config_instance(config('nodes.backend.auth.model')) : app(\Nodes\Backend\Models\User\User::class);
 
             // Validate user model instance
-            if (empty($userModel) || !($userModel instanceof User)) {
+            if (empty($userModel) || !$userModel instanceof User) {
                 throw new InvalidUserModelException('Missing or invalid backend user model');
             }
 
@@ -104,7 +103,7 @@ class ServiceProvider extends IlluminateAuthServiceProvider
     {
         $this->app->singleton('nodes.backend.auth.repository', function ($app) {
             // Try and instantiate nodes.backend.backend user model
-            $userRepository = !empty(config('nodes.backend.auth.repository')) ? app(config('nodes.backend.auth.repository')) : app('Nodes\Backend\Models\User\UserRepository');
+            $userRepository = !empty(config('nodes.backend.auth.repository')) ? app(config('nodes.backend.auth.repository')) : app(\Nodes\Backend\Models\User\UserRepository::class);
 
             // Validate user repository instance
             if (empty($userRepository) || !($userRepository instanceof UserRepository)) {
@@ -134,7 +133,7 @@ class ServiceProvider extends IlluminateAuthServiceProvider
     }
 
     /**
-     * Register backend user for Gates
+     * Register authenticated backend user for Gates
      *
      * @author Casper Rasmussen <cr@nodes.dk>
      *
@@ -144,76 +143,81 @@ class ServiceProvider extends IlluminateAuthServiceProvider
     protected function registerGate()
     {
         $this->app->singleton(GateContract::class, function ($app) {
-            return new Gate($app, function () use ($app) {
+            return new Gate($app, function() use ($app) {
                 return $app['nodes.backend.auth']->getUser();
             });
         });
     }
 
     /**
-     * Define gates for standard user roles
+     * Define gates for default user roles
      *
      * @author Casper Rasmussen <cr@nodes.dk>
-     * @param \Illuminate\Contracts\Auth\Access\Gate $gate
+     *
+     * @access private
+     * @param  \Illuminate\Contracts\Auth\Access\Gate $gate
      */
-    private function defineGates(GateContract $gate) {
+    private function defineGates(GateContract $gate)
+    {
         // Register gates for user types
         $this->registerPolicies($gate);
 
+        // Make sure we have an authenticated user at the gate
         $gate->before(function ($authedUser, $ability) {
-            if (!$authedUser) {
+            if (empty($authedUser)) {
                 return false;
             }
         });
 
-        // Define super admin
+        // Define gate to check if authenticated user is a developer
         $gate->define('backend-developer', function (User $authedUser) {
             return $authedUser->user_role == 'developer';
         });
 
+        // Define gate to check if authenticated user is a SUPER admin
         $gate->define('backend-super-admin', function (User $authedUser) {
             return in_array($authedUser->user_role, ['developer', 'super-admin']);
         });
 
-        // Define admin
+        // Define gate to check if authenticated user is an admin
         $gate->define('backend-admin', function (User $authedUser) {
             return in_array($authedUser->user_role, ['developer', 'super-admin', 'admin']);
         });
 
-        // Define can edit, should only be possible to edit higher level than your self
+        // Define gate that checks if authenticated user can edit a specific user
         $gate->define('backend-edit-backend-user', function (User $authedUser, $user = null) {
-
-            // If the user is empty, it means they are creating it
-            if(empty($user)) {
+            // If we do no have a user, it means
+            // we're creating one instead of editing
+            if (empty($user)) {
                 return true;
             }
 
-            // Don't change anything in the manager user
-            if($user->email == config('nodes.backend.manager.email')) {
+            // It's not possible to edit the manager user.
+            if ($user->email == config('nodes.backend.manager.email')) {
                 return false;
             }
 
-            // Developer, yes to everything
-            if($authedUser->user_role == 'developer') {
+            // Developers are the ultimate gods
+            // and can do whatever they feel like doing
+            if ($authedUser->user_role == 'developer') {
                 return true;
             }
 
-            // Super admins, yes to everything besides developer
-            if($authedUser->user_role == 'super-admin' && $user->user_role != 'developer') {
+            // Super admins can edit all users - except developers
+            if ($authedUser->user_role == 'super-admin' && $user->user_role != 'developer') {
                 return true;
             }
 
-            // Admins, yes to users
-            if($authedUser->user_role == 'admin' && $user->user_role == 'user') {
+            // Admins can edit everyone - except super admins and developers
+            if ($authedUser->user_role == 'admin' && $user->user_role == 'user') {
                 return true;
             }
 
-            // Yes to your self
-            if($authedUser->id == $user->id) {
+            // Users can always edit themselves
+            if ($authedUser->id == $user->id) {
                 return true;
             }
 
-            // All other cases fail
             return false;
         });
     }

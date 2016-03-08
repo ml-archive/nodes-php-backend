@@ -14,13 +14,16 @@ class FailedJob extends Model
     use Date;
 
     /**
-     * Database table
+     * The table associated with the model.
      *
      * @var string
      */
     protected $table = 'failed_jobs';
 
-    protected $dates = [
-        'failed_at'
-    ];
+    /**
+     * The attributes that should be mutated to dates.
+     *
+     * @var array
+     */
+    protected $dates = ['failed_at'];
 }

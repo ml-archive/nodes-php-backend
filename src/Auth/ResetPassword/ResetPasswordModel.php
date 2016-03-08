@@ -12,27 +12,22 @@ use Illuminate\Database\Eloquent\Model;
 class ResetPasswordModel extends Model
 {
     /**
-     * Database table
+     * The table associated with the model.
+     *
      * @var string
      */
     protected $table = 'backend_reset_password_tokens';
 
     /**
-     * Do not touch timestamps
+     * Indicates if the model should be timestamped.
+     *
      * @var boolean
      */
     public $timestamps = false;
 
     /**
-     * Carbon dates
-     * @var array
-     */
-    protected $dates = [
-        'expire_at'
-    ];
-
-    /**
-     * Fillable columns
+     * The attributes that are mass assignable.
+     *
      * @var array
      */
     protected $fillable = [
@@ -40,6 +35,13 @@ class ResetPasswordModel extends Model
         'used',
         'expire_at'
     ];
+
+    /**
+     * The attributes that should be mutated to dates.
+     *
+     * @var array
+     */
+    protected $dates = ['expire_at'];
 
     /**
      * Constructor

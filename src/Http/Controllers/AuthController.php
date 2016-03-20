@@ -116,7 +116,7 @@ class AuthController extends Controller
 
         try {
             // Retrieve the Nodes user
-            $user = $this->userRepository->loginUserFromManager(Request::get());
+            $user = $this->userRepository->loginUserFromManager(Request::all());
 
             // Authenticate user
             backend_user_login($user);

@@ -8,7 +8,6 @@ use Illuminate\Support\Facades\Hash;
 use Nodes\Backend\Auth\Contracts\Authenticatable;
 use Nodes\Backend\Auth\Manager;
 use Nodes\Backend\Auth\Contracts\Provider;
-use Nodes\Backend\Support\Helper as NodesHelper;
 use Symfony\Component\HttpFoundation\Session\SessionInterface;
 use Symfony\Component\HttpKernel\Exception\UnauthorizedHttpException;
 

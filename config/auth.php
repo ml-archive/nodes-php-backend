@@ -68,7 +68,7 @@ return [
             return new Nodes\Backend\Auth\Providers\Token;
         },
         'session' => function($app) {
-            return new Nodes\Backend\AUth\Providers\Session($app['nodes.backend.auth.model'], app(\Illuminate\Session\Store::class));
+            return new Nodes\Backend\Auth\Providers\Session($app['nodes.backend.auth.model'], app(\Illuminate\Session\Store::class));
         }
     ],
 

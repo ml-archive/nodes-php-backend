@@ -185,6 +185,9 @@ class Manager
      */
     protected function retrieveByCredentials(array $credentials)
     {
+        // Retrieve new query builder
+        $query = $this->model->newQuery();
+
         foreach ($credentials as $key => $value) {
             // Ignore sensitive fields
             if (in_array($key, $this->model->getHidden())) {
@@ -192,10 +195,10 @@ class Manager
             }
 
             // Add where condition
-            $this->model->where($key, '=', $value);
+            $query->where($key, '=', $value);
         }
 
-        return $this->model->first();
+        return $query->first();
     }
 
     /**

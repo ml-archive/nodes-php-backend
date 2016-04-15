@@ -14,7 +14,7 @@
             </button>
         </div>
         <div class="file-picker__input-group">
-            {!! Form::file($elementName, ['id' => !empty($elementId) ? $elementId : 'backendUserFormImage', 'class' => 'file-picker__file-input']) !!}
+            {!! Form::file(!empty($elementName) ? $elementName : 'image', ['id' => !empty($elementId) ? $elementId : 'backendUserFormImage', 'class' => 'file-picker__file-input']) !!}
             <div class="input-group">
                     <span class="input-group-btn">
                         <span class="file-input__choose btn btn-default">

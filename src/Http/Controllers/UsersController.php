@@ -286,7 +286,7 @@ class UsersController extends Controller
     public function updatePassword(UserValidator $userValidator)
     {
         // Retrieve posted data
-        $data = Request::get();
+        $data = Request::all();
 
         // Retrieve user to update
         $user = $this->userRepository->getById($data['id']);

@@ -413,6 +413,10 @@ class Manager
      */
     public function getUser()
     {
+        if(!$this->user) {
+            $this->authenticate([]);
+        }
+
         return $this->user;
     }
 

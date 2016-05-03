@@ -5,7 +5,7 @@ if (!function_exists('backend_auth')) {
      *
      * @author Casper Rasmussen <cr@nodes.dk>
      *
-     * @return \Nodes\Backend\Auth\Authenticator
+     * @return \Nodes\Backend\Auth\Manager
      */
     function backend_auth()
     {

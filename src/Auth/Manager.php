@@ -352,7 +352,7 @@ class Manager
         $token = str_random(60);
 
         // Set and update remember token
-        $user->setRememberToken($token)->save();
+        $user->setRememberToken($token);
 
         return $this;
     }
@@ -413,10 +413,6 @@ class Manager
      */
     public function getUser()
     {
-        if(!$this->user) {
-            $this->authenticate([]);
-        }
-
         return $this->user;
     }
 

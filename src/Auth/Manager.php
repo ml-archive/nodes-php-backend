@@ -89,7 +89,9 @@ class Manager
         // Spin through each of the registered authentication providers and attempt to
         // authenticate through one of them. This allows a developer to implement
         // and allow a number of different authentication mechanisms.
+        $exceptionStack = [];
         foreach ($this->filterProviders($providers) as $provider) {
+            /** @var $provider \Nodes\Backend\Auth\Contracts\Provider */
             try {
                 // Authenticate user with current provider
                 $user = $provider->authenticate($this->router->getCurrentRequest(), $this->router->getCurrentRoute());
@@ -350,7 +352,7 @@ class Manager
         $token = str_random(60);
 
         // Set and update remember token
-        $user->setRememberToken($token)->save();
+        $user->setRememberToken($token);
 
         return $this;
     }

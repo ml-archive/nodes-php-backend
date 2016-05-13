@@ -100,7 +100,7 @@ class RolesController extends Controller
 
         // Retrieve role by ID
         $role = $this->roleRepository->getById($id);
-        if (!empty($role)) {
+        if (empty($role)) {
             return redirect()->route('nodes.backend.users.roles')->with('error', 'Role does not exist');
         }
 

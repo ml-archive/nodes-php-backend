@@ -25,7 +25,7 @@ You must then modify your `composer.json` file and run `composer update` to incl
 
 ```
 "require": {
-    "nodes/backend": "^0.1"
+    "nodes/backend": "^1.0"
 }
 ```
 
@@ -35,12 +35,17 @@ Or you can run the composer require command from your terminal.
 composer require nodes/backend
 ```
 
+## Automatic setup
+```
+php artisan nodes:backend:install
+````
+
+### Manuel setup
 Setup service providers in config/app.php
 
 ```
 Nodes\Backend\ServiceProvider::class,
 Nodes\Backend\Console\ConsoleServiceProvider::class,
-Nodes\Backend\Routing\RouteServiceProvider::class,
 ```
 
 Setup alias in config/app.php
@@ -55,14 +60,37 @@ Copy the route files from vendor/nodes/backend/routes to project/Routes/Backend
 
 ## Usage
 
-To do.
+Commands
 
-## Developers / Maintainers
+```
+nodes:backend:assets                   Copy backend assets to public folder
+nodes:backend:install                  Install Nodes Backend within your project
+nodes:backend:routes                   Copy backend routes to project folder
+nodes:backend:tools                    Install backend tools to compile CSS and Javascript.
+nodes:backend:views                    Copy backend views to project folder
+```
 
-This package is developed and maintained by the PHP team at [Nodes Agency](http://nodesagency.com)
+Global function
+```
+backend_auth - Access all other function on mananger
+backend_user - Retrieve user object
+backend_user_check - Check if there is authed user
+backend_user_authenticate - Try to auth with current request, pass [] as providers are registered
+backend_user_login - Force login another user
+backend_user_logout - Login
+backend_attempt - Attempt to authenticate a user using the given credentials
+query_restorer - Use to restore query params from cookie, handy for routing between views with queries
+backend_router - Access all other router functions
+backend_router_pattern - Used fx for selecting navigation item by path 
+backend_router_alias - Used fx for selecting navigation item by route
+```
+
+## 🏆 Credits
+
+This package is developed and maintained by the PHP team at [Nodes](http://nodesagency.com)
 
 [![Follow Nodes PHP on Twitter](https://img.shields.io/twitter/follow/nodesphp.svg?style=social)](https://twitter.com/nodesphp) [![Tweet Nodes PHP](https://img.shields.io/twitter/url/http/nodesphp.svg?style=social)](https://twitter.com/nodesphp)
 
-### License
+## 📄 License
 
 This package is open-sourced software licensed under the [MIT license](http://opensource.org/licenses/MIT)

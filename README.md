@@ -11,10 +11,10 @@ A easy and clean backend to [Laravel](http://laravel.com/docs).
 [![Watch repository on GitHub](https://img.shields.io/github/watchers/nodes-php/backend.svg?style=social&label=Watch)](https://github.com/nodes-php/backend/watchers)
 [![Fork repository on GitHub](https://img.shields.io/github/forks/nodes-php/backend.svg?style=social&label=Fork)](https://github.com/nodes-php/backend/network)
 
-## Introduction
+## 📝 Introduction
 One thing we at [Nodes](http://nodesagency.com) have been missing in [Laravel](http://laravel.com/docs) is a fast implemented backend which is easy to build on top of
 
-## Installation
+## 📦 Installation
 
 To install this package you will need:
 
@@ -34,13 +34,13 @@ Or you can run the composer require command from your terminal.
 ```
 composer require nodes/backend
 ```
-
-## Automatic setup
+## 🔧 Setup
+### Automatic setup
 ```
 php artisan nodes:backend:install
 ````
 
-### Manuel setup
+#### Manuel setup
 Setup service providers in config/app.php
 
 ```
@@ -58,7 +58,7 @@ Copy the config files from vendor/nodes/backend/config to config/nodes/backend
 
 Copy the route files from vendor/nodes/backend/routes to project/Routes/Backend
 
-## Usage
+## ⚙ Usage
 
 Commands
 

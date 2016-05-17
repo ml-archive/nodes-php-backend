@@ -21,6 +21,9 @@ class CreateBackendUserTokensTable extends Migration {
             $table->dateTime('expire')->nullable();
             $table->timestamps();
         });
+        
+         // Update "token" to be binary, so it's case sensitive
+        DB::statement('ALTER TABLE `backend_user_tokens` CHANGE `token` `token` VARCHAR(60) BINARY NOT NULL');
     }
 
     /**

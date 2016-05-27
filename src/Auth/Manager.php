@@ -369,10 +369,10 @@ class Manager
     protected function queueRecallerCookie(Authenticatable $user)
     {
         // Generate cookie
-        $value = $user->getAuthIdentifier().'|'.$user->getRememberToken();
+        $value = $user->getAuthIdentifier(). '|' .$user->getRememberToken();
 
         // Queue cookie into CookieJar
-        CookieJar::queue($this->createRecaller($value));
+        CookieJar::queue(CookieJar::forever($this->getRecallerName(), $value));
 
         return $this;
     }

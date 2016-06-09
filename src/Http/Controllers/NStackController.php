@@ -1,6 +1,7 @@
 <?php
 namespace Nodes\Backend\Http\Controllers;
 
+use App\Http\Requests\Request;
 use Illuminate\Routing\Controller;
 use Illuminate\Support\Facades\Gate;
 
@@ -25,10 +26,9 @@ class NStackController extends Controller
     }
 
     /**
-     * NStack hook
+     * hook
      *
      * @author Casper Rasmussen <cr@nodes.dk>
-     *
      * @access public
      * @return \Illuminate\Http\RedirectResponse
      */
@@ -37,8 +37,17 @@ class NStackController extends Controller
         // Retrieve NStack config
         $config = config('nodes.backend.nstack');
 
+        $default = !empty($config['defaults']['application']) ? $config['defaults']['application'] : 'default';
+
+        $application = \Input::get('application', $default);
+
+        $credentials = !empty($config['credentials'][$application]) ? $config['credentials'][$application] : $config['credentials']; // For backwards compatibility
+
+
         // Validate NStack credentials
-        if (empty($config['url']) || empty($config['credentials']['appId']) || empty($config['credentials']['masterKey']) || empty($config['role'])) {
+        if (empty($config['url']) || empty($credentials['appId']) || empty($credentials['masterKey']) ||
+            empty($config['role'])
+        ) {
             return redirect()->back()->with('error', 'NStack hook is not configured');
         }
 
@@ -47,14 +56,15 @@ class NStackController extends Controller
 
         // Create message
         $encryptedMessage = $this->encrypt(json_encode([
-            'appId' => $config['credentials']['appId'],
-            'masterKey' => $config['credentials']['masterKey'],
-            'role' => $config['role'],
-            'url' => url('/'),
-            'user' => [
-                'name' => $backendUser->name,
-                'email' => $backendUser->email
-            ]
+            'appId'           => $credentials['appId'],
+            'masterKey'       => $credentials['masterKey'],
+            'role'            => $config['role'],
+            'accessToAllApps' => !empty($config['accessToAllApps']) ? $config['accessToAllApps'] : true, // For backwards compatibility
+            'url'             => url('/'),
+            'user'            => [
+                'name'  => $backendUser->name,
+                'email' => $backendUser->email,
+            ],
         ]));
 
         return redirect()->away($config['url'] . '?message=' . urlencode($encryptedMessage));
@@ -64,7 +74,6 @@ class NStackController extends Controller
      * Encrypt message
      *
      * @author Casper Rasmussen <cr@nodes.dk>
-     *
      * @access public
      * @param  string $text
      * @return string

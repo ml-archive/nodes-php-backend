@@ -8,7 +8,7 @@ return [
     | Url of NStacks hook
     |
     */
-    'url' => 'https://nstack.io/hook/attempt',
+    'url'             => 'https://nstack.io/hook/attempt',
 
     /*
     |--------------------------------------------------------------------------
@@ -19,9 +19,11 @@ return [
     | to perform any kinds of actions with NStack.
     |
     */
-    'credentials' => [
-        'appId' => null,
-        'masterKey' => null
+    'credentials'     => [
+        'default' => [
+            'appId'     => null,
+            'masterKey' => null,
+        ],
     ],
 
     /*
@@ -33,5 +35,18 @@ return [
     | Possible is user, admin
     |
     */
-    'role' => 'user',
+    'role'            => 'user',
+    'accessToAllApps' => true,
+
+    /*
+       |--------------------------------------------------------------------------
+       | Defaults
+       |--------------------------------------------------------------------------
+       |
+       | Default values regarding nstack
+       |
+       */
+    'defaults'        => [
+        'application' => 'riide',
+    ],
 ];

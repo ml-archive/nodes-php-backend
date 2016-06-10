@@ -1,7 +1,6 @@
 <?php
 namespace Nodes\Backend\Http\Controllers;
 
-use App\Http\Requests\Request;
 use Illuminate\Routing\Controller;
 use Illuminate\Support\Facades\Gate;
 

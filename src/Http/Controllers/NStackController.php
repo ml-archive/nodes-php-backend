@@ -26,7 +26,7 @@ class NStackController extends Controller
     }
 
     /**
-     * hook
+     * NStack hook
      *
      * @author Casper Rasmussen <cr@nodes.dk>
      * @access public

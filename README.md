@@ -40,7 +40,7 @@ composer require nodes/backend
 php artisan nodes:backend:install
 ````
 
-#### Manuel setup
+#### Manual setup
 Setup service providers in config/app.php
 
 ```

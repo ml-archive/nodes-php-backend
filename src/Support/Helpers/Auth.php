@@ -1,104 +1,46 @@
 <?php
-if (!function_exists('backend_auth')) {
+if (!function_exists('backend_router')) {
     /**
-     * Retrieve authenticator instance
+     * Retrieve router
      *
      * @author Casper Rasmussen <cr@nodes.dk>
      *
-     * @return \Nodes\Backend\Auth\Manager
+     * @return \Nodes\Backend\Routing\Router
      */
-    function backend_auth()
+    function backend_router()
     {
-        return app('nodes.backend.auth');
+        return app('nodes.backend.router');
     }
 }
 
-if (!function_exists('backend_user')) {
+if (!function_exists('backend_router_pattern')) {
     /**
-     * Retrieve current authenticated user
+     * Match route by pattern
      *
      * @author Casper Rasmussen <cr@nodes.dk>
      *
-     * @return \Illuminate\Database\Eloquent\Model
+     * @param  string|array $patterns
+     * @return string
      */
-    function backend_user()
+
+    function backend_router_pattern($patterns)
     {
-        return app('nodes.backend.auth')->getUser();
+        return app('nodes.backend.router')->pattern($patterns);
     }
 }
 
-if (!function_exists('backend_user_check')) {
+if (!function_exists('backend_router_alias')) {
     /**
-     * Check if there there is a authed backend user
+     * Match route by pattern
      *
      * @author Casper Rasmussen <cr@nodes.dk>
      *
-     * @return boolean
+     * @param  string|array $aliases
+     * @return string
      */
-    function backend_user_check()
+
+    function backend_router_alias($aliases)
     {
-        return app('nodes.backend.auth')->check();
+        return app('nodes.backend.router')->alias($aliases);
     }
 }
-
-if (!function_exists('backend_user_authenticate')) {
-    /**
-     * Try and authenticate user by available providers
-     *
-     * @author Casper Rasmussen <cr@nodes.dk>
-     *
-     * @return boolean
-     */
-    function backend_user_authenticate()
-    {
-        return app('nodes.backend.auth')->authenticate();
-    }
-}
-
-if (!function_exists('backend_user_login')) {
-    /**
-     * Login user
-     *
-     * @author Casper Rasmussen <cr@nodes.dk>
-     *
-     * @param  \Nodes\Backend\Auth\Contracts\Authenticatable $user
-     * @param  boolean                                       $remember
-     * @return \Nodes\Backend\Auth\Manager
-     */
-    function backend_user_login(\Nodes\Backend\Auth\Contracts\Authenticatable $user, $remember = false)
-    {
-        return app('nodes.backend.auth')->createLoginSession($user, $remember);
-    }
-}
-
-if (!function_exists('backend_user_logout')) {
-    /**
-     * Logout user
-     *
-     * @author Casper Rasmussen <cr@nodes.dk>
-     *
-     * @return \Nodes\Backend\Auth\Manager
-     */
-    function backend_user_logout()
-    {
-        return app('nodes.backend.auth')->logout();
-    }
-}
-
-if (!function_exists('backend_attempt')){
-    /**
-     * Attempt to authenticate a user using the given credentials
-     *
-     * @author Casper Rasmussen <cr@nodes.dk>
-     *
-     * @param  array   $credentials
-     * @param  boolean $remember
-     * @param  boolean $login
-     * @return boolean
-     */
-    function backend_attempt(array $credentials = [], $remember = false, $login = true)
-    {
-        return app('nodes.backend.auth')->attempt($credentials, $remember, $login);
-    }
-}
-

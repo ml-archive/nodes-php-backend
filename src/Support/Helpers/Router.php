@@ -1,3 +1,4 @@
+
 <?php
 if (!function_exists('backend_router')) {
     /**
@@ -9,7 +10,7 @@ if (!function_exists('backend_router')) {
      */
     function backend_router()
     {
-        return \NodesBackend::router();
+        return app('nodes.backend.router');
     }
 }
 
@@ -25,7 +26,7 @@ if (!function_exists('backend_router_pattern')) {
 
     function backend_router_pattern($patterns)
     {
-        return \NodesBackend::router()->pattern($patterns);
+        return app('nodes.backend.router')->pattern($patterns);
     }
 }
 
@@ -41,6 +42,6 @@ if (!function_exists('backend_router_alias')) {
 
     function backend_router_alias($aliases)
     {
-        return \NodesBackend::router()->alias($aliases);
+        return app('nodes.backend.router')->alias($aliases);
     }
 }

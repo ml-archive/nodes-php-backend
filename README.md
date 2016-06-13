@@ -77,7 +77,7 @@ backend_user - Retrieve user object
 backend_user_check - Check if there is authed user
 backend_user_authenticate - Try to auth with current request, pass [] as providers are registered
 backend_user_login - Force login another user
-backend_user_logout - Login
+backend_user_logout - Logout user
 backend_attempt - Attempt to authenticate a user using the given credentials
 query_restorer - Use to restore query params from cookie, handy for routing between views with queries
 backend_router - Access all other router functions

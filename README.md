@@ -58,6 +58,27 @@ Copy the config files from vendor/nodes/backend/config to config/nodes/backend
 
 Copy the route files from vendor/nodes/backend/routes to project/Routes/Backend
 
+Set up CSRF by pass in App\Http\Middleware\VerifyCsrfToken.php
+
+```
+    protected $except = [
+        'admin/manager_auth',
+    ];
+```
+
+Set up TokenMissMatch by pass in App\Exceptions\Handler.php
+
+```
+    public function render($request, Exception $e)
+    {
+        if ($e instanceof TokenMismatchException) {
+            return redirect()->back()->with('error', 'Token miss match, try again')->send();
+        }
+        
+        ....
+    }
+```
+
 ## ⚙ Usage
 
 Commands

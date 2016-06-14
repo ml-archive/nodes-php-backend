@@ -39,8 +39,7 @@
         "nodes/validation": "^1.0",
         "nodes/cache": "^1.0",
         "nodes/bugsnag": "^1.0",
-        "nodes/counter-cache": "^1.0",
-        "nodes/cache": "^1.0"
+        "nodes/counter-cache": "^1.0"
     },
     "autoload": {
         "psr-4": {

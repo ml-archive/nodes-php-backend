@@ -42,7 +42,6 @@ class NStackController extends Controller
 
         $credentials = !empty($config['credentials'][$application]) ? $config['credentials'][$application] : $config['credentials']; // For backwards compatibility
 
-
         // Validate NStack credentials
         if (empty($config['url']) || empty($credentials['appId']) || empty($credentials['masterKey']) ||
             empty($config['role'])
@@ -58,7 +57,7 @@ class NStackController extends Controller
             'appId'           => $credentials['appId'],
             'masterKey'       => $credentials['masterKey'],
             'role'            => $config['role'],
-            'accessToAllApps' => !empty($config['accessToAllApps']) ? $config['accessToAllApps'] : true, // For backwards compatibility
+            'accessToAllApps' => isset($config['accessToAllApps']) ? filter_var($config['accessToAllApps'], FILTER_VALIDATE_BOOLEAN) : true, // For backwards compatibility
             'url'             => url('/'),
             'user'            => [
                 'name'  => $backendUser->name,

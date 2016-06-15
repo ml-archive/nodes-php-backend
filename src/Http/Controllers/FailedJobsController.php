@@ -77,7 +77,7 @@ class FailedJobsController extends Controller
     public function restart($id)
     {
         $failedJob = $this->failedJobRepository->getById($id);
-        if (!empty($failedJob)) {
+        if (!$failedJob) {
             return redirect()->route('nodes.backend.failed-jobs')->with('error', 'Failed job does not exist');
         }
 
@@ -98,7 +98,7 @@ class FailedJobsController extends Controller
     public function forget($id)
     {
         $failedJob = $this->failedJobRepository->getById($id);
-        if (!empty($failedJob)) {
+        if (!$failedJob) {
             return redirect()->route('nodes.backend.failed-jobs')->with('error', 'Failed job does not exist');
         }
 

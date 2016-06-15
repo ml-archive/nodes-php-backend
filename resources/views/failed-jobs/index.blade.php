@@ -22,55 +22,44 @@
             <br>
             <table class="table table-striped">
                 <thead>
-                    <tr>
-                        <th class="col-xs-1 text-center">ID</th>
-                        <th class="col-xs-2 text-center">Connection</th>
-                        <th class="col-xs-2 text-center">Queue</th>
-                        <th class="col-xs-3 text-center">Payload</th>
-                        <th class="col-xs-2 text-center">Date / Time</th>
-                        <th class="col-xs-2 text-right">Actions</th>
-                    </tr>
+                <tr>
+                    <th class="col-xs-1 text-center">ID</th>
+                    <th class="col-xs-2 text-center">Connection</th>
+                    <th class="col-xs-2 text-center">Queue</th>
+                    <th class="col-xs-3 text-center">Payload</th>
+                    <th class="col-xs-2 text-center">Date / Time</th>
+                    <th class="col-xs-2 text-right">Actions</th>
+                </tr>
                 </thead>
                 <tbody>
-                    @forelse ($failedJobs as $failedJob)
-                        <tr>
-                            <td class="col-xs-1 text-center">{{ $failedJob->id }}</td>
-                            <td class="col-xs-2 text-center">{{ $failedJob->connection }}</td>
-                            <td class="col-xs-2 text-center">{{$failedJob->queue }}</td>
-                            <td class="col-xs-3 text-center">
-                                <button type="button" class="btn btn-sm btn-default" data-toggle="payload-modal" data-changelog-template="#changelogModal" data-resolve="{{ $failedJob->payload }}">
-                                    <span class="fa fa-rocket"></span>
-                                    View payload
-                                </button>
-                            </td>
-                            <td class="col-xs-2 text-center">{{ $failedJob->getDateHumanReadable('failed_at') }}</td>
-                            <td class="col-xs-2 text-right">
-                                <div class="table-dropdown">
-                                    <button class="btn btn-transparent" data-dropdown data-options="{position: 'bottom right'}">
-                                        <i class="fa fa-ellipsis-v"></i>
-                                    </button>
-                                    <ul class="dropdown-menu">
-                                        <li>
-                                            <a href="{{ route('nodes.backend.failed-jobs.restart', $failedJob->id) }}" data-method="POST" data-confirm="true" data-token="{{ csrf_token() }}">
-                                                <i class="fa fa-play-circle"></i>
-                                                Restart
-                                            </a>
-                                        </li>
-                                        <li>
-                                            <a href="{{ route('nodes.backend.failed-jobs.forget', $failedJob->id) }}" data-method="POST" data-confirm="true" data-token="{{ csrf_token() }}">
-                                                <i class="fa fa-trash-o"></i>
-                                                Forget
-                                            </a>
-                                        </li>
-                                    </ul>
-                                </div>
-                            </td>
-                        </tr>
-                    @empty
-                        <tr>
-                            <td colspan="6" class="text-center">No failed jobs <span class="fa fa-thumbs-o-up"></span></td>
-                        </tr>
-                    @endforelse
+                @forelse ($failedJobs as $failedJob)
+                    <tr>
+                        <td class="col-xs-1 text-center">{{ $failedJob->id }}</td>
+                        <td class="col-xs-2 text-center">{{ $failedJob->connection }}</td>
+                        <td class="col-xs-2 text-center">{{$failedJob->queue }}</td>
+                        <td class="col-xs-3 text-center">
+                            <button type="button" class="btn btn-sm btn-default" data-toggle="payload-modal" data-changelog-template="#changelogModal" data-resolve="{{ $failedJob->payload }}">
+                                <span class="fa fa-rocket"></span>
+                                View payload
+                            </button>
+                        </td>
+                        <td class="col-xs-2 text-center">{{ $failedJob->getDateHumanReadable('failed_at') }}</td>
+                        <td class="col-xs-2 text-right">
+                            <a href="{{ route('nodes.backend.failed-jobs.restart', $failedJob->id) }}"  class="btn btn-sm btn-default" data-method="POST" data-confirm="true" data-token="{{ csrf_token() }}">
+                                <span class="fa fa-play"></span>
+                                <span class="sr-only">Restart</span>
+                            </a>
+                            <a href="{{ route('nodes.backend.failed-jobs.forget', $failedJob->id) }}"  class="btn btn-sm btn-danger" data-method="POST" data-confirm="true" data-token="{{ csrf_token() }}">
+                                <span class="fa fa-trash"></span>
+                                <span class="sr-only">Forget</span>
+                            </a>
+                        </td>
+                    </tr>
+                @empty
+                    <tr>
+                        <td colspan="6" class="text-center">No failed jobs <span class="fa fa-thumbs-o-up"></span></td>
+                    </tr>
+                @endforelse
                 </tbody>
             </table>
             @if ($failedJobs->total() > 1)
@@ -90,16 +79,16 @@
             <div class="col-xs-12">
                 <table class="table table-striped">
                     <thead>
-                        <tr>
-                            <th>Value</th>
-                            <th>From</th>
-                        </tr>
+                    <tr>
+                        <th>Value</th>
+                        <th>From</th>
+                    </tr>
                     </thead>
                     <tbody>
-                        <tr data-payload-repeater>
-                            <td data-payload-key class="font-bold"></td>
-                            <td data-payload-value></td>
-                        </tr>
+                    <tr data-payload-repeater>
+                        <td data-payload-key class="font-bold"></td>
+                        <td data-payload-value></td>
+                    </tr>
                     </tbody>
                 </table>
 
@@ -144,7 +133,7 @@
                             var $row = $repeaterTemplate.clone();
 
                             $row.find('[data-payload-key]').text(key).removeAttr('data-payload-key');
-                            if(typeof data[key] == 'string') {
+                            if (typeof data[key] == 'string') {
                                 $row.find('[data-payload-value]').text(data[key]).removeAttr('data-payload-value');
                             } else {
                                 var str = ''

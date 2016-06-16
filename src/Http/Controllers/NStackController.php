@@ -19,6 +19,34 @@ class NStackController extends Controller
      */
     public function __construct()
     {
+        $this->guardUserPermissions();
+    }
+
+    /**
+     * getConfig
+     *
+     * This function can be overridden for changing configs in runtime
+     *
+     * @author Casper Rasmussen <cr@nodes.dk>
+     * @access protected
+     * @return array|null
+     */
+    protected function getConfig()
+    {
+        return config('nodes.backend.nstack');
+    }
+
+    /**
+     * guardUserPermissions
+     *
+     * This function can be overridden for changing user permissions
+     *
+     * @author Casper Rasmussen <cr@nodes.dk>
+     * @access protected
+     * @return void
+     */
+    protected function guardUserPermissions()
+    {
         if (Gate::denies('backend-super-admin')) {
             abort(403);
         }
@@ -34,7 +62,7 @@ class NStackController extends Controller
     public function hook()
     {
         // Retrieve NStack config
-        $config = config('nodes.backend.nstack');
+        $config = $this->getConfig();
 
         $default = !empty($config['defaults']['application']) ? $config['defaults']['application'] : 'default';
 
@@ -80,7 +108,7 @@ class NStackController extends Controller
     {
         return trim(base64_encode(mcrypt_encrypt(
             MCRYPT_RIJNDAEL_256,
-            env('NODES_SALT', '0123456789012345'),
+            env('NODES_SALT'),
             $text,
             MCRYPT_MODE_ECB,
             mcrypt_create_iv(mcrypt_get_iv_size(

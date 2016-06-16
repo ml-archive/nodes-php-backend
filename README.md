@@ -51,7 +51,8 @@ Nodes\Backend\Console\ConsoleServiceProvider::class,
 Setup alias in config/app.php
 
 ```
-'NodesBackend' => Nodes\Backend\Support\Facades\Backend::class,
+'NodesBackend'   => Nodes\Backend\Support\Facades\Backend::class, 
+'Input'          => Illuminate\Support\Facades\Input::class,
 ```
 
 Copy the config files from vendor/nodes/backend/config to config/nodes/backend
@@ -63,6 +64,21 @@ Set up CSRF by pass in App\Http\Middleware\VerifyCsrfToken.php
 ```
     protected $except = [
         'admin/manager_auth',
+    ];
+```
+
+Since Laravel 5.2 the Cookie/session middlewares are places in a $middlewareGroups instead of $middelware
+
+Either add that group to all the routes copied in your project or move them to $middelware
+
+```
+    protected $middleware = [
+        \Illuminate\Foundation\Http\Middleware\CheckForMaintenanceMode::class,
+        \App\Http\Middleware\EncryptCookies::class,    
+        \Illuminate\Cookie\Middleware\AddQueuedCookiesToResponse::class,
+        \Illuminate\Session\Middleware\StartSession::class,
+        \Illuminate\View\Middleware\ShareErrorsFromSession::class,
+        \App\Http\Middleware\VerifyCsrfToken::class,
     ];
 ```
 

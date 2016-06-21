@@ -111,16 +111,6 @@ Set up TokenMissMatch by pass in App\Exceptions\Handler.php
 
 ## ⚙ Usage
 
-Commands
-
-```
-nodes:backend:assets                   Copy backend assets to public folder
-nodes:backend:install                  Install Nodes Backend within your project
-nodes:backend:routes                   Copy backend routes to project folder
-nodes:backend:tools                    Install backend tools to compile CSS and Javascript.
-nodes:backend:views                    Copy backend views to project folder
-```
-
 Global function
 ```
 backend_auth - Access all other function on mananger

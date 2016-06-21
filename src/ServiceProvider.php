@@ -1,13 +1,10 @@
 <?php
 namespace Nodes\Backend;
 
-use Collective\Html\FormFacade as CollectiveFormFacade;
-use Collective\Html\HtmlFacade as ColletiveHtmlFacade;
 use Nodes\AbstractServiceProvider;
 use Nodes\Backend\Http\Middleware\Auth as NodesBackendHttpMiddlewareAuth;
 use Nodes\Backend\Http\Middleware\SSL as NodesBackendHttpMiddlewareSSL;
 use Nodes\Backend\Routing\Router as NodesBackendRouter;
-use Nodes\Backend\Support\Facades\Backend as NodesBackendFacadeBackend;
 
 /**
  * Class ServiceProvider

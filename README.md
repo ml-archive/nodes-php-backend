@@ -42,7 +42,7 @@ Setup service providers in config/app.php
 Nodes\Backend\ServiceProvider::class,
 Nodes\Assets\ServiceProvider::class,
 Nodes\Validation\ServiceProvider::class,
-Nodes\Cache\ServiceProvider::class
+Nodes\Cache\ServiceProvider::class,
 Collective\Html\HtmlServiceProvider::class,
 ```
 

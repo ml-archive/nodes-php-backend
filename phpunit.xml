@@ -16,6 +16,9 @@
          syntaxCheck="true"
          verbose="true"
 >
+    <php>
+        <env name="APP_KEY" value="AckfSECXIvnK5r28GVIWUAxmbBSjTsmF"/>
+    </php>
     <testsuites>
         <testsuite name="API Test Suite">
             <directory suffix="Test.php">./tests</directory>

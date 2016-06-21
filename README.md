@@ -59,7 +59,17 @@ Publish config file
 php artisan vendor:publish
 ```
 
+Add following to your /database/seeds/DatabaseSeeder.php
+```
+$this->call('NodesBackendSeeder');
+```
+
+Now you can call php artisan migrate --seed
+Which will add the new tables and seed the roles/users to get going
+
 Copy the route files from vendor/nodes/backend/routes to project/Routes/Backend
+
+
 
 Set up CSRF by pass in App\Http\Middleware\VerifyCsrfToken.php
 

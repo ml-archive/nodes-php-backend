@@ -88,21 +88,6 @@ Set up CSRF by pass in App\Http\Middleware\VerifyCsrfToken.php
     ];
 ```
 
-Since Laravel 5.2 the Cookie/session middlewares are places in a $middlewareGroups instead of $middelware
-
-Either add that group to all the routes copied in your project or move them to $middelware
-
-```
-    protected $middleware = [
-        \Illuminate\Foundation\Http\Middleware\CheckForMaintenanceMode::class,
-        \App\Http\Middleware\EncryptCookies::class,    
-        \Illuminate\Cookie\Middleware\AddQueuedCookiesToResponse::class,
-        \Illuminate\Session\Middleware\StartSession::class,
-        \Illuminate\View\Middleware\ShareErrorsFromSession::class,
-        \App\Http\Middleware\VerifyCsrfToken::class,
-    ];
-```
-
 Set up TokenMissMatch by pass in App\Exceptions\Handler.php
 
 ```

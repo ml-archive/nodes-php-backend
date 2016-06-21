@@ -36,7 +36,6 @@ composer require nodes/backend
 ```
 ## 🔧 Setup
 
-#### Manual setup
 Setup service providers in config/app.php
 
 ```

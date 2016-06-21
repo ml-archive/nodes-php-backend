@@ -48,7 +48,6 @@ class ServiceProvider extends AbstractServiceProvider
 
         // Register auth service provider
         $this->app->register(\Nodes\Backend\Auth\ServiceProvider::class);
-        $this->app->register(\Collective\Html\HtmlServiceProvider::class);
     }
 
     /**

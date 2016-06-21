@@ -10,8 +10,8 @@ if (!function_exists('query_restorer')) {
     {
 
         // Store and return
-        if(!empty(\Input::get())) {
-            \Cookie::queue(\Cookie::make(md5(\Request::url() . '?' . http_build_query($params)), \Input::get(), 5));
+        if(!empty(\Request::all())) {
+            \Cookie::queue(\Cookie::make(md5(\Request::url() . '?' . http_build_query($params)), \Request::all(), 5));
 
             return false;
         }

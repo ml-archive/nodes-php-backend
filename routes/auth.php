@@ -1,5 +1,5 @@
 <?php
-Route::group(['namespace' => 'Nodes\Backend\Http\Controllers', 'prefix' => 'admin/login', 'middleware' => 'backend.ssl'], function() {
+Route::group(['namespace' => 'Nodes\Backend\Http\Controllers', 'prefix' => 'admin/login', 'middleware' => ['web', 'backend.ssl']], function() {
     // Login form
     Route::get('/', [
         'as' => 'nodes.backend.login.form',
@@ -32,7 +32,7 @@ Route::group(['namespace' => 'Nodes\Backend\Http\Controllers', 'prefix' => 'admi
 });
 
 // Manager auth
-Route::group(['namespace' => 'Nodes\Backend\Http\Controllers', 'prefix' => 'admin/manager_auth/', 'middleware' => 'backend.ssl'], function() {
+Route::group(['namespace' => 'Nodes\Backend\Http\Controllers', 'prefix' => 'admin/manager_auth/', 'middleware' => ['web', 'backend.ssl']], function() {
     // Authenticate Nodes Manager
     Route::post('/', [
         'as' => 'nodes.backend.login.manager',

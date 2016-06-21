@@ -69,7 +69,7 @@ class ServiceProvider extends AbstractServiceProvider
         $this->publishes([
             __DIR__ . '/../resources/views/base.blade.php' => resource_path('views/vendor/nodes.backend/base.blade.php'),
             __DIR__ . '/../resources/views/layouts/base.blade.php' => resource_path('views/vendor/nodes.backend/layouts/base.blade.php'),
-            __DIR__ . '/../resources/views/partials/sidebar/navigation.php' => resource_path('views/vendor/nodes.backend/partials/sidebar/navigation.php'),
+            __DIR__ . '/../resources/views/partials/sidebar/navigation.blade.php' => resource_path('views/vendor/nodes.backend/partials/sidebar/navigation.blade.php'),
             __DIR__ . '/../resources/views/errors' => resource_path('views/errors'),
         ], 'views');
 
@@ -77,13 +77,14 @@ class ServiceProvider extends AbstractServiceProvider
         $this->publishes([
             __DIR__ . '/../resources/assets/js' => resource_path('assets/js'),
             __DIR__ . '/../resources/assets/scss' => resource_path('assets/scss'),
-            __DIR__ . '/../public/images' => public_path('vendor/nodes/backend/images'),
+            __DIR__ . '/../public/images' => public_path('images'),
         ], 'assets');
 
         // Database files
         $this->publishes([
             __DIR__ . '/../database/migrations/reset-password' => database_path('migrations'),
             __DIR__ . '/../database/migrations/users' => database_path('migrations'),
+            __DIR__ . '/../database/migrations/failed-jobs' => database_path('migrations'),
             __DIR__ . '/../database/seeds/users' => database_path('seeds'),
             __DIR__ . '/../database/seeds/NodesBackendSeeder.php' => database_path('seeds/NodesBackendSeeder.php'),
         ], 'database');
@@ -97,6 +98,11 @@ class ServiceProvider extends AbstractServiceProvider
             __DIR__ . '/../gulp/gulpfile.js' => base_path('gulpfile.js'),
             __DIR__ . '/../gulp/package.json' => base_path('package.json')
         ], 'frontend');
+
+        // Route files
+        $this->publishes([
+            __DIR__ . '/../routes' => base_path('project/Routes/Backend'),
+        ], 'routes');
     }
 
     /**

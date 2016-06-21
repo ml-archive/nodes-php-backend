@@ -52,6 +52,8 @@ Setup alias in config/app.php
 ```
 'NodesBackend'   => Nodes\Backend\Support\Facades\Backend::class, 
 'Input'          => Illuminate\Support\Facades\Input::class,
+'Form'           => Collective\Html\FormFacade::class,
+'Html'           => Collective\Html\HtmlFacade::class,
 ```
 
 Publish config file

@@ -84,6 +84,7 @@ class ServiceProvider extends AbstractServiceProvider
         $this->publishes([
             __DIR__ . '/../database/migrations/reset-password' => database_path('migrations'),
             __DIR__ . '/../database/migrations/users' => database_path('migrations'),
+            __DIR__ . '/../database/migrations/failed-jobs' => database_path('migrations'),
             __DIR__ . '/../database/seeds/users' => database_path('seeds'),
             __DIR__ . '/../database/seeds/NodesBackendSeeder.php' => database_path('seeds/NodesBackendSeeder.php'),
         ], 'database');

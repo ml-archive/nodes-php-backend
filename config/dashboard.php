@@ -42,7 +42,7 @@ return [
         ],
         [
             'type' => 'table-count',
-            'title' => 'Users',
+            'title' => 'Data',
             'tables' => [
                 'backend_users' => 'Backend users',
                 'backend_user_tokens' => 'Tokens'

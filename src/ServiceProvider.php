@@ -77,7 +77,7 @@ class ServiceProvider extends AbstractServiceProvider
         $this->publishes([
             __DIR__ . '/../resources/assets/js' => resource_path('assets/js'),
             __DIR__ . '/../resources/assets/scss' => resource_path('assets/scss'),
-            __DIR__ . '/../public/images' => public_path('vendor/nodes/backend/images'),
+            __DIR__ . '/../public/images' => public_path('images'),
         ], 'assets');
 
         // Database files
@@ -103,11 +103,6 @@ class ServiceProvider extends AbstractServiceProvider
         $this->publishes([
             __DIR__ . '/../routes' => base_path('project/Routes/Backend'),
         ], 'routes');
-
-        // Images
-        $this->publishes([
-            __DIR__ . '/../public/images' => base_path('public/images'),
-        ], 'images');
     }
 
     /**

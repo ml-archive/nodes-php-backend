@@ -51,7 +51,6 @@ Setup alias in config/app.php
 
 ```
 'NodesBackend'   => Nodes\Backend\Support\Facades\Backend::class, 
-'Input'          => Illuminate\Support\Facades\Input::class,
 ```
 
 Publish config file

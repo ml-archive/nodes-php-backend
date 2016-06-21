@@ -1,5 +1,5 @@
 <?php
-Route::group(['namespace' => 'Nodes\Backend\Http\Controllers', 'prefix' => 'admin/backend-users/roles', 'middleware' => ['backend.ssl', 'backend.auth']], function() {
+Route::group(['namespace' => 'Nodes\Backend\Http\Controllers', 'prefix' => 'admin/backend-users/roles', 'middleware' => ['web', 'backend.ssl', 'backend.auth']], function() {
     // List all roles
     Route::get('/', [
         'as' => 'nodes.backend.users.roles',

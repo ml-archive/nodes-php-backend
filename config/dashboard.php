@@ -33,22 +33,12 @@ return [
         [
             'type' => 'nodes-statistics-daily',
             'title' => 'Daily users',
-            'gaId' => 'UA-50813164-10'
+            'gaId' => 'UA-50813164-10' #TODO
         ],
         [
             'type' => 'nodes-statistics-monthly',
             'title' => 'Monthly users',
-            'gaId' => 'UA-50813164-10'
-        ],
-        [
-            'type' => 'i-frame',
-            'title' => 'New relic',
-            'url' => 'https://rpm.newrelic.com/public/charts/jkxd5OwfxLt'
-        ],
-        [
-            'type' => 'i-frame',
-            'title' => 'NStack',
-            'url' => 'https://nstack.io/admin'
+            'gaId' => 'UA-50813164-10' #TODO
         ],
         [
             'type' => 'table-count',
@@ -56,13 +46,6 @@ return [
             'tables' => [
                 'backend_users' => 'Backend users',
                 'backend_user_tokens' => 'Tokens'
-            ]
-        ],
-        [
-            'type' => 'table-count',
-            'title' => 'Failed jobs',
-            'tables' => [
-                'failed_jobs' => 'Failed jobs',
             ]
         ],
     ],

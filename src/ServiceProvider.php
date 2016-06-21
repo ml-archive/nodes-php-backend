@@ -98,6 +98,16 @@ class ServiceProvider extends AbstractServiceProvider
             __DIR__ . '/../gulp/gulpfile.js' => base_path('gulpfile.js'),
             __DIR__ . '/../gulp/package.json' => base_path('package.json')
         ], 'frontend');
+
+        // Route files
+        $this->publishes([
+            __DIR__ . '/../routes' => base_path('project/Routes/Backend'),
+        ], 'routes');
+
+        // Images
+        $this->publishes([
+            __DIR__ . '/../public/images' => base_path('public/images'),
+        ], 'images');
     }
 
     /**

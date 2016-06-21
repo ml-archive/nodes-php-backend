@@ -1,5 +1,5 @@
 <?php
-Route::group(['namespace' => 'Nodes\Backend\Http\Controllers', 'prefix' => 'admin/failed-jobs', 'middleware' => ['backend.ssl', 'backend.auth']], function() {
+Route::group(['namespace' => 'Nodes\Backend\Http\Controllers', 'prefix' => 'admin/failed-jobs', 'middleware' => ['web', 'backend.ssl', 'backend.auth']], function() {
 
     // List of all failed jobs
     Route::get('/', [

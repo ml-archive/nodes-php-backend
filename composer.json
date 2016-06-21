@@ -41,14 +41,22 @@
         "nodes/bugsnag": "^1.0",
         "nodes/counter-cache": "^1.0"
     },
+    "require-dev" : {
+        "phpunit/phpunit": "^5.0"
+    },
     "autoload": {
         "psr-4": {
-           "Nodes\\Backend\\": "src/"
+           "Nodes\\Backend\\": "src/",
         },
         "files": [
             "src/Support/Helpers/Auth.php",
             "src/Support/Helpers/Router.php",
             "src/Support/Helpers/QueryRestorer.php"
         ]
+    },
+    "autoload-dev": {
+        "psr-4": {
+            ":vendor\\:package_name\\": "tests"
+        }
     }
 }

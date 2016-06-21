@@ -69,7 +69,7 @@ class ServiceProvider extends AbstractServiceProvider
         $this->publishes([
             __DIR__ . '/../resources/views/base.blade.php' => resource_path('views/vendor/nodes.backend/base.blade.php'),
             __DIR__ . '/../resources/views/layouts/base.blade.php' => resource_path('views/vendor/nodes.backend/layouts/base.blade.php'),
-            __DIR__ . '/../resources/views/partials/sidebar/navigation.blade.php' => resource_path('views/vendor/nodes.backend/partials/sidebar/navigation.php'),
+            __DIR__ . '/../resources/views/partials/sidebar/navigation.blade.php' => resource_path('views/vendor/nodes.backend/partials/sidebar/navigation.blade.php'),
             __DIR__ . '/../resources/views/errors' => resource_path('views/errors'),
         ], 'views');
 

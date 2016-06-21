@@ -41,7 +41,6 @@ Setup service providers in config/app.php
 
 ```
 Nodes\Backend\ServiceProvider::class,
-Nodes\Backend\Console\ConsoleServiceProvider::class,
 Nodes\Assets\ServiceProvider::class,
 Nodes\Validation\ServiceProvider::class,
 Nodes\Cache\ServiceProvider::class
@@ -57,9 +56,19 @@ Setup alias in config/app.php
 'Html'           => Collective\Html\HtmlFacade::class,
 ```
 
-Publish config file
+Publish config file all config files at once, 
 ```
 php artisan vendor:publish
+```
+
+Publish config file for backend plugin only
+```
+php artisan vendor:publish --provider="Nodes\Backend\ServiceProvider"
+```
+
+Overwrite config file for backend plugin only
+```
+php artisan vendor:publish --provider="Nodes\Backend\ServiceProvider" --force
 ```
 
 Add following to your /database/seeds/DatabaseSeeder.php

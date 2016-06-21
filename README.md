@@ -75,6 +75,10 @@ Add to config/nodes/autoload.php
 'project/Routes/Backend/',
 ```
 
+Run bower, npm & gulp to build css & js
+```
+bower install && npm install && gulp build
+```
 
 Set up CSRF by pass in App\Http\Middleware\VerifyCsrfToken.php
 

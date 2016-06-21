@@ -4,7 +4,7 @@ use Illuminate\Foundation\Testing\WithoutMiddleware;
 use Illuminate\Foundation\Testing\DatabaseMigrations;
 use Illuminate\Foundation\Testing\DatabaseTransactions;
 
-class RolesRepositoryTest extends Nodes\Backend\Tests\TestCase
+class RolesRepositoryTest extends \TestCase
 {
     /**
      * A basic functional test example.

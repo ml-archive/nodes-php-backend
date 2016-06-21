@@ -35,10 +35,6 @@ Or you can run the composer require command from your terminal.
 composer require nodes/backend
 ```
 ## 🔧 Setup
-### Automatic setup
-```
-php artisan nodes:backend:install
-````
 
 #### Manual setup
 Setup service providers in config/app.php
@@ -46,6 +42,9 @@ Setup service providers in config/app.php
 ```
 Nodes\Backend\ServiceProvider::class,
 Nodes\Backend\Console\ConsoleServiceProvider::class,
+Nodes\Assets\ServiceProvider::class,
+Nodes\Validation\ServiceProvider::class,
+Nodes\Cache\ServiceProvider::class
 ```
 
 Setup alias in config/app.php
@@ -55,7 +54,10 @@ Setup alias in config/app.php
 'Input'          => Illuminate\Support\Facades\Input::class,
 ```
 
-Copy the config files from vendor/nodes/backend/config to config/nodes/backend
+Publish config file
+```
+php artisan vendor:publish
+```
 
 Copy the route files from vendor/nodes/backend/routes to project/Routes/Backend
 

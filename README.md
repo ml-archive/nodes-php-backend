@@ -25,7 +25,7 @@ You must then modify your `composer.json` file and run `composer update` to incl
 
 ```
 "require": {
-    "nodes/backend": "^1.0"
+    "nodes/backend": "^1.1"
 }
 ```
 

@@ -54,9 +54,9 @@ Setup alias in config/app.php
 'Html'           => Collective\Html\HtmlFacade::class,
 ```
 
-Publish config file all config files at once, 
+Publish config file all config files at once, we need to use force on backend, since we override gulp. The regular vendor:publish is for the 3 other packages
 ```
-php artisan vendor:publish
+php artisan vendor:publish && php artisan vendor:publish --provider="Nodes\Backend\ServiceProvider" --force
 ```
 
 Publish config file for backend plugin only

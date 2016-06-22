@@ -92,22 +92,22 @@ bower install && npm install && gulp build
 Set up CSRF by pass in App\Http\Middleware\VerifyCsrfToken.php
 
 ```
-    protected $except = [
-        'admin/manager_auth',
-    ];
+protected $except = [
+    'admin/manager_auth',
+];
 ```
 
 Make TokenMismatch exceptions more user friendly, add following to App\Exceptions\Handler.php
 
 ```
-    public function render($request, Exception $e)
-    {
-        if ($e instanceof TokenMismatchException) {
-            return redirect()->back()->with('error', 'Token miss match, try again')->send();
-        }
-        
-        ....
+public function render($request, Exception $e)
+{
+    if ($e instanceof TokenMismatchException) {
+        return redirect()->back()->with('error', 'Token miss match, try again')->send();
     }
+    
+    ....
+}
 ```
 
 ## ⚙ Usage

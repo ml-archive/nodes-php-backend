@@ -52,8 +52,6 @@ Setup alias in config/app.php
 'Backend'        => Nodes\Backend\Support\Facades\Backend::class,
 'Form'           => Collective\Html\FormFacade::class,
 'Html'           => Collective\Html\HtmlFacade::class,
-
->>>>>>> develop
 ```
 
 Publish config file all config files at once, 

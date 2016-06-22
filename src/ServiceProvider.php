@@ -1,13 +1,10 @@
 <?php
 namespace Nodes\Backend;
 
-use Collective\Html\FormFacade as CollectiveFormFacade;
-use Collective\Html\HtmlFacade as ColletiveHtmlFacade;
 use Nodes\AbstractServiceProvider;
 use Nodes\Backend\Http\Middleware\Auth as NodesBackendHttpMiddlewareAuth;
 use Nodes\Backend\Http\Middleware\SSL as NodesBackendHttpMiddlewareSSL;
 use Nodes\Backend\Routing\Router as NodesBackendRouter;
-use Nodes\Backend\Support\Facades\Backend as NodesBackendFacadeBackend;
 
 /**
  * Class ServiceProvider
@@ -16,89 +13,6 @@ use Nodes\Backend\Support\Facades\Backend as NodesBackendFacadeBackend;
  */
 class ServiceProvider extends AbstractServiceProvider
 {
-    /**
-     * Package name
-     *
-     * @var string
-     */
-    protected $package = 'backend';
-
-    /**
-     * Facades to install
-     *
-     * @var array
-     */
-    protected $facades = [
-        'Form' => CollectiveFormFacade::class,
-        'Html' => ColletiveHtmlFacade::class,
-        'NodesBackend' => NodesBackendFacadeBackend::class,
-    ];
-
-    /**
-     * Array of configs to copy
-     *
-     * @var array
-     */
-    protected $configs = [
-        'config/' => 'config/nodes/backend/'
-    ];
-
-    /**
-     * Array of views to copy
-     *
-     * @var array
-     */
-    protected $views = [
-        'resources/views/base.blade.php' => 'resources/views/vendor/nodes.backend/base.blade.php',
-        'resources/views/layouts/base.blade.php' => 'resources/views/vendor/nodes.backend/layouts/base.blade.php',
-        'resources/views/partials/sidebar/navigation.blade.php' => 'resources/views/vendor/nodes.backend/partials/sidebar/navigation.blade.php',
-        'resources/views/errors' => 'resources/views/errors'
-    ];
-
-    /**
-     * Array of assets to copy
-     *
-     * @var array
-     */
-    protected $assets = [
-        'public/images' => 'public/vendor/nodes/backend/images',
-        'resources/assets' => 'resources/assets'
-    ];
-
-    /**
-     * Array of migrations to copy
-     *
-     * @var array
-     */
-    protected $migrations = [
-        'database/migrations/users' => 'database/migrations',
-        'database/migrations/reset-password' => 'database/migrations',
-    ];
-
-    /**
-     * Array of seeders to copy
-     *
-     * @var array
-     */
-    protected $seeders = [
-        'database/seeds/NodesBackendSeeder.php' => 'database/seeds/NodesBackendSeeder.php',
-        'database/seeds/users' => 'database/seeds'
-    ];
-
-    /**
-     * Array of custom files to copy
-     *
-     * @var array
-     */
-    protected $customFiles = [
-        'bower/.bowerrc' => '.bowerrc',
-        'bower/bower.json' => 'bower.json',
-        'gulp/tasks' => 'gulp/tasks',
-        'gulp/config.json' => 'gulp/config.json',
-        'gulp/gulpfile.js' => 'gulpfile.js',
-        'gulp/package.json' => 'package.json'
-    ];
-
     /**
      * Boot the service provider
      *
@@ -115,6 +29,9 @@ class ServiceProvider extends AbstractServiceProvider
         // Register middlewares
         $this->app['router']->middleware('backend.auth', NodesBackendHttpMiddlewareAuth::class);
         $this->app['router']->middleware('backend.ssl', NodesBackendHttpMiddlewareSSL::class);
+
+        // Publish groups
+        $this->publishGroups();
     }
 
     /**
@@ -131,7 +48,61 @@ class ServiceProvider extends AbstractServiceProvider
 
         // Register auth service provider
         $this->app->register(\Nodes\Backend\Auth\ServiceProvider::class);
-        $this->app->register(\Collective\Html\HtmlServiceProvider::class);
+    }
+
+    /**
+     * Register publish groups
+     *
+     * @author Morten Rugaard <moru@nodes.dk>
+     *
+     * @access protected
+     * @return void
+     */
+    protected function publishGroups()
+    {
+        // Config files
+        $this->publishes([
+            __DIR__ . '/../config' => config_path('nodes/backend'),
+        ], 'config');
+
+        // View files
+        $this->publishes([
+            __DIR__ . '/../resources/views/base.blade.php' => resource_path('views/vendor/nodes.backend/base.blade.php'),
+            __DIR__ . '/../resources/views/layouts/base.blade.php' => resource_path('views/vendor/nodes.backend/layouts/base.blade.php'),
+            __DIR__ . '/../resources/views/partials/sidebar/navigation.blade.php' => resource_path('views/vendor/nodes.backend/partials/sidebar/navigation.blade.php'),
+            __DIR__ . '/../resources/views/errors' => resource_path('views/errors'),
+        ], 'views');
+
+        // Assets files
+        $this->publishes([
+            __DIR__ . '/../resources/assets/js' => resource_path('assets/js'),
+            __DIR__ . '/../resources/assets/scss' => resource_path('assets/scss'),
+            __DIR__ . '/../public/images' => public_path('images'),
+        ], 'assets');
+
+        // Database files
+        $this->publishes([
+            __DIR__ . '/../database/migrations/reset-password' => database_path('migrations'),
+            __DIR__ . '/../database/migrations/users' => database_path('migrations'),
+            __DIR__ . '/../database/migrations/failed-jobs' => database_path('migrations'),
+            __DIR__ . '/../database/seeds/users' => database_path('seeds'),
+            __DIR__ . '/../database/seeds/NodesBackendSeeder.php' => database_path('seeds/NodesBackendSeeder.php'),
+        ], 'database');
+
+        // Frontend files
+        $this->publishes([
+            __DIR__ . '/../bower/.bowerrc' => base_path('.bowerrc'),
+            __DIR__ . '/../bower/bower.json' => base_path('bower.json'),
+            __DIR__ . '/../gulp/tasks' => base_path('gulp/tasks'),
+            __DIR__ . '/../gulp/config.json' => base_path('gulp/config.json'),
+            __DIR__ . '/../gulp/gulpfile.js' => base_path('gulpfile.js'),
+            __DIR__ . '/../gulp/package.json' => base_path('package.json')
+        ], 'frontend');
+
+        // Route files
+        $this->publishes([
+            __DIR__ . '/../routes' => base_path('project/Routes/Backend'),
+        ], 'routes');
     }
 
     /**

@@ -66,7 +66,7 @@ class NStackController extends Controller
 
         $default = !empty($config['defaults']['application']) ? $config['defaults']['application'] : 'default';
 
-        $application = \Input::get('application', $default);
+        $application = \Request::get('application', $default);
 
         $credentials = !empty($config['credentials'][$application]) ? $config['credentials'][$application] : $config['credentials']; // For backwards compatibility
 

@@ -49,10 +49,11 @@ Collective\Html\HtmlServiceProvider::class,
 Setup alias in config/app.php
 
 ```
-'NodesBackend'   => Nodes\Backend\Support\Facades\Backend::class, 
-'Input'          => Illuminate\Support\Facades\Input::class,
+'Backend'        => Nodes\Backend\Support\Facades\Backend::class,
 'Form'           => Collective\Html\FormFacade::class,
 'Html'           => Collective\Html\HtmlFacade::class,
+
+>>>>>>> develop
 ```
 
 Publish config file all config files at once, 
@@ -96,7 +97,7 @@ Set up CSRF by pass in App\Http\Middleware\VerifyCsrfToken.php
     ];
 ```
 
-Set up TokenMissMatch by pass in App\Exceptions\Handler.php
+Make TokenMismatch exceptions more user friendly, add following to App\Exceptions\Handler.php
 
 ```
     public function render($request, Exception $e)

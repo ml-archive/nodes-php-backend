@@ -74,7 +74,7 @@ class NStackController extends Controller
         if (empty($config['url']) || empty($credentials['appId']) || empty($credentials['masterKey']) ||
             empty($config['role'])
         ) {
-            return redirect()->back()->with('error', 'NStack hook is not configured');
+            return redirect()->back()->with('error', 'NStack hook is not configured, setup keys in (config/nodes/backend/nstack.php)');
         }
 
         // Retrieve backend user

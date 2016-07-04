@@ -1,8 +1,9 @@
 <?php
 namespace Nodes\Backend;
 
-use Nodes\AbstractServiceProvider;
+use Illuminate\Support\ServiceProvider as IlluminateServiceProvider;
 use Nodes\Backend\Http\Middleware\Auth as NodesBackendHttpMiddlewareAuth;
+use Nodes\Backend\Http\Middleware\ApiAuth as NodesBackendHttpMiddlewareApiAuth;
 use Nodes\Backend\Http\Middleware\SSL as NodesBackendHttpMiddlewareSSL;
 use Nodes\Backend\Routing\Router as NodesBackendRouter;
 
@@ -11,7 +12,7 @@ use Nodes\Backend\Routing\Router as NodesBackendRouter;
  *
  * @package Nodes
  */
-class ServiceProvider extends AbstractServiceProvider
+class ServiceProvider extends IlluminateServiceProvider
 {
     /**
      * Boot the service provider
@@ -28,6 +29,7 @@ class ServiceProvider extends AbstractServiceProvider
 
         // Register middlewares
         $this->app['router']->middleware('backend.auth', NodesBackendHttpMiddlewareAuth::class);
+        $this->app['router']->middleware('backend.api.auth', NodesBackendHttpMiddlewareApiAuth::class);
         $this->app['router']->middleware('backend.ssl', NodesBackendHttpMiddlewareSSL::class);
 
         // Publish groups
@@ -64,6 +66,11 @@ class ServiceProvider extends AbstractServiceProvider
         $this->publishes([
             __DIR__ . '/../config' => config_path('nodes/backend'),
         ], 'config');
+
+        // Route files
+        $this->publishes([
+            __DIR__ . '/../routes' => base_path('project/Routes/Backend'),
+        ], 'routes');
 
         // View files
         $this->publishes([
@@ -122,124 +129,5 @@ class ServiceProvider extends AbstractServiceProvider
         $this->app->bind('Nodes\Backend\Routing\Router', function ($app) {
             return $app['nodes.backend.router'];
         });
-    }
-
-    /**
-     * Install scaffolding
-     *
-     * @author Morten Rugaard <moru@nodes.dk>
-     *
-     * @access protected
-     * @return void
-     */
-    protected function installScaffolding()
-    {
-        // Copy backend routes to application
-        $this->copyFilesAndDirectories(['routes/' => 'project/Routes/Backend']);
-
-        // Add route folders to Nodes autoload config
-        add_to_autoload_config('project/Routes/Backend/');
-
-        // Add to Composer's autoload
-        add_to_composer_autoload('classmap', 'project');
-    }
-
-    /**
-     * Install custom files
-     *
-     * @author Morten Rugaard <moru@nodes.dk>
-     *
-     * @access protected
-     * @return void
-     */
-    protected function installCustom()
-    {
-        // Copy required custom files to application
-        $this->copyFilesAndDirectories($this->customFiles);
-
-        // Add "admin/manager_auth" to except array in "VerifyCsrfToken" middlware
-        // to always bypass the CSRF token validation on POST requests
-        $this->bypassCsrfToken();
-    }
-
-    /**
-     * Bypass CSRF validation for API routes
-     *
-     * @author Morten Rugaard <moru@nodes.dk>
-     *
-     * @access private
-     * @return boolean
-     */
-    private function bypassCsrfToken()
-    {
-        $file = file(app_path('Http/Middleware/VerifyCsrfToken.php'));
-
-        $locateExceptArray = array_keys(preg_grep('|protected \$except = \[|', $file));
-        if (empty($locateExceptArray[0])) {
-            return false;
-        }
-
-        // Bypass URL
-        $bypassUrl = 'admin/manager_auth';
-
-        for ($i = $locateExceptArray[0]+2; $i < count($file); $i++) {
-            // Remove whitespace from line
-            $value = trim($file[$i]);
-
-            if (!empty($value)) {
-                // If we're on the outcommented line (which is there out-of-the-box)
-                // we'll replace this line instead of inserting it before.
-                if ($value == '//') {
-                    $file[$i] =  str_repeat("\t", 2) . sprintf('\'%s\',', $bypassUrl) . "\n";
-                    break;
-                }
-
-                // Remove single quotes from URL for comparison
-                $currentBypassUrl = substr($value, 1, strrpos($value, '\''));
-
-                // If we're on the last line of the $except array
-                // or if our bypass URL comes before current line
-                // - if sorted alphabetically - we'll insert on this line
-                if ($value == '];' || strnatcmp($currentBypassUrl, $bypassUrl) > 0) {
-                    array_splice($file, $i, 0, [
-                        str_repeat("\t", 2) . sprintf('\'%s\',', $bypassUrl) . "\n"
-                    ]);
-                    break;
-                }
-            }
-        }
-
-        // Update existing file
-        file_put_contents(app_path('Http/Middleware/VerifyCsrfToken.php'), implode('', $file));
-
-        return true;
-    }
-
-    /**
-     * Finish install
-     *
-     * @author Morten Rugaard <moru@nodes.dk>
-     *
-     * @access protected
-     * @return void
-     */
-    protected function finishInstall()
-    {
-        // Make user confirm before running time-consuming task
-        if (!$this->getCommand()->confirm(sprintf('Do you wish to install required <comment>[%s]</comment> components for generating CSS/JS?', $this->getInstaller()->getVendorPackageName()), true)) {
-            return;
-        }
-
-        // Install node.js components
-        $this->getCommand()->comment('Installing node modules (be patient, this could take while) ...');
-        passthru('npm install');
-
-        // Install bower components
-        $this->getCommand()->comment('Installing bower components ...');
-        passthru('bower install');
-
-        // Build first version of CSS/JS by running gulp
-        $this->getCommand()->comment('Running initial gulp build ...');
-        passthru('gulp build');
     }
 }

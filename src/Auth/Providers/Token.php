@@ -115,7 +115,7 @@ class Token implements Provider
     {
         // Validate "Authorization" header
         if (empty($request->header('authorization'))) {
-            throw new BadRequestHttpException;
+            throw new BadRequestHttpException('Authorization header not provided', null, 400);
         }
 
         // Set token from "Authorization" header

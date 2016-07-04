@@ -91,7 +91,6 @@ class Manager
         // and allow a number of different authentication mechanisms.
         $exceptionStack = [];
         foreach ($this->filterProviders($providers) as $provider) {
-            /** @var $provider \Nodes\Backend\Auth\Contracts\Provider */
             try {
                 // Authenticate user with current provider
                 $user = $provider->authenticate($this->router->getCurrentRequest(), $this->router->getCurrentRoute());

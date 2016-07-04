@@ -1,5 +1,5 @@
 <?php
-Route::group(['namespace' => 'Nodes\Backend\Http\Controllers', 'prefix' => 'admin/backend-users', 'middleware' => ['backend.ssl', 'backend.auth']], function() {
+Route::group(['namespace' => 'Nodes\Backend\Http\Controllers', 'prefix' => 'admin/backend-users', 'middleware' => ['web', 'backend.ssl', 'backend.auth']], function() {
     // List all users
     Route::get('/', [
         'as' => 'nodes.backend.users',

@@ -35,10 +35,6 @@ Or you can run the composer require command from your terminal.
 composer require nodes/backend
 ```
 ## 🔧 Setup
-### Automatic setup
-```
-php artisan nodes:backend:install
-````
 
 #### Manual setup
 Setup service providers in config/app.php
@@ -46,23 +42,54 @@ Setup service providers in config/app.php
 ```
 Nodes\Backend\ServiceProvider::class,
 Nodes\Backend\Console\ConsoleServiceProvider::class,
+Nodes\Assets\ServiceProvider::class,
+Nodes\Validation\ServiceProvider::class,
+Nodes\Cache\ServiceProvider::class
 ```
 
 Setup alias in config/app.php
 
 ```
-'NodesBackend' => Nodes\Backend\Support\Facades\Backend::class,
+'NodesBackend'   => Nodes\Backend\Support\Facades\Backend::class, 
 ```
 
-Copy the config files from vendor/nodes/backend/config to config/nodes/backend
+Publish config file
+```
+php artisan vendor:publish
+```
+
+Add following to your /database/seeds/DatabaseSeeder.php
+```
+$this->call('NodesBackendSeeder');
+```
+
+Now you can call php artisan migrate --seed
+Which will add the new tables and seed the roles/users to get going
 
 Copy the route files from vendor/nodes/backend/routes to project/Routes/Backend
+
+
 
 Set up CSRF by pass in App\Http\Middleware\VerifyCsrfToken.php
 
 ```
     protected $except = [
         'admin/manager_auth',
+    ];
+```
+
+Since Laravel 5.2 the Cookie/session middlewares are places in a $middlewareGroups instead of $middelware
+
+Either add that group to all the routes copied in your project or move them to $middelware
+
+```
+    protected $middleware = [
+        \Illuminate\Foundation\Http\Middleware\CheckForMaintenanceMode::class,
+        \App\Http\Middleware\EncryptCookies::class,    
+        \Illuminate\Cookie\Middleware\AddQueuedCookiesToResponse::class,
+        \Illuminate\Session\Middleware\StartSession::class,
+        \Illuminate\View\Middleware\ShareErrorsFromSession::class,
+        \App\Http\Middleware\VerifyCsrfToken::class,
     ];
 ```
 

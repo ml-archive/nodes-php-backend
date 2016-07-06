@@ -6,7 +6,7 @@
 
 @section('page-header-top')
     <div>
-        <h3>{{sprintf('Failed jobs (%s)', $failedJobs->count())}}</h3>
+        <h3>{{sprintf('Failed jobs (%s)', $failedJobs->total())}}</h3>
     </div>
     <div>
         <a href="{{ route('nodes.backend.failed-jobs.restart-all') }}" class="btn btn btn-primary btn-sm" data-method="POST" data-confirm="true" data-token="{{ csrf_token() }}">

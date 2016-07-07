@@ -82,6 +82,11 @@ class AuthController extends Controller
      */
     public function sso()
     {
+        // Check for disabled feature
+        if(!config('nodes.backend.manager.active', true)) {
+            return redirect()->route('nodes.backend.login.form')->with('error', 'Manager auth is disabled.');
+        }
+
         // Just login local
         if (env('APP_ENV') == 'local') {
             try {
@@ -109,6 +114,11 @@ class AuthController extends Controller
      */
     public function manager()
     {
+        // Check for disabled feature
+        if(!config('nodes.backend.manager.active', true)) {
+            return redirect()->route('nodes.backend.login.form')->with('error', 'Manager auth is disabled.');
+        }
+
         // Check the passed token vs a hash of email, constant and server token for current build
         if (hash('sha256', sprintf(env('NODES_MANAGER_SALT'), Request::get('email'), env('NODES_MANAGER_TOKEN'))) != Request::get('token')) {
             return redirect()->route('nodes.backend.login.form')->with('error', 'Manager token did not match');

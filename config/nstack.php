@@ -47,6 +47,6 @@ return [
        |
        */
     'defaults'        => [
-        'application' => 'riide',
+        'application' => 'default',
     ],
 ];

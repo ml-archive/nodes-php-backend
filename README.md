@@ -76,7 +76,7 @@ $this->call('NodesBackendSeeder');
 
 Dump 
 ```
-dump
+composer dump-autoload
 ```
 
 Now you can call php artisan migrate --seed

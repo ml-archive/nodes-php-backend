@@ -74,6 +74,11 @@ Add following to your /database/seeds/DatabaseSeeder.php
 $this->call('NodesBackendSeeder');
 ```
 
+Dump 
+```
+dump
+```
+
 Now you can call php artisan migrate --seed
 Which will add the new tables and seed the roles/users to get going
 

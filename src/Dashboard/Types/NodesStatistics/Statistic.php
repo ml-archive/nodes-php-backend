@@ -169,14 +169,6 @@ abstract class Statistic
             } catch (\Exception $e) {
                 return false;
             }
-        } else {
-            // Look up async and cache it for next time
-            $request = new \GuzzleHttp\Psr7\Request('GET', $url);
-            $client->sendAsync($request)->then(function($response) use ($url) {
-                $response = json_decode($response->getBody(), true);
-
-                \Cache::put($url, $response, 60);
-            });
         }
 
         // Now get total visitors and from those platforms

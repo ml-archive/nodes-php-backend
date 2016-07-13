@@ -218,7 +218,7 @@ class UserRepository extends Repository
 
         ], function($message) use ($user) {
              $message->to($user->email)
-                     ->from(config('nodes.backend.welcome.from.email', 'no-reply@nodes.dk'), config('nodes.backend.welcome.from.name', 'Backend'))
+                     ->from(config('nodes.backend.welcome.from.email', 'no-reply@like.st'), config('nodes.backend.welcome.from.name', 'Backend'))
                      ->subject(config('nodes.backend.welcome.subject', 'Welcome to backend'));
         });
     }

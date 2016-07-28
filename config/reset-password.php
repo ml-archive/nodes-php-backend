@@ -1,4 +1,5 @@
 <?php
+
 return [
     /*
     |--------------------------------------------------------------------------
@@ -22,7 +23,7 @@ return [
     */
     'from' => [
         'name' => 'Backend',
-        'email' => 'no-reply@nodes.dk'
+        'email' => 'no-reply@nodes.dk',
     ],
 
     /*
@@ -47,7 +48,7 @@ return [
     */
     'views' => [
         'html' => 'nodes.backend::reset-password.emails.html',
-        'text' => 'nodes.backend::reset-password.emails.text'
+        'text' => 'nodes.backend::reset-password.emails.text',
     ],
 
     /*
@@ -59,5 +60,5 @@ return [
     | Default: 60 minutes
     |
     */
-    'expire' => 60
+    'expire' => 60,
 ];

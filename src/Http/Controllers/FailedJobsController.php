@@ -1,4 +1,5 @@
 <?php
+
 namespace Nodes\Backend\Http\Controllers;
 
 use Illuminate\Routing\Controller;
@@ -7,23 +8,20 @@ use Illuminate\Support\Facades\Gate;
 use Nodes\Backend\Models\FailedJob\FailedJobRepository;
 
 /**
- * Class FailedJobsController
- *
- * @package Nodes\Backend\Http\Controllers
+ * Class FailedJobsController.
  */
 class FailedJobsController extends Controller
 {
     /**
-     * Failed job respository
+     * Failed job respository.
      *
      * @var \Nodes\Backend\Models\FailedJob\FailedJobRepository
      */
     protected $failedJobRepository;
 
     /**
-     * FailedJobsController constructor
+     * FailedJobsController constructor.
      *
-     * @access public
      * @param  \Nodes\Backend\Models\FailedJob\FailedJobRepository $failedJobRepository
      */
     public function __construct(FailedJobRepository $failedJobRepository)
@@ -36,11 +34,10 @@ class FailedJobsController extends Controller
     }
 
     /**
-     * List failed jobs
+     * List failed jobs.
      *
      * @author Casper Rasmussen <cr@nodes.dk>
      *
-     * @access public
      * @return \Illuminate\View\View
      */
     public function index()
@@ -52,32 +49,31 @@ class FailedJobsController extends Controller
     }
 
     /**
-     * Restart all
+     * Restart all.
      *
      * @author Casper Rasmussen <cr@nodes.dk>
      *
-     * @access public
      * @return \Illuminate\Http\RedirectResponse
      */
     public function restartAll()
     {
         Artisan::call('queue:retry', ['id' => ['all']]);
+
         return redirect()->route('nodes.backend.failed-jobs')->with('success', 'All failed job has been restarted');
     }
 
     /**
-     * Restart entry
+     * Restart entry.
      *
      * @author Casper Rasmussen <cr@nodes.dk>
      *
-     * @access public
-     * @param  integer $id
+     * @param  int $id
      * @return \Illuminate\Http\RedirectResponse
      */
     public function restart($id)
     {
         $failedJob = $this->failedJobRepository->getById($id);
-        if (!$failedJob) {
+        if (! $failedJob) {
             return redirect()->route('nodes.backend.failed-jobs')->with('error', 'Failed job does not exist');
         }
 
@@ -87,18 +83,17 @@ class FailedJobsController extends Controller
     }
 
     /**
-     * Forget job
+     * Forget job.
      *
      * @author Casper Rasmussen <cr@nodes.dk>
      *
-     * @access public
-     * @param  integer $id
+     * @param  int $id
      * @return \Illuminate\Http\RedirectResponse
      */
     public function forget($id)
     {
         $failedJob = $this->failedJobRepository->getById($id);
-        if (!$failedJob) {
+        if (! $failedJob) {
             return redirect()->route('nodes.backend.failed-jobs')->with('error', 'Failed job does not exist');
         }
 

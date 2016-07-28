@@ -1,7 +1,8 @@
 <?php
-if (!function_exists('backend_auth')) {
+
+if (! function_exists('backend_auth')) {
     /**
-     * Retrieve authenticator instance
+     * Retrieve authenticator instance.
      *
      * @author Casper Rasmussen <cr@nodes.dk>
      *
@@ -13,9 +14,9 @@ if (!function_exists('backend_auth')) {
     }
 }
 
-if (!function_exists('backend_user')) {
+if (! function_exists('backend_user')) {
     /**
-     * Retrieve current authenticated user
+     * Retrieve current authenticated user.
      *
      * @author Casper Rasmussen <cr@nodes.dk>
      *
@@ -27,13 +28,13 @@ if (!function_exists('backend_user')) {
     }
 }
 
-if (!function_exists('backend_user_check')) {
+if (! function_exists('backend_user_check')) {
     /**
-     * Check if there there is a authed backend user
+     * Check if there there is a authed backend user.
      *
      * @author Casper Rasmussen <cr@nodes.dk>
      *
-     * @return boolean
+     * @return bool
      */
     function backend_user_check()
     {
@@ -41,13 +42,13 @@ if (!function_exists('backend_user_check')) {
     }
 }
 
-if (!function_exists('backend_user_authenticate')) {
+if (! function_exists('backend_user_authenticate')) {
     /**
-     * Try and authenticate user by available providers
+     * Try and authenticate user by available providers.
      *
      * @author Casper Rasmussen <cr@nodes.dk>
      *
-     * @return boolean
+     * @return bool
      */
     function backend_user_authenticate()
     {
@@ -55,14 +56,14 @@ if (!function_exists('backend_user_authenticate')) {
     }
 }
 
-if (!function_exists('backend_user_login')) {
+if (! function_exists('backend_user_login')) {
     /**
-     * Login user
+     * Login user.
      *
      * @author Casper Rasmussen <cr@nodes.dk>
      *
      * @param  \Nodes\Backend\Auth\Contracts\Authenticatable $user
-     * @param  boolean                                       $remember
+     * @param  bool                                       $remember
      * @return \Nodes\Backend\Auth\Manager
      */
     function backend_user_login(\Nodes\Backend\Auth\Contracts\Authenticatable $user, $remember = false)
@@ -71,9 +72,9 @@ if (!function_exists('backend_user_login')) {
     }
 }
 
-if (!function_exists('backend_user_logout')) {
+if (! function_exists('backend_user_logout')) {
     /**
-     * Logout user
+     * Logout user.
      *
      * @author Casper Rasmussen <cr@nodes.dk>
      *
@@ -85,16 +86,16 @@ if (!function_exists('backend_user_logout')) {
     }
 }
 
-if (!function_exists('backend_attempt')){
+if (! function_exists('backend_attempt')) {
     /**
-     * Attempt to authenticate a user using the given credentials
+     * Attempt to authenticate a user using the given credentials.
      *
      * @author Casper Rasmussen <cr@nodes.dk>
      *
      * @param  array   $credentials
-     * @param  boolean $remember
-     * @param  boolean $login
-     * @return boolean
+     * @param  bool $remember
+     * @param  bool $login
+     * @return bool
      */
     function backend_attempt(array $credentials = [], $remember = false, $login = true)
     {

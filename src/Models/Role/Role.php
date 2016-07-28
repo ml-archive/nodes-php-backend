@@ -1,25 +1,24 @@
 <?php
+
 namespace Nodes\Backend\Models\Role;
 
 use Nodes\Backend\Models\User\User;
 use Nodes\Database\Eloquent\Model;
 
 /**
- * Class Role
- *
- * @package Nodes\Backend\Models\Role
+ * Class Role.
  */
 class Role extends Model
 {
     /**
-     * Database table
+     * Database table.
      *
      * @var string
      */
     protected $table = 'backend_roles';
 
     /**
-     * Fillable columns
+     * Fillable columns.
      *
      * @var array
      */
@@ -31,22 +30,21 @@ class Role extends Model
     ];
 
     /**
-     * Typecast columns
+     * Typecast columns.
      *
      * @var array
      */
     protected $casts = [
         'id' => 'integer',
         'user_count' => 'integer',
-        'default' => 'boolean'
+        'default' => 'boolean',
     ];
 
     /**
-     * Role has many users
+     * Role has many users.
      *
      * @author Morten Rugaard <moru@nodes.dk>
      *
-     * @access public
      * @return \Illuminate\Database\Eloquent\Relations\HasMany
      */
     public function users()
@@ -55,12 +53,11 @@ class Role extends Model
     }
 
     /**
-     * Check if role is set as default
+     * Check if role is set as default.
      *
      * @author Casper Rasmussen <cr@nodes.dk>
      *
-     * @access public
-     * @return boolean
+     * @return bool
      */
     public function isDefault()
     {

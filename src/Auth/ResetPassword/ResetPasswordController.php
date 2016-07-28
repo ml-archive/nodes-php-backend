@@ -1,27 +1,25 @@
 <?php
+
 namespace Nodes\Backend\Auth\ResetPassword;
 
 use Illuminate\Routing\Controller as IlluminateController;
 use Illuminate\Support\Facades\Request;
 
 /**
- * Class ResetPasswordController
- *
- * @package Nodes\Backend\Auth\ResetPassword
+ * Class ResetPasswordController.
  */
 class ResetPasswordController extends IlluminateController
 {
     /**
-     * Reset password model
+     * Reset password model.
      *
      * @var \Nodes\Backend\Auth\ResetPassword\ResetPasswordRepository
      */
     protected $resetPasswordRepository;
 
     /**
-     * Constructor
+     * Constructor.
      *
-     * @access public
      * @param  \Nodes\Backend\Auth\ResetPassword\ResetPasswordRepository $resetPasswordRepository
      */
     public function __construct(ResetPasswordRepository $resetPasswordRepository)
@@ -33,11 +31,10 @@ class ResetPasswordController extends IlluminateController
     }
 
     /**
-     * Form to request reset password token
+     * Form to request reset password token.
      *
      * @author Morten Rugaard <moru@nodes.dk>
      *
-     * @access public
      * @return \Illuminate\View\View
      */
     public function index()
@@ -46,11 +43,10 @@ class ResetPasswordController extends IlluminateController
     }
 
     /**
-     * Gemerate reset password token
+     * Gemerate reset password token.
      *
      * @author Morten Rugaard <moru@nodes.dk>
      *
-     * @access public
      * @return \Illuminate\Http\RedirectResponse
      */
     public function generateResetToken()
@@ -59,7 +55,7 @@ class ResetPasswordController extends IlluminateController
         $email = Request::get('email');
 
         // Validate e-mail
-        if (empty($email) || !filter_var($email, FILTER_VALIDATE_EMAIL)) {
+        if (empty($email) || ! filter_var($email, FILTER_VALIDATE_EMAIL)) {
             return redirect()->route('nodes.backend.reset-password.form')->with('error', 'Missing or invalid e-mail address');
         }
 
@@ -73,11 +69,10 @@ class ResetPasswordController extends IlluminateController
     }
 
     /**
-     * Confirmation page of e-mail has been sent
+     * Confirmation page of e-mail has been sent.
      *
      * @author Morten Rugaard <moru@nodes.dk>
      *
-     * @access public
      * @return \Illuminate\View\View
      */
     public function sent()
@@ -86,11 +81,10 @@ class ResetPasswordController extends IlluminateController
     }
 
     /**
-     * Reset password form
+     * Reset password form.
      *
      * @author Morten Rugaard <moru@nodes.dk>
      *
-     * @access public
      * @param  string $token
      * @return \Illuminate\View\View
      */
@@ -111,11 +105,10 @@ class ResetPasswordController extends IlluminateController
     }
 
     /**
-     * Reset/Update user's password
+     * Reset/Update user's password.
      *
      * @author Morten Rugaard <moru@nodes.dk>
      *
-     * @access public
      * @return \Illuminate\Http\RedirectResponse
      */
     public function resetPassword()
@@ -159,11 +152,10 @@ class ResetPasswordController extends IlluminateController
     }
 
     /**
-     * Reset password confirmation
+     * Reset password confirmation.
      *
      * @author Morten Rugaard <moru@nodes.dk>
      *
-     * @access public
      * @return \Illuminate\View\View
      */
     public function done()

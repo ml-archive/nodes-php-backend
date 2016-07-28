@@ -1,4 +1,5 @@
 <?php
+
 namespace Nodes\Backend\Http\Controllers;
 
 use Exception;
@@ -10,32 +11,29 @@ use Nodes\Backend\Models\Role\RoleRepository;
 use Nodes\Backend\Models\User\Validation\UserValidator;
 
 /**
- * Class UsersController
- *
- * @package Nodes\Backend\Http\Controllers
+ * Class UsersController.
  */
 class UsersController extends Controller
 {
     /**
-     * User Repository
+     * User Repository.
      *
      * @var \Nodes\Backend\Models\User\UserRepository
      */
     protected $userRepository;
 
     /**
-     * Role repository
+     * Role repository.
      *
      * @var \Nodes\Backend\Models\Role\RoleRepository
      */
     protected $roleRepository;
 
     /**
-     * Constructor
+     * Constructor.
      *
      * @author Morten Rugaard <moru@nodes.dk>
      *
-     * @access public
      * @param  \Nodes\Backend\Models\Role\RoleRepository $roleRepository
      */
     public function __construct(RoleRepository $roleRepository)
@@ -45,11 +43,10 @@ class UsersController extends Controller
     }
 
     /**
-     * List all users
+     * List all users.
      *
      * @author Morten Rugaard <moru@nodes.dk>
      *
-     * @access public
      * @return \Illuminate\View\View
      */
     public function index()
@@ -71,11 +68,10 @@ class UsersController extends Controller
     }
 
     /**
-     * Create new user form
+     * Create new user form.
      *
      * @author Morten Rugaard <moru@nodes.dk>
      *
-     * @access public
      * @return \Illuminate\View\View
      */
     public function create()
@@ -95,11 +91,10 @@ class UsersController extends Controller
     }
 
     /**
-     * Save new user to database
+     * Save new user to database.
      *
      * @author Casper Rasmussen <cr@nodes.dk>
      *
-     * @access public
      * @param \Nodes\Backend\Models\User\Validation\UserValidator $userValidator
      * @return \Illuminate\Http\RedirectResponse
      * @throws \Exception
@@ -120,7 +115,7 @@ class UsersController extends Controller
         }
 
         // Validate user
-        if (!$userValidator->with($data)->validate()) {
+        if (! $userValidator->with($data)->validate()) {
             return redirect()->back()->withInput()->with(['error' => $userValidator->errorsBag()]);
         }
 
@@ -140,7 +135,7 @@ class UsersController extends Controller
     }
 
     /**
-     * Edit user form
+     * Edit user form.
      *
      * @author Casper Rasmussen <cr@nodes.dk>
      * @param $id
@@ -187,7 +182,7 @@ class UsersController extends Controller
         }
 
         // Validate user
-        if (!$userValidator->with($data)->validate()) {
+        if (! $userValidator->with($data)->validate()) {
             return redirect()->back()->withInput()->with(['error' => $userValidator->errorsBag()]);
         }
 
@@ -215,11 +210,10 @@ class UsersController extends Controller
     }
 
     /**
-     * Edit authenticated user
+     * Edit authenticated user.
      *
      * @author Morten Rugaard <moru@nodes.dk>
      *
-     * @access public
      * @return \Illuminate\View\View
      */
     public function profile()
@@ -228,12 +222,11 @@ class UsersController extends Controller
     }
 
     /**
-     * Delete user
+     * Delete user.
      *
      * @author Morten Rugaard <moru@nodes.dk>
      *
-     * @access public
-     * @param  integer $id
+     * @param  int $id
      * @return \Illuminate\Http\RedirectResponse
      */
     public function delete($id)
@@ -254,7 +247,7 @@ class UsersController extends Controller
             return redirect()->route('nodes.backend.users')->with('error', 'Sorry. You can not delete yourself.');
         }
 
-        if (!$user->delete()) {
+        if (! $user->delete()) {
             return redirect()->back()->with('error', 'Could not delete user. Try again or contact an administrator.');
         } else {
             return redirect()->route('nodes.backend.users')->with('success', 'User was successfully deleted.');
@@ -262,11 +255,10 @@ class UsersController extends Controller
     }
 
     /**
-     * Change password form
+     * Change password form.
      *
      * @author Casper Rasmussen <cr@nodes.dk>
      *
-     * @access public
      * @return \Illuminate\View\View
      */
     public function changePassword()
@@ -275,11 +267,10 @@ class UsersController extends Controller
     }
 
     /**
-     * Update user's password
+     * Update user's password.
      *
      * @author Casper Rasmussen <cr@nodes.dk>
      *
-     * @access public
      * @param  \Nodes\Backend\Models\User\Validation\UserValidator $userValidator
      * @return \Illuminate\Http\RedirectResponse
      */
@@ -295,7 +286,7 @@ class UsersController extends Controller
         }
 
         // Validate user
-        if (!$userValidator->with($data)->group('update-password')->validate()) {
+        if (! $userValidator->with($data)->group('update-password')->validate()) {
             return redirect()->back()->withInput()->with(['error' => $userValidator->errorsBag()]);
         }
 

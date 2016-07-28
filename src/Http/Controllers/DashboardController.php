@@ -1,22 +1,20 @@
 <?php
+
 namespace Nodes\Backend\Http\Controllers;
 
 use Illuminate\Routing\Controller;
 use Nodes\Backend\Dashboard\DashboardCollection;
 
 /**
- * Class DashboardController
- *
- * @package Nodes\Backend\Http\Controllers
+ * Class DashboardController.
  */
 class DashboardController extends Controller
 {
     /**
-     * Generate dashboard
+     * Generate dashboard.
      *
      * @author Casper Rasmussen <cr@nodes.dk>
      *
-     * @access public
      * @return \Illuminate\View\View
      */
     public function index()

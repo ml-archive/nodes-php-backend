@@ -1,13 +1,12 @@
 <?php
+
 namespace Nodes\Backend\Auth\ResetPassword;
 
 use Carbon\Carbon;
 use Illuminate\Database\Eloquent\Model;
 
 /**
- * Class Model
- *
- * @package Nodes\Backend\Auth\ResetPassword
+ * Class Model.
  */
 class ResetPasswordModel extends Model
 {
@@ -21,7 +20,7 @@ class ResetPasswordModel extends Model
     /**
      * Indicates if the model should be timestamped.
      *
-     * @var boolean
+     * @var bool
      */
     public $timestamps = false;
 
@@ -33,7 +32,7 @@ class ResetPasswordModel extends Model
     protected $fillable = [
         'token',
         'used',
-        'expire_at'
+        'expire_at',
     ];
 
     /**
@@ -44,9 +43,8 @@ class ResetPasswordModel extends Model
     protected $dates = ['expire_at'];
 
     /**
-     * Constructor
+     * Constructor.
      *
-     * @access public
      * @param  array $attributes
      */
     public function __construct(array $attributes = [])
@@ -56,12 +54,11 @@ class ResetPasswordModel extends Model
     }
 
     /**
-     * Check if token is expired
+     * Check if token is expired.
      *
      * @author Morten Rugaard <moru@nodes.dk>
      *
-     * @access public
-     * @return boolean
+     * @return bool
      */
     public function isExpired()
     {
@@ -69,12 +66,11 @@ class ResetPasswordModel extends Model
     }
 
     /**
-     * Check if token has already been used
+     * Check if token has already been used.
      *
      * @author Morten Rugaard <moru@nodes.dk>
      *
-     * @access public
-     * @return boolean
+     * @return bool
      */
     public function isUsed()
     {
@@ -82,12 +78,11 @@ class ResetPasswordModel extends Model
     }
 
     /**
-     * Mark token as used
+     * Mark token as used.
      *
      * @author Morten Rugaard <moru@nodes.dk>
      *
-     * @access public
-     * @return boolean
+     * @return bool
      */
     public function markAsUsed()
     {

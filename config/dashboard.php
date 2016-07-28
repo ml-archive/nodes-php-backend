@@ -1,4 +1,5 @@
 <?php
+
 return [
     /*
     |--------------------------------------------------------------------------
@@ -33,20 +34,20 @@ return [
         [
             'type' => 'nodes-statistics-daily',
             'title' => 'Daily users',
-            'gaId' => 'UA-50813164-10' #TODO
+            'gaId' => 'UA-50813164-10', //TODO
         ],
         [
             'type' => 'nodes-statistics-monthly',
             'title' => 'Monthly users',
-            'gaId' => 'UA-50813164-10' #TODO
+            'gaId' => 'UA-50813164-10', //TODO
         ],
         [
             'type' => 'table-count',
             'title' => 'Data',
             'tables' => [
                 'backend_users' => 'Backend users',
-                'backend_user_tokens' => 'Tokens'
-            ]
+                'backend_user_tokens' => 'Tokens',
+            ],
         ],
     ],
 ];

@@ -1,20 +1,18 @@
 <?php
+
 namespace Nodes\Backend\Http\Controllers;
 
 use Illuminate\Routing\Controller;
 use Illuminate\Support\Facades\Gate;
 
 /**
- * Class NStackController
- *
- * @package Nodes\Backend\Http\Controllers
+ * Class NStackController.
  */
 class NStackController extends Controller
 {
     /**
-     * NStackController constructor
+     * NStackController constructor.
      *
-     * @access public
      * @throws \Symfony\Component\HttpKernel\Exception\HttpException
      */
     public function __construct()
@@ -23,12 +21,11 @@ class NStackController extends Controller
     }
 
     /**
-     * getConfig
+     * getConfig.
      *
      * This function can be overridden for changing configs in runtime
      *
      * @author Casper Rasmussen <cr@nodes.dk>
-     * @access protected
      * @return array|null
      */
     protected function getConfig()
@@ -37,12 +34,11 @@ class NStackController extends Controller
     }
 
     /**
-     * guardUserPermissions
+     * guardUserPermissions.
      *
      * This function can be overridden for changing user permissions
      *
      * @author Casper Rasmussen <cr@nodes.dk>
-     * @access protected
      * @return void
      */
     protected function guardUserPermissions()
@@ -53,10 +49,9 @@ class NStackController extends Controller
     }
 
     /**
-     * NStack hook
+     * NStack hook.
      *
      * @author Casper Rasmussen <cr@nodes.dk>
-     * @access public
      * @return \Illuminate\Http\RedirectResponse
      */
     public function hook()
@@ -64,11 +59,11 @@ class NStackController extends Controller
         // Retrieve NStack config
         $config = $this->getConfig();
 
-        $default = !empty($config['defaults']['application']) ? $config['defaults']['application'] : 'default';
+        $default = ! empty($config['defaults']['application']) ? $config['defaults']['application'] : 'default';
 
         $application = \Request::get('application', $default);
 
-        $credentials = !empty($config['credentials'][$application]) ? $config['credentials'][$application] : $config['credentials']; // For backwards compatibility
+        $credentials = ! empty($config['credentials'][$application]) ? $config['credentials'][$application] : $config['credentials']; // For backwards compatibility
 
         // Validate NStack credentials
         if (empty($config['url']) || empty($credentials['appId']) || empty($credentials['masterKey']) ||
@@ -93,14 +88,13 @@ class NStackController extends Controller
             ],
         ]));
 
-        return redirect()->away($config['url'] . '?message=' . urlencode($encryptedMessage));
+        return redirect()->away($config['url'].'?message='.urlencode($encryptedMessage));
     }
 
     /**
-     * Encrypt message
+     * Encrypt message.
      *
      * @author Casper Rasmussen <cr@nodes.dk>
-     * @access public
      * @param  string $text
      * @return string
      */

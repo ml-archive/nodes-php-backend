@@ -1,4 +1,5 @@
 <?php
+
 namespace Nodes\Backend\Dashboard\Types;
 
 use Illuminate\Support\Str;
@@ -40,12 +41,12 @@ class TableCount
     public function __construct(array $config)
     {
         // Guard title param
-        if (empty($config['title']) || !is_string($config['title'])) {
+        if (empty($config['title']) || ! is_string($config['title'])) {
             throw new MissingConfigException('Missing title');
         }
 
         // Guard title url param
-        if (empty($config['tables']) || !is_array($config['tables'])) {
+        if (empty($config['tables']) || ! is_array($config['tables'])) {
             throw new MissingConfigException('Missing tables');
         }
 
@@ -60,7 +61,7 @@ class TableCount
     }
 
     /**
-     * Prepare the chart data
+     * Prepare the chart data.
      *
      * @author Casper Rasmussen <cr@nodes.dk>
      */
@@ -70,7 +71,7 @@ class TableCount
             'id' => $this->id,
             'title' => $this->title,
             'data' => [],
-            'labels' => []
+            'labels' => [],
         ];
 
         foreach ($this->tables as $table => $label) {
@@ -78,7 +79,7 @@ class TableCount
             $chartData['labels'][] = $label;
         }
 
-        $this->chartData = $chartData;;
+        $this->chartData = $chartData;
     }
 
     /**

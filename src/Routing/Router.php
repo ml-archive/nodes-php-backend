@@ -1,39 +1,37 @@
 <?php
+
 namespace Nodes\Backend\Routing;
 
 use Illuminate\Routing\Router as IlluminateRouter;
 
 /**
- * Class Router
- *
- * @package Nodes\Backend\Routing
+ * Class Router.
  */
 class Router
 {
     /**
-     * Illuminate router
+     * Illuminate router.
      * @var \Illuminate\Routing\Router
      */
     private $router;
 
     /**
-     * Name of active class
+     * Name of active class.
      * @var string
      */
     protected $activeClass = 'active';
 
     /**
-     * Name of inactive class
+     * Name of inactive class.
      * @var string
      */
     protected $inactiveClass = '';
 
     /**
-     * Constructor
+     * Constructor.
      *
      * @author Morten Rugaard <moru@nodes.dk>
      *
-     * @access public
      * @param  \Illuminate\Routing\Router $router
      */
     public function __construct(IlluminateRouter $router)
@@ -42,11 +40,10 @@ class Router
     }
 
     /**
-     * Match route by pattern
+     * Match route by pattern.
      *
      * @author Morten Rugaard <moru@nodes.dk>
      *
-     * @access public
      * @param  string|array $patterns
      * @return string
      */
@@ -59,7 +56,7 @@ class Router
         }
 
         // Make sure patterns is an array
-        $patterns = !is_array($patterns) ? [$patterns] : $patterns;
+        $patterns = ! is_array($patterns) ? [$patterns] : $patterns;
 
         // Decode route path
         $uri = $currentRoute->getPath();
@@ -75,11 +72,10 @@ class Router
     }
 
     /**
-     * Match route by alias
+     * Match route by alias.
      *
      * @author Morten Rugaard <moru@nodes.dk>
      *
-     * @access public
      * @param  string|array $aliases
      * @return string
      */
@@ -92,7 +88,7 @@ class Router
         }
 
         // Make sure patterns is an array
-        $aliases = !is_array($aliases) ? [$aliases] : $aliases;
+        $aliases = ! is_array($aliases) ? [$aliases] : $aliases;
 
         // Current route's alias
         $routeAlias = $this->router->currentRouteName();
@@ -108,32 +104,32 @@ class Router
     }
 
     /**
-     * Set active class
+     * Set active class.
      *
      * @author Morten Rugaard <moru@nodes.dk>
      *
-     * @access public
      * @param  string $class
      * @return \Nodes\Backend\Routing\Router
      */
     public function setActiveClass($class)
     {
         $this->activeClass = $class;
+
         return $this;
     }
 
     /**
-     * Set inactive class
+     * Set inactive class.
      *
      * @author Morten Rugaard <moru@nodes.dk>
      *
-     * @access public
      * @param  string $class
      * @return \Nodes\Backend\Routing\Router
      */
     public function setInactiveClass($class)
     {
         $this->inactiveClass = $class;
+
         return $this;
     }
 }

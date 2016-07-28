@@ -1,4 +1,5 @@
 <?php
+
 namespace Nodes\Backend\Models\User;
 
 use Illuminate\Auth\Authenticatable;
@@ -13,9 +14,7 @@ use Nodes\Database\Eloquent\Model;
 use Nodes\Database\Exceptions\SaveFailedException;
 
 /**
- * Class User
- *
- * @package Nodes\Backend\Models\User
+ * Class User.
  */
 class User extends Model implements AuthenticatableContract, CanResetPasswordContract, CounterCacheable
 {
@@ -52,7 +51,7 @@ class User extends Model implements AuthenticatableContract, CanResetPasswordCon
      */
     protected $hidden = [
         'password',
-        'remember_token'
+        'remember_token',
     ];
 
     /**
@@ -62,7 +61,7 @@ class User extends Model implements AuthenticatableContract, CanResetPasswordCon
      */
     protected $casts = [
         'id' => 'integer',
-        'change_password' => 'boolean'
+        'change_password' => 'boolean',
     ];
 
     /*
@@ -72,11 +71,10 @@ class User extends Model implements AuthenticatableContract, CanResetPasswordCon
     */
 
     /**
-     * User has one access token
+     * User has one access token.
      *
      * @author Morten Rugaard <moru@nodes.dk>
      *
-     * @access public
      * @return \Illuminate\Database\Eloquent\Relations\HasOne
      */
     public function token()
@@ -85,11 +83,10 @@ class User extends Model implements AuthenticatableContract, CanResetPasswordCon
     }
 
     /**
-     * User belongs to role
+     * User belongs to role.
      *
      * @author Morten Rugaard <moru@nodes.dk>
      *
-     * @access public
      * @return \Illuminate\Database\Eloquent\Relations\BelongsTo
      */
     public function role()
@@ -104,11 +101,10 @@ class User extends Model implements AuthenticatableContract, CanResetPasswordCon
     */
 
     /**
-     * Retrieve token for user, if there is no token one will be created
+     * Retrieve token for user, if there is no token one will be created.
      *
      * @author Casper Rasmussen <cr@nodes.dk>
      *
-     * @access public
      * @return \Nodes\Backend\Models\User\Token\Token
      * @throws \Nodes\Database\Exceptions\SaveFailedException
      */
@@ -122,26 +118,25 @@ class User extends Model implements AuthenticatableContract, CanResetPasswordCon
     }
 
     /**
-     * Delete all user tokens and create a new one
+     * Delete all user tokens and create a new one.
      *
      * @author Casper Rasmussen <cr@nodes.dk>
      *
-     * @access public
      * @return \Illuminate\Database\Eloquent\Model
      * @throws \Nodes\Database\Exceptions\SaveFailedException
      */
     public function deleteAllTokensAndCreateNew()
     {
         $this->token()->delete();
+
         return $this->createToken();
     }
 
     /**
-     * Create new token for user
+     * Create new token for user.
      *
      * @author Casper Rasmussen <cr@nodes.dk>
      *
-     * @access public
      * @return \Illuminate\Database\Eloquent\Model
      * @throws \Nodes\Database\Exceptions\SaveFailedException
      */
@@ -149,7 +144,7 @@ class User extends Model implements AuthenticatableContract, CanResetPasswordCon
     {
         // Generate & assign access token
         $token = $this->token()->save(new Token([
-            'token' => Hash::make(str_random())
+            'token' => Hash::make(str_random()),
         ]));
 
         if (empty($token)) {
@@ -161,13 +156,12 @@ class User extends Model implements AuthenticatableContract, CanResetPasswordCon
 
     /**
      * Retrieve users image or fallback image
-     * The image can be resized if CDN has it supported
+     * The image can be resized if CDN has it supported.
      *
      * @author Casper Rasmussen <cr@nodes.dk>
      *
-     * @access public
-     * @param  integer $width
-     * @param  integer $height
+     * @param  int $width
+     * @param  int $height
      * @return string
      */
     public function getImageUrl($width = 100, $height = 100)
@@ -176,7 +170,8 @@ class User extends Model implements AuthenticatableContract, CanResetPasswordCon
         //we'll use a fallback one
         if (empty($this->image)) {
             $fallbackImageUrl = config('nodes.backend.general.user_fallback_image_url');
-            return !empty($fallbackImageUrl) ? assets_resize($fallbackImageUrl, $width, $height) : null;
+
+            return ! empty($fallbackImageUrl) ? assets_resize($fallbackImageUrl, $width, $height) : null;
         }
 
         // If user image is already an URL,
@@ -195,11 +190,10 @@ class User extends Model implements AuthenticatableContract, CanResetPasswordCon
     */
 
     /**
-     * Automatically hash passwords
+     * Automatically hash passwords.
      *
      * @author Morten Rugaard <moru@nodes.dk>
      *
-     * @access public
      * @param  string $value
      * @return void
      */
@@ -209,11 +203,10 @@ class User extends Model implements AuthenticatableContract, CanResetPasswordCon
     }
 
     /**
-     * Automatically convert boolean
+     * Automatically convert boolean.
      *
      * @author Casper Rasmussen <cr@nodes.dk>
      *
-     * @access public
      * @param  string $value
      * @return void
      */
@@ -222,7 +215,6 @@ class User extends Model implements AuthenticatableContract, CanResetPasswordCon
         $this->attributes['change_password'] = filter_var($value, FILTER_VALIDATE_BOOLEAN);
     }
 
-
     /*
     |-----------------------------------------------------------
     | Counter cache
@@ -230,11 +222,10 @@ class User extends Model implements AuthenticatableContract, CanResetPasswordCon
     */
 
     /**
-     * Retrieve counter caches
+     * Retrieve counter caches.
      *
      * @author Morten Rugaard <moru@nodes.dk>
      *
-     * @access public
      * @return array
      */
     public function counterCaches()

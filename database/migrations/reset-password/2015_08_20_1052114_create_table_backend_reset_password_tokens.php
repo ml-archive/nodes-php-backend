@@ -1,20 +1,20 @@
 <?php
+
 use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Database\Migrations\Migration;
 
 /**
- * Class CreateTableBackendResetPasswordTokens
+ * Class CreateTableBackendResetPasswordTokens.
  */
 class CreateTableBackendResetPasswordTokens extends Migration
 {
     /**
-     * Run the migrations
+     * Run the migrations.
      * @return void
      */
     public function up()
     {
-        Schema::create('backend_reset_password_tokens', function(Blueprint $table)
-        {
+        Schema::create('backend_reset_password_tokens', function (Blueprint $table) {
             $table->increments('id');
             $table->string('email', 255)->index();
             $table->string('token', 64)->index();
@@ -24,7 +24,7 @@ class CreateTableBackendResetPasswordTokens extends Migration
     }
 
     /**
-     * Reverse the migrations
+     * Reverse the migrations.
      * @return void
      */
     public function down()

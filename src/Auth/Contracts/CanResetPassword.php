@@ -1,11 +1,11 @@
 <?php
+
 namespace Nodes\Backend\Auth\Contracts;
 
 /**
- * Interface CanResetPassword
+ * Interface CanResetPassword.
  *
  * @interface
- * @package Nodes\Backend\Auth\Contracts
  */
 interface CanResetPassword
 {
@@ -14,7 +14,6 @@ interface CanResetPassword
      *
      * @author Morten Rugaard <moru@nodes.dk>
      *
-     * @access public
      * @return string
      */
     public function getEmailForPasswordReset();

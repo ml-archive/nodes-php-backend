@@ -1,4 +1,5 @@
 <?php
+
 namespace Nodes\Backend\Auth;
 
 use Illuminate\Database\Eloquent\Model as IlluminateModel;
@@ -13,51 +14,48 @@ use Symfony\Component\HttpKernel\Exception\BadRequestHttpException;
 use Symfony\Component\HttpKernel\Exception\UnauthorizedHttpException;
 
 /**
- * Class Manager
- *
- * @package Nodes\Backend\Auth
+ * Class Manager.
  */
 class Manager
 {
     /**
-     * Model used to authenticate users
+     * Model used to authenticate users.
      *
      * @var \Illuminate\Database\Eloquent\Model
      */
     protected $model;
 
     /**
-     * The session used by the guard
+     * The session used by the guard.
      *
      * @var \Symfony\Component\HttpFoundation\Session\SessionInterface
      */
     protected $session;
 
     /**
-     * Illuminate router
+     * Illuminate router.
      *
      * @var \Illuminate\Routing\Router
      */
     protected $router;
 
     /**
-     * Available auth providers
+     * Available auth providers.
      *
      * @var array
      */
     protected $providers;
 
     /**
-     * The currently authenticated user
+     * The currently authenticated user.
      *
      * @var \Nodes\Backend\Auth\Contracts\Authenticatable
      */
     protected $user;
 
     /**
-     * Constructor
+     * Constructor.
      *
-     * @access public
      * @param  \Illuminate\Database\Eloquent\Model                        $model
      * @param  \Symfony\Component\HttpFoundation\Session\SessionInterface $session
      * @param  \Illuminate\Routing\Router                                 $router
@@ -72,17 +70,16 @@ class Manager
     }
 
     /**
-     * Authenticate user via providers
+     * Authenticate user via providers.
      *
      * @author Morten Rugaard <moru@nodes.dk>
      *
-     * @access public
      * @param  array $providers
      * @return \Nodes\Backend\Auth\Contracts\Authenticatable
      */
     public function authenticate(array $providers = [])
     {
-        if (!empty($this->user)) {
+        if (! empty($this->user)) {
             return $this->user;
         }
 
@@ -111,11 +108,10 @@ class Manager
     }
 
     /**
-     * Filter auth providers
+     * Filter auth providers.
      *
      * @author Morten Rugaard <moru@nodes.dk>
      *
-     * @access public
      * @param  array $providers
      * @return array
      */
@@ -129,11 +125,10 @@ class Manager
     }
 
     /**
-     * Throw the first exception from the exception stack
+     * Throw the first exception from the exception stack.
      *
      * @author Morten Rugaard <moru@nodes.dk>
      *
-     * @access protected
      * @param  array $exceptionStack
      * @return void
      * @throws \Symfony\Component\HttpKernel\Exception\UnauthorizedHttpException
@@ -149,21 +144,20 @@ class Manager
     }
 
     /**
-     * Attempt to authenticate a user using credentials
+     * Attempt to authenticate a user using credentials.
      *
      * @author Morten Rugaard <moru@nodes.dk>
      *
-     * @access public
      * @param  array   $credentials
-     * @param  boolean $remember
-     * @param  boolean $login
-     * @return boolean
+     * @param  bool $remember
+     * @param  bool $login
+     * @return bool
      */
     public function attempt(array $credentials = [], $remember = false, $login = true)
     {
         // Retrieve user by credentials
         $user = $this->retrieveByCredentials($credentials);
-        if (empty($user) || !$this->validateCredentials($user, $credentials)) {
+        if (empty($user) || ! $this->validateCredentials($user, $credentials)) {
             return false;
         }
 
@@ -176,11 +170,10 @@ class Manager
     }
 
     /**
-     * Retrieve user by credentials
+     * Retrieve user by credentials.
      *
      * @author Morten Rugaard <moru@nodes.dk>
      *
-     * @access protected
      * @param  array $credentials
      * @return \Nodes\Backend\Auth\Contracts\Authenticatable|null
      */
@@ -203,14 +196,13 @@ class Manager
     }
 
     /**
-     * Validate user credentials
+     * Validate user credentials.
      *
      * @author Morten Rugaard <moru@nodes.dk>
      *
-     * @access protected
      * @param  \Nodes\Backend\Auth\Contracts\Authenticatable $user
      * @param  array                                         $credentials
-     * @return boolean
+     * @return bool
      */
     protected function validateCredentials(Authenticatable $user, array $credentials)
     {
@@ -222,13 +214,12 @@ class Manager
     }
 
     /**
-     * Create login session
+     * Create login session.
      *
      * @author Morten Rugaard <moru@nodes.dk>
      *
-     * @access public
      * @param  \Nodes\Backend\Auth\Contracts\Authenticatable $user
-     * @param  boolean                                       $remember
+     * @param  bool                                       $remember
      * @return $this
      */
     public function createLoginSession(Authenticatable $user, $remember = false)
@@ -252,11 +243,10 @@ class Manager
     }
 
     /**
-     * Update session by identifier
+     * Update session by identifier.
      *
      * @author Morten Rugaard <moru@nodes.dk>
      *
-     * @access public
      * @param  string  $identifier
      * @return \Nodes\Backend\Auth\Manager
      */
@@ -264,15 +254,15 @@ class Manager
     {
         $this->session->set($this->getName(), $identifier);
         $this->session->migrate(true);
+
         return $this;
     }
 
     /**
-     * Log the user out of the application
+     * Log the user out of the application.
      *
      * @author Morten Rugaard <moru@nodes.dk>
      *
-     * @access public
      * @return \Nodes\Backend\Auth\Manager
      */
     public function logout()
@@ -282,7 +272,7 @@ class Manager
 
         // Refresh "remember me" token
         // as a security measure
-        if (!empty($user)) {
+        if (! empty($user)) {
             $this->refreshRememberToken($user);
         }
 
@@ -299,11 +289,10 @@ class Manager
     }
 
     /**
-     * Remove the user data from the session and cookies
+     * Remove the user data from the session and cookies.
      *
      * @author Morten Rugaard <moru@nodes.dk>
      *
-     * @access protected
      * @return \Nodes\Backend\Auth\Manager
      */
     public function clearUserDataFromStorage()
@@ -318,11 +307,10 @@ class Manager
     }
 
     /**
-     * Create a new remember token, if one doesn't already exist
+     * Create a new remember token, if one doesn't already exist.
      *
      * @author Morten Rugaard <moru@nodes.dk>
      *
-     * @access protected
      * @param  \Nodes\Backend\Auth\Contracts\Authenticatable  $user
      * @return \Nodes\Backend\Auth\Manager
      */
@@ -337,11 +325,10 @@ class Manager
     }
 
     /**
-     * Refresh remember token
+     * Refresh remember token.
      *
      * @author Morten Rugaard <moru@nodes.dk>
      *
-     * @access protected
      * @param  \Nodes\Backend\Auth\Contracts\Authenticatable  $user
      * @return \Nodes\Backend\Auth\Manager
      */
@@ -357,18 +344,17 @@ class Manager
     }
 
     /**
-     * Queue the "remember me" cookie into the cookie jar
+     * Queue the "remember me" cookie into the cookie jar.
      *
      * @author Morten Rugaard <moru@nodes.dk>
      *
-     * @access public
      * @param  \Nodes\Backend\Auth\Contracts\Authenticatable $user
      * @return \Nodes\Backend\Auth\Manager
      */
     protected function queueRecallerCookie(Authenticatable $user)
     {
         // Generate cookie
-        $value = $user->getAuthIdentifier(). '|' .$user->getRememberToken();
+        $value = $user->getAuthIdentifier().'|'.$user->getRememberToken();
 
         // Queue cookie into CookieJar
         CookieJar::queue(CookieJar::forever($this->getRecallerName(), $value));
@@ -377,37 +363,34 @@ class Manager
     }
 
     /**
-     * Check if user is already authenticated
+     * Check if user is already authenticated.
      *
      * @author Morten Rugaard <moru@nodes.dk>
      *
-     * @access public
-     * @return boolean
+     * @return bool
      */
     public function check()
     {
-        return !is_null($this->getUser());
+        return ! is_null($this->getUser());
     }
 
     /**
-     * Determine if the current user is a guest
+     * Determine if the current user is a guest.
      *
      * @author Morten Rugaard <moru@nodes.dk>
      *
-     * @access public
-     * @return boolean
+     * @return bool
      */
     public function guest()
     {
-        return !$this->check();
+        return ! $this->check();
     }
 
     /**
-     * Retrieve authenticated user
+     * Retrieve authenticated user.
      *
      * @author Morten Rugaard <moru@nodes.dk>
      *
-     * @access public
      * @return \Nodes\Backend\Auth\Contracts\Authenticatable
      */
     public function getUser()
@@ -416,45 +399,43 @@ class Manager
     }
 
     /**
-     * Set authenticated user
+     * Set authenticated user.
      *
      * @author Morten Rugaard <moru@nodes.dk>
      *
-     * @access public
      * @param  \Nodes\Backend\Auth\Contracts\Authenticatable $user
      * @return $this
      */
     public function setUser(Authenticatable $user)
     {
         $this->user = $user;
+
         return $this;
     }
 
     /**
-     * Get a unique identifier for the auth session value
+     * Get a unique identifier for the auth session value.
      *
      * @author Morten Rugaard <moru@nodes.dk>
      *
      * @static
-     * @access public
      * @return string
      */
     public static function getName()
     {
-        return 'nodes_backend_' . md5(__CLASS__);
+        return 'nodes_backend_'.md5(__CLASS__);
     }
 
     /**
-     * Get the name of the cookie used to store the "recaller"
+     * Get the name of the cookie used to store the "recaller".
      *
      * @author Morten Rugaard <moru@nodes.dk>
      *
      * @static
-     * @access public
      * @return string
      */
     public static function getRecallerName()
     {
-        return 'nodes_backend_remember_' . md5(__CLASS__);
+        return 'nodes_backend_remember_'.md5(__CLASS__);
     }
 }

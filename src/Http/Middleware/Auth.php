@@ -1,13 +1,12 @@
 <?php
+
 namespace Nodes\Backend\Http\Middleware;
 
 use Closure;
 use Nodes\Backend\Support\FlashRestorer;
 
 /**
- * Class Auth
- *
- * @package Nodes\Backend\Http\Middleware
+ * Class Auth.
  */
 class Auth
 {
@@ -17,7 +16,6 @@ class Auth
      *
      * @author Casper Rasmussen <cr@nodes.dk>
      *
-     * @access public
      * @param  \Illuminate\Http\Request $request
      * @param  Closure                  $next
      * @return mixed
@@ -28,7 +26,7 @@ class Auth
         //
         // If user is not already logged in, we'll try and
         // look for the user in sessions and cookies.
-        if (!backend_user_check()) {
+        if (! backend_user_check()) {
             try {
                 backend_user_authenticate();
             } catch (\Exception $e) {

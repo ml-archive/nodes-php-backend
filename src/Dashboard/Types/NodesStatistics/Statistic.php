@@ -7,10 +7,9 @@ use GuzzleHttp\Client;
 use Nodes\Backend\Dashboard\Exceptions\MissingConfigException;
 
 /**
- * Class Statistic
+ * Class Statistic.
  *
  * @author  Casper Rasmussen <cr@nodes.dk>
- * @package Nodes\Backend\Dashboard\Types\NodesStatistics
  */
 abstract class Statistic
 {
@@ -53,12 +52,12 @@ abstract class Statistic
     public function __construct(array $config)
     {
         // Guard title param
-        if (empty($config['title']) || !is_string($config['title'])) {
+        if (empty($config['title']) || ! is_string($config['title'])) {
             throw new MissingConfigException('Missing title');
         }
 
         // Guard title url param
-        if (empty($config['gaId']) || !is_string($config['gaId'])) {
+        if (empty($config['gaId']) || ! is_string($config['gaId'])) {
             throw new MissingConfigException('Missing gaId');
         }
 
@@ -147,7 +146,7 @@ abstract class Statistic
         }
 
         // Append query to url
-        $url .= '?' . http_build_query($query);
+        $url .= '?'.http_build_query($query);
 
         $chartData = [
             'id'     => $this->id,
@@ -160,7 +159,7 @@ abstract class Statistic
         $response = \Cache::get($url);
 
         $client = new Client();
-        if (!$response) {
+        if (! $response) {
             // Do api call in request
             try {
                 $response = json_decode($client->get($url)->getBody(), true);
@@ -182,7 +181,7 @@ abstract class Statistic
 
             // Append
             $chartData['labels'][] = $label;
-            $chartData['data'][] = !empty($data['visit_count']) ? $data['visit_count'] : 0;
+            $chartData['data'][] = ! empty($data['visit_count']) ? $data['visit_count'] : 0;
         }
 
         $this->chartData = $chartData;

@@ -1,4 +1,5 @@
 <?php
+
 namespace Nodes\Backend\Dashboard;
 
 use Illuminate\Database\Eloquent\Collection;
@@ -10,16 +11,13 @@ use Nodes\Backend\Dashboard\Types\NodesStatistics\MonthlyStatistic;
 use Nodes\Backend\Dashboard\Types\TableCount;
 
 /**
- * Class DashboardCollection
- *
- * @package Nodes\Backend\Dashboard
+ * Class DashboardCollection.
  */
 class DashboardCollection extends Collection
 {
     /**
-     * DashboardCollection constructor
+     * DashboardCollection constructor.
      *
-     * @access public
      * @param  array $configs
      * @throws \Exception
      */
@@ -31,30 +29,29 @@ class DashboardCollection extends Collection
             }
 
             switch ($config['type']) {
-                case 'i-frame' :
+                case 'i-frame':
                     $this->add(new IFrame($config));
                     break;
-                case 'table-count' :
+                case 'table-count':
                     $this->add(new TableCount($config));
                     break;
-                case 'nodes-statistics-daily' :
+                case 'nodes-statistics-daily':
                     $this->add(new DailyStatistic($config));
                     break;
-                case 'nodes-statistics-monthly' :
+                case 'nodes-statistics-monthly':
                     $this->add(new MonthlyStatistic($config));
                     break;
-                default :
+                default:
                     throw new UnsupportedTypeException(sprintf('%s is not supported', $config['type']));
             }
         }
     }
 
     /**
-     * Retrieve bar charts
+     * Retrieve bar charts.
      *
      * @author Casper Rasmussen <cr@nodes.dk>
      *
-     * @access public
      * @return \Illuminate\Database\Eloquent\Collection
      */
     public function getBarCharts()
@@ -70,11 +67,10 @@ class DashboardCollection extends Collection
     }
 
     /**
-     * Retrieve bar charts as array
+     * Retrieve bar charts as array.
      *
      * @author Casper Rasmussen <cr@nodes.dk>
      *
-     * @access public
      * @return array
      */
     public function getBarChartsAsChartData()
@@ -89,11 +85,10 @@ class DashboardCollection extends Collection
     }
 
     /**
-     * Retrieve line charts
+     * Retrieve line charts.
      *
      * @author Casper Rasmussen <cr@nodes.dk>
      *
-     * @access public
      * @return \Illuminate\Database\Eloquent\Collection
      */
     public function getLineCharts()
@@ -109,11 +104,10 @@ class DashboardCollection extends Collection
     }
 
     /**
-     * Retrieve line chart as array
+     * Retrieve line chart as array.
      *
      * @author Casper Rasmussen <cr@nodes.dk>
      *
-     * @access public
      * @return array
      */
     public function getLineChartsAsChartData()

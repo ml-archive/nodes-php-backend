@@ -5,9 +5,8 @@ namespace Nodes\Backend\Http\Middleware;
 use Closure;
 
 /**
- * Class SSL
+ * Class SSL.
  * @author Casper Rasmussen <cr@nodes.dk>
- * @package Nodes\Backend\Http\Middleware
  */
 class SSL
 {
@@ -19,11 +18,10 @@ class SSL
      */
     public function handle($request, Closure $next)
     {
-        if (!$request->secure() && env('APP_ENV') == 'production') {
+        if (! $request->secure() && env('APP_ENV') == 'production') {
             return redirect()->secure($request->getRequestUri());
         }
 
         return $next($request);
     }
 }
-

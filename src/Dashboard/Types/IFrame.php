@@ -1,4 +1,5 @@
 <?php
+
 namespace Nodes\Backend\Dashboard\Types;
 
 use Illuminate\Support\Str;
@@ -35,12 +36,12 @@ class IFrame
     public function __construct(array $config)
     {
         // Guard title param
-        if (empty($config['title']) || !is_string($config['title'])) {
+        if (empty($config['title']) || ! is_string($config['title'])) {
             throw new MissingConfigException('Missing title');
         }
 
         // Guard title url param
-        if (empty($config['url']) || !is_string($config['url'])) {
+        if (empty($config['url']) || ! is_string($config['url'])) {
             throw new MissingConfigException('Missing url');
         }
 

@@ -1,18 +1,18 @@
 <?php
+
 use Illuminate\Database\Seeder;
 use Nodes\Backend\Models\User\UserRepository;
 
 /**
- * Class BackendUsersSeeder
+ * Class BackendUsersSeeder.
  */
 class BackendUsersSeeder extends Seeder
 {
     /**
-     * Execute seeding
+     * Execute seeding.
      *
      * @author Morten Rugaard <moru@nodes.dk>
      *
-     * @access public
      * @return void
      */
     public function run()
@@ -35,5 +35,4 @@ class BackendUsersSeeder extends Seeder
         // Inform user
         $this->command->info('Nodes user successfully created!');
     }
-
 }

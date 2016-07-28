@@ -1,4 +1,5 @@
 <?php
+
 namespace Nodes\Backend\Auth;
 
 use Illuminate\Auth\Access\Gate;
@@ -11,18 +12,15 @@ use Nodes\Backend\Models\User\User;
 use Nodes\Backend\Models\User\UserRepository;
 
 /**
- * Class ServiceProvider
- *
- * @package Nodes\Backend\Auth
+ * Class ServiceProvider.
  */
 class ServiceProvider extends IlluminateAuthServiceProvider
 {
     /**
-     * Boot service provider
+     * Boot service provider.
      *
      * @author Casper Rasmussen <cr@nodes.dk>
      *
-     * @access public
      * @param \Illuminate\Contracts\Auth\Access\Gate $gate
      * @return void
      */
@@ -38,10 +36,9 @@ class ServiceProvider extends IlluminateAuthServiceProvider
     }
 
     /**
-     * Register the service provider
+     * Register the service provider.
      *
      * @author Morten Rugaard <moru@nodes.dk>
-     * @access public
      * @return void
      */
     public function register()
@@ -54,36 +51,35 @@ class ServiceProvider extends IlluminateAuthServiceProvider
     }
 
     /**
-     * Register authenticator
+     * Register authenticator.
      *
      * @author Morten Rugaard <moru@nodes.dk>
-     * @access protected
      * @return void
      */
     protected function registerAuthenticator()
     {
         $this->app->singleton('nodes.backend.auth', function ($app) {
             $providers = prepare_config_instances(config('nodes.backend.auth.providers'));
+
             return new Manager($app['nodes.backend.auth.model'], $app['session.store'], $app['router'], $providers);
         });
     }
 
     /**
-     * Register authentication user model
+     * Register authentication user model.
      *
      * @author Morten Rugaard <moru@nodes.dk>
      *
-     * @access protected
      * @return void
      */
     protected function registerAuthModel()
     {
         $this->app->singleton('nodes.backend.auth.model', function ($app) {
             // Try and instantiate nodes.backend.backend user model
-            $userModel = !empty(config('nodes.backend.auth.model')) ? prepare_config_instance(config('nodes.backend.auth.model')) : app(\Nodes\Backend\Models\User\User::class);
+            $userModel = ! empty(config('nodes.backend.auth.model')) ? prepare_config_instance(config('nodes.backend.auth.model')) : app(\Nodes\Backend\Models\User\User::class);
 
             // Validate user model instance
-            if (empty($userModel) || !$userModel instanceof User) {
+            if (empty($userModel) || ! $userModel instanceof User) {
                 throw new InvalidUserModelException('Missing or invalid backend user model');
             }
 
@@ -92,21 +88,20 @@ class ServiceProvider extends IlluminateAuthServiceProvider
     }
 
     /**
-     * Register authentication user repository
+     * Register authentication user repository.
      *
      * @author Morten Rugaard <moru@nodes.dk>
      *
-     * @access protected
      * @return void
      */
     protected function registerAuthRepository()
     {
         $this->app->singleton('nodes.backend.auth.repository', function ($app) {
             // Try and instantiate nodes.backend.backend user model
-            $userRepository = !empty(config('nodes.backend.auth.repository')) ? app(config('nodes.backend.auth.repository')) : app(\Nodes\Backend\Models\User\UserRepository::class);
+            $userRepository = ! empty(config('nodes.backend.auth.repository')) ? app(config('nodes.backend.auth.repository')) : app(\Nodes\Backend\Models\User\UserRepository::class);
 
             // Validate user repository instance
-            if (empty($userRepository) || !($userRepository instanceof UserRepository)) {
+            if (empty($userRepository) || ! ($userRepository instanceof UserRepository)) {
                 throw new InvalidUserRepositoryException('Missing or invalid backend user repository');
             }
 
@@ -115,10 +110,9 @@ class ServiceProvider extends IlluminateAuthServiceProvider
     }
 
     /**
-     * Setup container binding
+     * Setup container binding.
      *
      * @author Morten Rugaard <moru@nodes.dk>
-     * @access protected
      * @return void
      */
     protected function setupBinding()
@@ -133,28 +127,26 @@ class ServiceProvider extends IlluminateAuthServiceProvider
     }
 
     /**
-     * Register authenticated backend user for Gates
+     * Register authenticated backend user for Gates.
      *
      * @author Casper Rasmussen <cr@nodes.dk>
      *
-     * @access protected
      * @return void
      */
     protected function registerGate()
     {
         $this->app->singleton(GateContract::class, function ($app) {
-            return new Gate($app, function() use ($app) {
+            return new Gate($app, function () use ($app) {
                 return $app['nodes.backend.auth']->getUser();
             });
         });
     }
 
     /**
-     * Define gates for default user roles
+     * Define gates for default user roles.
      *
      * @author Casper Rasmussen <cr@nodes.dk>
      *
-     * @access private
      * @param  \Illuminate\Contracts\Auth\Access\Gate $gate
      */
     private function defineGates(GateContract $gate)

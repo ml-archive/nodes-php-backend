@@ -1,21 +1,19 @@
 <?php
+
 namespace Nodes\Backend\Models\FailedJob;
 
 use Nodes\Database\Eloquent\Repository as NodesRepository;
 
 /**
- * Class FailedJobRepository
- *
- * @package Nodes\Backend\Models\FailedJob
+ * Class FailedJobRepository.
  */
 class FailedJobRepository extends NodesRepository
 {
     /**
-     * FailedJobRepository constructor
+     * FailedJobRepository constructor.
      *
      * @author Casper Rasmussen <cr@nodes.dk>
      *
-     * @access public
      * @param \Nodes\Backend\Models\FailedJob\FailedJob $model
      */
     public function __construct(FailedJob $model)
@@ -24,12 +22,11 @@ class FailedJobRepository extends NodesRepository
     }
 
     /**
-     * Retrieve all failed jobs paginated
+     * Retrieve all failed jobs paginated.
      *
      * @author Casper Rasmussen <cr@nodes.dk>
      *
-     * @access public
-     * @param  integer  $limit
+     * @param  int  $limit
      * @param  array    $fields
      * @return \Illuminate\Contracts\Pagination\LengthAwarePaginator
      */

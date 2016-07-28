@@ -1,25 +1,23 @@
 <?php
+
 namespace Nodes\Backend\Auth\Exceptions;
 
 use Nodes\Exceptions\Exception as NodesException;
 
 /**
- * Class InvalidTokenException
- *
- * @package Nodes\Backend\Auth\Exceptions
+ * Class InvalidTokenException.
  */
 class InvalidTokenException extends NodesException
 {
     /**
-     * InvalidTokenException constructor
+     * InvalidTokenException constructor.
      *
      * @author Morten Rugaard <moru@nodes.dk>
      *
-     * @access public
      * @param  string   $message
-     * @param  integer  $code
+     * @param  int  $code
      * @param  array    $headers
-     * @param  boolean  $report
+     * @param  bool  $report
      * @param  string   $severity
      */
     public function __construct($message = 'Invalid token', $code = 442, array $headers = [], $report = false, $severity = 'error')

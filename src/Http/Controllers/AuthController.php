@@ -1,4 +1,5 @@
 <?php
+
 namespace Nodes\Backend\Http\Controllers;
 
 use Exception;
@@ -8,24 +9,21 @@ use Nodes\Backend\Support\FlashRestorer;
 use Nodes\Database\Exceptions\EntityNotFoundException;
 
 /**
- * Class AuthController
- *
- * @package Nodes\Backend\Http\Controllers
+ * Class AuthController.
  */
 class AuthController extends Controller
 {
     /**
-     * User repository
+     * User repository.
      *
      * @var \Nodes\Backend\Models\User\UserRepository
      */
     protected $userRepository;
 
     /**
-     * Constructor
+     * Constructor.
      *
      * @author Morten Rugaard <moru@nodes.dk>
-     * @access public
      */
     public function __construct()
     {
@@ -33,11 +31,10 @@ class AuthController extends Controller
     }
 
     /**
-     * Login form
+     * Login form.
      *
      * @author Casper Rasmussen <cr@nodes.dk>
      *
-     * @access public
      * @return \Illuminate\View\View
      */
     public function login()
@@ -52,11 +49,10 @@ class AuthController extends Controller
     }
 
     /**
-     * Authenticate user
+     * Authenticate user.
      *
      * @author Morten Rugaard <moru@nodes.dk>
      *
-     * @access public
      * @return \Illuminate\Http\RedirectResponse
      */
     public function authenticate()
@@ -65,7 +61,7 @@ class AuthController extends Controller
         $data = Request::only('email', 'password', 'remember');
 
         // Authenticate user
-        if (!backend_attempt(['email' => $data['email'], 'password' => $data['password']], (bool) $data['remember'])) {
+        if (! backend_attempt(['email' => $data['email'], 'password' => $data['password']], (bool) $data['remember'])) {
             return redirect()->route('nodes.backend.login.form')->with('error', 'Invalid login. Try again.');
         }
 
@@ -73,17 +69,16 @@ class AuthController extends Controller
     }
 
     /**
-     * SSO login form
+     * SSO login form.
      *
      * @author Morten Rugaard <moru@nodes.dk>
      *
-     * @access public
      * @return \Illuminate\View\View
      */
     public function sso()
     {
         // Check for disabled feature
-        if(!config('nodes.backend.manager.active', true)) {
+        if (! config('nodes.backend.manager.active', true)) {
             return redirect()->route('nodes.backend.login.form')->with('error', 'Manager auth is disabled.');
         }
 
@@ -105,17 +100,16 @@ class AuthController extends Controller
     }
 
     /**
-     * Authenticate Nodes Manager
+     * Authenticate Nodes Manager.
      *
      * @author Casper Rasmussen <cr@nodes.dk>
      *
-     * @access public
      * @return \Illuminate\Http\RedirectResponse
      */
     public function manager()
     {
         // Check for disabled feature
-        if(!config('nodes.backend.manager.active', true)) {
+        if (! config('nodes.backend.manager.active', true)) {
             return redirect()->route('nodes.backend.login.form')->with('error', 'Manager auth is disabled.');
         }
 
@@ -133,7 +127,6 @@ class AuthController extends Controller
 
             // Redirect into backend
             return $this->redirectSuccess();
-
         } catch (Exception $e) {
             try {
                 // Notify bugsnag
@@ -148,11 +141,10 @@ class AuthController extends Controller
     }
 
     /**
-     * Log authenticated user out
+     * Log authenticated user out.
      *
      * @author Morten Rugaard <moru@nodes.dk>
      *
-     * @access public
      * @return \Illuminate\Http\RedirectResponse
      */
     public function logout()
@@ -165,11 +157,10 @@ class AuthController extends Controller
     }
 
     /**
-     * Redirect user upon successful authentication
+     * Redirect user upon successful authentication.
      *
      * @author Casper Rasmussen <cr@nodes.dk>
      *
-     * @access public
      * @param  \Nodes\Backend\Support\FlashRestorer $flashAlert
      * @return \Illuminate\Http\RedirectResponse
      */
@@ -188,7 +179,7 @@ class AuthController extends Controller
         } else {
             // Else redirect to success route from config
             $route = config('nodes.backend.auth.routes.success');
-            $redirectResponse = !empty($route) ? redirect()->route($route)->with('success', 'Logged in as: ' . $backendUser->email) : redirect()->to('/admin');
+            $redirectResponse = ! empty($route) ? redirect()->route($route)->with('success', 'Logged in as: '.$backendUser->email) : redirect()->to('/admin');
         }
 
         // Apply flash messages from previous route, if they are passed

@@ -1,4 +1,5 @@
 <?php
+
 namespace Nodes\Backend\Http\Controllers;
 
 use Exception;
@@ -10,23 +11,20 @@ use Nodes\Backend\Models\Role\RoleRepository;
 use Nodes\Backend\Models\Role\Validation\RoleValidator;
 
 /**
- * Class UsersRolesController
- *
- * @package Nodes\Backend\Http\Controllers
+ * Class UsersRolesController.
  */
 class RolesController extends Controller
 {
     /**
-     * Role repository
+     * Role repository.
      *
      * @var \Nodes\Backend\Models\Role\RoleRepository
      */
     protected $roleRepository;
 
     /**
-     * Constructor
+     * Constructor.
      *
-     * @access public
      * @param  \Nodes\Backend\Models\Role\RoleRepository $roleRepository
      */
     public function __construct(RoleRepository $roleRepository)
@@ -39,11 +37,10 @@ class RolesController extends Controller
     }
 
     /**
-     * List all roles
+     * List all roles.
      *
      * @author Morten Rugaard <moru@nodes.dk>
      *
-     * @access public
      * @return \Illuminate\View\View
      */
     public function index()
@@ -55,11 +52,10 @@ class RolesController extends Controller
     }
 
     /**
-     * Save new role to database
+     * Save new role to database.
      *
      * @author Casper Rasmussen <cr@nodes.dk>
      *
-     * @access public
      * @param  \Nodes\Backend\Models\Role\Validation\RoleValidator $roleValidator
      * @return \Illuminate\Http\RedirectResponse
      */
@@ -72,12 +68,13 @@ class RolesController extends Controller
         $data['slug'] = Str::slug($data['title']);
 
         // Validate role and redirect if invalidate
-        if (!$roleValidator->with($data)->validate()) {
+        if (! $roleValidator->with($data)->validate()) {
             return redirect()->route('nodes.backend.users.roles')->with('error', 'Role slug already exists');
         }
 
         try {
             $this->roleRepository->create($data);
+
             return redirect()->route('nodes.backend.users.roles')->with('success', 'Role was successfully created.');
         } catch (Exception $e) {
             return redirect()->route('nodes.backend.users.roles')->with('error', 'Could not create role');
@@ -85,12 +82,11 @@ class RolesController extends Controller
     }
 
     /**
-     * We only update title since slug is used for gates
+     * We only update title since slug is used for gates.
      *
      * @author Casper Rasmussen <cr@nodes.dk>
      *
-     * @access public
-     * @param  integer $id
+     * @param  int $id
      * @return \Illuminate\Http\RedirectResponse
      */
     public function update($id)
@@ -111,6 +107,7 @@ class RolesController extends Controller
 
         try {
             $role->update($data);
+
             return redirect()->route('nodes.backend.users.roles')->with('success', 'Role was successfully updated');
         } catch (Exception $e) {
             return redirect()->route('nodes.backend.users.roles')->with('error', 'Could not update role');
@@ -119,12 +116,11 @@ class RolesController extends Controller
 
     /**
      * Delete the role
-     * Note: This can cause quite the damage role is in use
+     * Note: This can cause quite the damage role is in use.
      *
      * @author Casper Rasmussen <cr@nodes.dk>
      *
-     * @access public
-     * @param  integer $id
+     * @param  int $id
      * @return \Illuminate\Http\RedirectResponse
      */
     public function destroy($id)
@@ -143,6 +139,7 @@ class RolesController extends Controller
 
         try {
             $this->roleRepository->deleteRole($role);
+
             return redirect()->route('nodes.backend.users.roles')->with('success', 'Role was successfully deleted');
         } catch (Exception $e) {
             return redirect()->route('nodes.backend.users.roles')->with('error', 'Could not delete role');
@@ -150,15 +147,15 @@ class RolesController extends Controller
     }
 
     /**
-     * Mark role as default
+     * Mark role as default.
      *
      * @author Casper Rasmussen <cr@nodes.dk>
      *
-     * @access public
-     * @param  integer $id
+     * @param  int $id
      * @return \Illuminate\Http\RedirectResponse
      */
-    public function setDefault($id) {
+    public function setDefault($id)
+    {
         // Retrieve role by ID
         $role = $this->roleRepository->getById($id);
         if (empty($role)) {
@@ -173,10 +170,10 @@ class RolesController extends Controller
 
         try {
             $this->roleRepository->setDefault($role);
+
             return redirect()->route('nodes.backend.users.roles')->with('success', 'Role was successfully set default');
         } catch (Exception $e) {
             return redirect()->route('nodes.backend.users.roles')->with('error', 'Could not set the role default');
         }
-
     }
 }

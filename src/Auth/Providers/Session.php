@@ -1,4 +1,5 @@
 <?php
+
 namespace Nodes\Backend\Auth\Providers;
 
 use Illuminate\Database\Eloquent\Model as IlluminateModel;
@@ -12,39 +13,36 @@ use Symfony\Component\HttpFoundation\Session\SessionInterface;
 use Symfony\Component\HttpKernel\Exception\UnauthorizedHttpException;
 
 /**
- * Class Session
- *
- * @package Nodes\Backend\Auth\Providers
+ * Class Session.
  */
 class Session implements Provider
 {
     /**
-     * User model we should use to authenticate
+     * User model we should use to authenticate.
      *
      * @var \Illuminate\Database\Eloquent\Model
      */
     protected $model;
 
     /**
-     * The session used by the guard
+     * The session used by the guard.
      *
      * @var \Symfony\Component\HttpFoundation\Session\SessionInterface
      */
     protected $session;
 
     /**
-     * Indicates if a token user retrieval has been attempted
+     * Indicates if a token user retrieval has been attempted.
      *
-     * @var boolean
+     * @var bool
      */
     protected $tokenRetrievalAttempted = false;
 
     /**
-     * Session constructor
+     * Session constructor.
      *
      * @author Morten Rugaard <moru@nodes.dk>
      *
-     * @access public
      * @param  \Illuminate\Database\Eloquent\Model $model
      * @param  \Symfony\Component\HttpFoundation\Session\SessionInterface $session
      */
@@ -55,28 +53,28 @@ class Session implements Provider
     }
 
     /**
-     * Authenticate
+     * Authenticate.
      *
      * @author Morten Rugaard <moru@nodes.dk>
      *
-     * @access public
      * @param  \Illuminate\Http\Request  $request
      * @param  \Illuminate\Routing\Route $route
-     * @return object|boolean
+     * @return object|bool
      * @throws \Symfony\Component\HttpKernel\Exception\UnauthorizedHttpException
      */
     public function authenticate(IlluminateRequest $request, IlluminateRoute $route)
     {
         // Retrieve user from session
         $userId = $this->session->get(Manager::getName());
-        if (!empty($userId) && ($user = $this->model->where('id', '=', $userId)->first())) {
+        if (! empty($userId) && ($user = $this->model->where('id', '=', $userId)->first())) {
             return $user;
         }
 
         // Retrieve user from cookie
         $recaller = $this->getRecaller();
-        if (!empty($recaller) && ($user = $this->getUserByRecaller($recaller))) {
+        if (! empty($recaller) && ($user = $this->getUserByRecaller($recaller))) {
             $this->updateSession($user->getAuthIdentifier());
+
             return $user;
         }
 
@@ -84,15 +82,14 @@ class Session implements Provider
     }
 
     /**
-     * Attempt to authenticate a user using the given credentials
+     * Attempt to authenticate a user using the given credentials.
      *
      * @author Morten Rugaard <moru@nodes.dk>
      *
-     * @access public
      * @param  array   $credentials
-     * @param  boolean $remember
-     * @param  boolean $login
-     * @return boolean
+     * @param  bool $remember
+     * @param  bool $login
+     * @return bool
      */
     public function attempt(array $credentials = [], $remember = false, $login = true)
     {
@@ -116,10 +113,11 @@ class Session implements Provider
         // If an implementation of UserInterface was returned, we'll ask the provider
         // to validate the user against the given credentials, and if they are in
         // fact valid we'll log the users into the application and return true.
-        if (!empty($user) && $this->auth->validateCredentials($user, $credentials)) {
+        if (! empty($user) && $this->auth->validateCredentials($user, $credentials)) {
             if ($login) {
                 $this->login($user, $remember);
             }
+
             return true;
         }
 
@@ -127,14 +125,13 @@ class Session implements Provider
     }
 
     /**
-     * Validate user credentials
+     * Validate user credentials.
      *
      * @author Morten Rugaard <moru@nodes.dk>
      *
-     * @access public
      * @param  \Nodes\Backend\Auth\Contracts\Authenticatable $user
      * @param  array $credentials
-     * @return boolean
+     * @return bool
      */
     protected function validateCredentials(Authenticatable $user, array $credentials)
     {
@@ -146,17 +143,16 @@ class Session implements Provider
     }
 
     /**
-     * Retrieve user by "remember me" cookie
+     * Retrieve user by "remember me" cookie.
      *
      * @author Morten Rugaard <moru@nodes.dk>
      *
-     * @access protected
      * @param  string $recaller
-     * @return \Nodes\Backend\Auth\Contracts\Authenticatable|null|boolean
+     * @return \Nodes\Backend\Auth\Contracts\Authenticatable|null|bool
      */
     protected function getUserByRecaller($recaller)
     {
-        if (!$this->validRecaller($recaller) || $this->tokenRetrievalAttempted) {
+        if (! $this->validRecaller($recaller) || $this->tokenRetrievalAttempted) {
             return false;
         }
 
@@ -168,7 +164,7 @@ class Session implements Provider
 
         // Retrieve user by ID and token
         $user = $this->model->where('id', '=', $id)->where('remember_token', '=', $token)->first();
-        if (!empty($user)) {
+        if (! empty($user)) {
             $this->viaRemember = true;
         }
 
@@ -176,30 +172,29 @@ class Session implements Provider
     }
 
     /**
-     * Determine if the "remember me" cookie is in a valid format
+     * Determine if the "remember me" cookie is in a valid format.
      *
      * @author Morten Rugaard <moru@nodes.dk>
      *
-     * @access protected
      * @param  string $recaller
-     * @return boolean
+     * @return bool
      */
     protected function validRecaller($recaller)
     {
-        if (!is_string($recaller) || !str_contains($recaller, '|')) {
+        if (! is_string($recaller) || ! str_contains($recaller, '|')) {
             return false;
         }
 
         $segments = explode('|', $recaller);
+
         return count($segments) == 2 && trim($segments[0]) !== '' && trim($segments[1]) !== '';
     }
 
     /**
-     * Get the decrypted "remember me" cookie for the request
+     * Get the decrypted "remember me" cookie for the request.
      *
      * @author Morten Rugaard <moru@nodes.dk>
      *
-     * @access protected
      * @return string|null
      */
     protected function getRecaller()

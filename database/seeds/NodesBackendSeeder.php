@@ -1,8 +1,9 @@
 <?php
+
 use Illuminate\Database\Seeder;
 
 /**
- * Class NodesBackendSeeder
+ * Class NodesBackendSeeder.
  */
 class NodesBackendSeeder extends Seeder
 {
@@ -16,5 +17,4 @@ class NodesBackendSeeder extends Seeder
         $this->call('BackendRolesSeeder');
         $this->call('BackendUsersSeeder');
     }
-
 }

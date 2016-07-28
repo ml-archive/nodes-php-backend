@@ -1,22 +1,20 @@
 <?php
+
 namespace Nodes\Backend\Models\Role;
 
 use Nodes\Database\Eloquent\Repository as NodesRepository;
 use Nodes\Exceptions\Exception;
 
 /**
- * Class RoleRepository
- *
- * @package Nodes\Backend\Models\Role
+ * Class RoleRepository.
  */
 class RoleRepository extends NodesRepository
 {
     /**
-     * Constructor
+     * Constructor.
      *
      * @author Morten Rugaard <moru@nodes.dk>
      *
-     * @access public
      * @param \Nodes\Backend\Models\Role\Role $model
      */
     public function __construct(Role $model)
@@ -25,11 +23,10 @@ class RoleRepository extends NodesRepository
     }
 
     /**
-     * Retrieve list of available roles
+     * Retrieve list of available roles.
      *
      * @author Casper Rasmussen <cr@nodes.dk>
      *
-     * @access public
      * @return array
      */
     public function getList()
@@ -38,11 +35,10 @@ class RoleRepository extends NodesRepository
     }
 
     /**
-     * Retrieve roles for authed user's user-role
+     * Retrieve roles for authed user's user-role.
      *
      * @author Casper Rasmussen <cr@nodes.dk>
      *
-     * @access public
      * @return array
      */
     public function getListUserLevel()
@@ -51,13 +47,13 @@ class RoleRepository extends NodesRepository
         $list = $this->getList();
 
         // If user is developer, give the full list
-        if(\Gate::allows('backend-developer')) {
+        if (\Gate::allows('backend-developer')) {
             return $list;
         }
 
         // This means user is not developer, let's unset that option
         unset($list['developer']);
-        if(\Gate::allows('backend-super-admin')) {
+        if (\Gate::allows('backend-super-admin')) {
             return $list;
         }
 
@@ -66,7 +62,7 @@ class RoleRepository extends NodesRepository
 
 
         // If user is admin, we return the list
-        if(\Gate::allows('backend-admin')) {
+        if (\Gate::allows('backend-admin')) {
             return $list;
         }
 
@@ -77,12 +73,11 @@ class RoleRepository extends NodesRepository
     }
 
     /**
-     * Retrieve all users paginated
+     * Retrieve all users paginated.
      *
      * @author Casper Rasmussen <cr@nodes.dk>
      *
-     * @access public
-     * @param  integer $limit
+     * @param  int $limit
      * @param  array   $fields
      * @return \Illuminate\Contracts\Pagination\LengthAwarePaginator
      */
@@ -102,13 +97,12 @@ class RoleRepository extends NodesRepository
     }
 
     /**
-     * Delete role and clean up after
+     * Delete role and clean up after.
      *
      * @author Casper Rasmussen <cr@nodes.dk>
      *
-     * @access public
      * @param  \Nodes\Backend\Models\Role\Role $role
-     * @return boolean
+     * @return bool
      * @throws \Nodes\Exceptions\Exception
      */
     public function deleteRole(Role $role)
@@ -116,13 +110,13 @@ class RoleRepository extends NodesRepository
         $defaultRole = $this->getDefaultRole();
 
         // Check if the role which is about to be deleted is the default role
-        if($defaultRole->id == $role->id) {
+        if ($defaultRole->id == $role->id) {
             throw new Exception('Cannot delete default role', 500);
         }
 
         // Set all user's with deleted role
         // to the default role 'user'.
-        if (!empty($defaultRole)) {
+        if (! empty($defaultRole)) {
             $role->users()->update(['user_role' => $defaultRole->slug]);
         }
 
@@ -130,22 +124,22 @@ class RoleRepository extends NodesRepository
     }
 
     /**
-     * Set role as default
+     * Set role as default.
      *
      * @author Casper Rasmussen <cr@nodes.dk>
      *
-     * @access public
      * @param \Nodes\Backend\Models\Role\Role $role
      * @return \Exception
      */
-    public function setDefault(Role $role) {
+    public function setDefault(Role $role)
+    {
         try {
             // Begin transaction
             $this->beginTransaction();
 
             // Look up already default role and set it to non default
             $defaultRole = $this->getBy('default', true);
-            if($defaultRole) {
+            if ($defaultRole) {
                 $defaultRole->update(['default' => false]);
             }
 
@@ -154,7 +148,7 @@ class RoleRepository extends NodesRepository
 
             // Commit transaction
             $this->commitTransaction();
-        } catch(\Exception $e) {
+        } catch (\Exception $e) {
 
             // Rollback and throw
             $this->rollbackTransaction();

@@ -5,10 +5,8 @@ namespace Nodes\Backend\Dashboard\Exceptions;
 use Nodes\Exceptions\Exception;
 
 /**
- * Class UnsupportedTypeException
+ * Class UnsupportedTypeException.
  * @author  Casper Rasmussen <cr@nodes.dk>
- *
- * @package Nodes\Backend\Dashboard\Exceptions
  */
 class UnsupportedTypeException extends Exception
 {

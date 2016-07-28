@@ -1,4 +1,5 @@
 <?php
+
 namespace Nodes\Backend\Models\User;
 
 use Exception;
@@ -12,16 +13,13 @@ use Nodes\Database\Exceptions\SaveFailedException;
 use Symfony\Component\HttpFoundation\File\UploadedFile;
 
 /**
- * Class UserRepository
- *
- * @package Nodes\Backend\Models\User
+ * Class UserRepository.
  */
 class UserRepository extends Repository
 {
     /**
-     * Constructor
+     * Constructor.
      *
-     * @access public
      * @throws \Nodes\Backend\Auth\Exception\InvalidUserModelException
      */
     public function __construct()
@@ -30,11 +28,10 @@ class UserRepository extends Repository
     }
 
     /**
-     * Retrieve user by manager data or create a new user
+     * Retrieve user by manager data or create a new user.
      *
      * @author Casper Rasmussen <cr@nodes.dk>
      *
-     * @access public
      * @param  array $data
      * @return \Illuminate\Database\Eloquent\Model
      * @throws \Nodes\Database\Exceptions\EntityNotFoundException
@@ -44,7 +41,7 @@ class UserRepository extends Repository
     {
         // Retrieve user by e-mail
         $user = $this->getBy('email', $data['email']);
-        if (!empty($user)) {
+        if (! empty($user)) {
             // Set image if its different
             if (empty($user->image)) {
                 $user->image = $data['image'];
@@ -72,12 +69,11 @@ class UserRepository extends Repository
     }
 
     /**
-     * Retrieve user by ID and "remember me" token
+     * Retrieve user by ID and "remember me" token.
      *
      * @author Morten Rugaard <moru@nodes.dk>
      *
-     * @access public
-     * @param  integer $id
+     * @param  int $id
      * @param  string  $token
      * @return \Illuminate\Database\Eloquent\Model|null
      */
@@ -89,11 +85,10 @@ class UserRepository extends Repository
     }
 
     /**
-     * Retrieve user by e-mail and password
+     * Retrieve user by e-mail and password.
      *
      * @author Casper Rasmussen <cr@nodes.dk>
      *
-     * @access public
      * @param  string $email
      * @param  string $password
      * @return \Illuminate\Database\Eloquent\Model
@@ -106,7 +101,7 @@ class UserRepository extends Repository
         $user = $this->getByOrFail('email', $email);
 
         // Validate password
-        if (!Hash::check($password, $user['password'])) {
+        if (! Hash::check($password, $user['password'])) {
             throw new InvalidPasswordException('Password was incorrect. Try again.');
         }
 
@@ -115,12 +110,11 @@ class UserRepository extends Repository
 
     /**
      * Retrieve all users paginated
-     * sorted by name ASC
+     * sorted by name ASC.
      *
      * @author Casper Rasmussen <cr@nodes.dk>
      *
-     * @access public
-     * @param  integer $limit
+     * @param  int $limit
      * @param  array   $fields
      * @return \Illuminate\Pagination\LengthAwarePaginator
      */
@@ -130,9 +124,9 @@ class UserRepository extends Repository
 
         // Apply search conditions if search is set
         if (Request::get('search', null)) {
-            $query->where(function($query) {
-                $query->orWhere('name', 'LIKE', '%' . Request::get('search') . '%')
-                      ->orWhere('email', 'LIKE', '%' . Request::get('search') . '%');
+            $query->where(function ($query) {
+                $query->orWhere('name', 'LIKE', '%'.Request::get('search').'%')
+                      ->orWhere('email', 'LIKE', '%'.Request::get('search').'%');
             });
         }
 
@@ -140,25 +134,23 @@ class UserRepository extends Repository
     }
 
     /**
-     * Retrieve manager user from config
+     * Retrieve manager user from config.
      *
      * @author Casper Rasmussen <cr@nodes.dk>
      *
-     * @access public
      * @return \Illuminate\Database\Eloquent\Model
      * @throws \Nodes\Database\Exceptions\EntityNotFoundException
      */
     public function getManagerUser()
     {
-       return $this->getByOrFail('email', config('nodes.backend.manager.email'));
+        return $this->getByOrFail('email', config('nodes.backend.manager.email'));
     }
 
     /**
-     * Create a user from validated data
+     * Create a user from validated data.
      *
      * @author Casper Rasmussen <cr@nodes.dk>
      *
-     * @access public
      * @param  array $data
      * @return \Illuminate\Database\Eloquent\Model
      * @throws \Exception
@@ -174,7 +166,7 @@ class UserRepository extends Repository
             $user = $this->create($data);
 
             // Add image to user if one has been uploaded
-            if (!empty($data['image']) && $data['image'] instanceof UploadedFile) {
+            if (! empty($data['image']) && $data['image'] instanceof UploadedFile) {
                 try {
                     $imagePath = assets_add_uploaded_file($data['image'], 'backend_user_images');
                     $user->update(['image' => $imagePath]);
@@ -197,38 +189,37 @@ class UserRepository extends Repository
     }
 
     /**
-     * Send a welcome email
+     * Send a welcome email.
      *
      * @author Casper Rasmussen <cr@nodes.dk>
      *
-     * @access public
      * @param  \Illuminate\Database\Eloquent\Model $user
      * @param  string                              $password
-     * @return boolean
+     * @return bool
      */
-    public function sendWelcomeMail(Model $user, $password = '******') {
+    public function sendWelcomeMail(Model $user, $password = '******')
+    {
         return (bool) Mail::send([
             'html' => config('nodes.backend.welcome.views.html', 'nodes.backend::backend-users.emails.html'),
-            'text' => config('nodes.backend.welcome.views.text', 'nodes.backend::backend-users.emails.text')
+            'text' => config('nodes.backend.welcome.views.text', 'nodes.backend::backend-users.emails.text'),
         ], [
             'user' => $user,
             'url' => route(config('nodes.backend.welcome.route')),
             'project' => config('nodes.project.name'),
-            'password' => $password
+            'password' => $password,
 
-        ], function($message) use ($user) {
-             $message->to($user->email)
+        ], function ($message) use ($user) {
+            $message->to($user->email)
                      ->from(config('nodes.backend.welcome.from.email', 'no-reply@like.st'), config('nodes.backend.welcome.from.name', 'Backend'))
                      ->subject(config('nodes.backend.welcome.subject', 'Welcome to backend'));
         });
     }
 
     /**
-     * Update user with validated data
+     * Update user with validated data.
      *
      * @author Casper Rasmussen <cr@nodes.dk>
      *
-     * @access public
      * @param  \Illuminate\Database\Eloquent\Model $user
      * @param  array                               $data
      * @return \Illuminate\Database\Eloquent\Model
@@ -247,7 +238,7 @@ class UserRepository extends Repository
         $user->update($data);
 
         // Add image to user if one has been uploaded
-        if (!empty($data['image']) && $data['image'] instanceof UploadedFile) {
+        if (! empty($data['image']) && $data['image'] instanceof UploadedFile) {
             try {
                 $imagePath = assets_add_uploaded_file($data['image'], 'backend_user_images');
                 $user->update(['image' => $imagePath]);
@@ -261,11 +252,10 @@ class UserRepository extends Repository
     }
 
     /**
-     * Retrieve user by a multiple columns
+     * Retrieve user by a multiple columns.
      *
      * @author Morten Rugaard <moru@nodes.dk>
      *
-     * @access public
      * @param  array $columns
      * @return \Illuminate\Database\Eloquent\Model|null
      */

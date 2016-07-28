@@ -1,21 +1,22 @@
 <?php
+
 use Illuminate\Database\Seeder;
 use Nodes\Backend\Models\Role\RoleRepository;
 
 /**
- * Class BackendRolesSeeder
+ * Class BackendRolesSeeder.
  */
 class BackendRolesSeeder extends Seeder
 {
     /**
-     * Roles
+     * Roles.
      * @var array
      */
     protected $roles = [
         'developer' => 'Developer',
         'super-admin' => 'Super admin',
         'admin' => 'Admin',
-        'user' => 'User'
+        'user' => 'User',
     ];
 
     /**
@@ -43,5 +44,4 @@ class BackendRolesSeeder extends Seeder
 
         $this->command->info('Backend roles seeded!');
     }
-
 }

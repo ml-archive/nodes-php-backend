@@ -3,10 +3,8 @@
 namespace Nodes\Backend\Dashboard\Types\NodesStatistics;
 
 /**
- * Class MonthlyStatistic
+ * Class MonthlyStatistic.
  * @author  Casper Rasmussen <cr@nodes.dk>
- *
- * @package Nodes\Backend\Dashboard\Types\NodesStatistics
  */
 class MonthlyStatistic extends Statistic
 {

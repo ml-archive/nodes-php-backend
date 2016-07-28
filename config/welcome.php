@@ -1,4 +1,5 @@
 <?php
+
 return [
     /*
     |--------------------------------------------------------------------------
@@ -11,7 +12,7 @@ return [
     */
     'from' => [
         'name' => 'Backend',
-        'email' => 'no-reply@nodes.dk'
+        'email' => 'no-reply@nodes.dk',
     ],
 
     /*
@@ -46,6 +47,6 @@ return [
     */
     'views' => [
         'html' => 'nodes.backend::backend-users.emails.html',
-        'text' => 'nodes.backend::backend-users.emails.text'
+        'text' => 'nodes.backend::backend-users.emails.text',
     ],
 ];

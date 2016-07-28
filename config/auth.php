@@ -1,4 +1,5 @@
 <?php
+
 return [
     /*
     |--------------------------------------------------------------------------
@@ -38,7 +39,7 @@ return [
     |
     */
     'routes' => [
-        'success' => 'nodes.backend.dashboard'
+        'success' => 'nodes.backend.dashboard',
     ],
 
     /*
@@ -52,7 +53,7 @@ return [
     |
     */
     'gates' => [
-        'define' => true
+        'define' => true,
     ],
     /*
     |--------------------------------------------------------------------------
@@ -67,9 +68,9 @@ return [
         'token' => function ($app) {
             return new Nodes\Backend\Auth\Providers\Token;
         },
-        'session' => function($app) {
+        'session' => function ($app) {
             return new Nodes\Backend\Auth\Providers\Session($app['nodes.backend.auth.model'], app(\Illuminate\Session\Store::class));
-        }
+        },
     ],
 
     /*
@@ -104,7 +105,7 @@ return [
         'columns' => [
             'user_id' => 'user_id',
             'token' => 'token',
-            'expire' => 'expire'
+            'expire' => 'expire',
         ],
 
         /*
@@ -118,6 +119,6 @@ return [
         | @see http://php.net/manual/en/datetime.formats.relative.php
         |
         */
-        'lifetime' => null
-    ]
+        'lifetime' => null,
+    ],
 ];

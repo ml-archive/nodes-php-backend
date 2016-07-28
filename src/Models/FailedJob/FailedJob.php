@@ -1,13 +1,12 @@
 <?php
+
 namespace Nodes\Backend\Models\FailedJob;
 
 use Nodes\Database\Eloquent\Model;
 use Nodes\Database\Support\Traits\Date;
 
 /**
- * Class FailedJob
- *
- * @package Nodes\Backend\Models\FailedJob
+ * Class FailedJob.
  */
 class FailedJob extends Model
 {

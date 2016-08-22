@@ -189,12 +189,12 @@ class AuthController extends Controller
             if ($urlToRedirectToAfterUserLogin) {
                 // redirect to previously visited page if available
                 $redirectResponse = redirect()->to($urlToRedirectToAfterUserLogin)
-                    ->with('success', 'Logged in as: ' . $backendUser->email);
+                    ->with('success', 'Logged in as: '.$backendUser->email);
             } else {
                 // redirect to success route from config
                 $route = config('nodes.backend.auth.routes.success');
-                $redirectResponse = !empty($route) ? redirect()->route($route)->with('success',
-                    'Logged in as: ' . $backendUser->email) : redirect()->to('/admin');
+                $redirectResponse = ! empty($route) ? redirect()->route($route)->with('success',
+                    'Logged in as: '.$backendUser->email) : redirect()->to('/admin');
             }
         }
 

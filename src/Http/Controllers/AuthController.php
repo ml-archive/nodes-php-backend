@@ -35,10 +35,14 @@ class AuthController extends Controller
      *
      * @author Casper Rasmussen <cr@nodes.dk>
      *
-     * @return \Illuminate\View\View
+     * @return \Illuminate\Contracts\View\Factory|\Illuminate\Http\RedirectResponse|\Illuminate\View\View
      */
     public function login()
     {
+        // keep 'url_to_redirect_to_after_user_login' in session for the next request,
+        // so we can use it after user authentication is successful
+        app('session')->keep(['url_to_redirect_to_after_user_login']);
+
         // If user is already authenticated,
         // redirect user to dashboard
         if (backend_user_check()) {
@@ -57,6 +61,8 @@ class AuthController extends Controller
      */
     public function authenticate()
     {
+        $urlToRedirectToAfterUserLogin = app('session')->get('url_to_redirect_to_after_user_login');
+
         // Retrieve credentials
         $data = Request::only('email', 'password', 'remember');
 
@@ -65,18 +71,19 @@ class AuthController extends Controller
             return redirect()->route('nodes.backend.login.form')->with('error', 'Invalid login. Try again.');
         }
 
-        return $this->redirectSuccess();
+        return $this->redirectSuccess($flashAlert = null, $urlToRedirectToAfterUserLogin);
     }
 
     /**
      * SSO login form.
      *
      * @author Morten Rugaard <moru@nodes.dk>
-     *
-     * @return \Illuminate\View\View
+     * @return \Illuminate\Http\RedirectResponse
      */
     public function sso()
     {
+        $urlToRedirectToAfterUserLogin = app('session')->get('url_to_redirect_to_after_user_login');
+
         // Check for disabled feature
         if (! config('nodes.backend.manager.active', true)) {
             return redirect()->route('nodes.backend.login.form')->with('error', 'Manager auth is disabled.');
@@ -93,7 +100,7 @@ class AuthController extends Controller
             // Authenticate user
             backend_user_login($user);
 
-            return $this->redirectSuccess();
+            return $this->redirectSuccess($flashAlert = null, $urlToRedirectToAfterUserLogin);
         }
 
         return redirect()->away(sprintf(env('NODES_MANAGER_URL'), env('APP_NAME'), env('APP_ENV')));
@@ -162,9 +169,10 @@ class AuthController extends Controller
      * @author Casper Rasmussen <cr@nodes.dk>
      *
      * @param  \Nodes\Backend\Support\FlashRestorer $flashAlert
+     * @param string|null $urlToRedirectToAfterUserLogin
      * @return \Illuminate\Http\RedirectResponse
      */
-    protected function redirectSuccess($flashAlert = null)
+    protected function redirectSuccess($flashAlert = null, $urlToRedirectToAfterUserLogin = null)
     {
         // Retrieve authenticated backend user
         $backendUser = backend_user();
@@ -175,11 +183,19 @@ class AuthController extends Controller
         // Otherwise we'll redirect the user to the designated route
         // based on the route alias from the backend config file
         if ($backendUser->change_password) {
-            $redirectResponse = redirect()->route('nodes.backend.users.change-password')->with('info', 'Please update your password');
+            $redirectResponse = redirect()->route('nodes.backend.users.change-password')
+                ->with('info', 'Please update your password');
         } else {
-            // Else redirect to success route from config
-            $route = config('nodes.backend.auth.routes.success');
-            $redirectResponse = ! empty($route) ? redirect()->route($route)->with('success', 'Logged in as: '.$backendUser->email) : redirect()->to('/admin');
+            if ($urlToRedirectToAfterUserLogin) {
+                // redirect to previously visited page if available
+                $redirectResponse = redirect()->to($urlToRedirectToAfterUserLogin)
+                    ->with('success', 'Logged in as: '.$backendUser->email);
+            } else {
+                // redirect to success route from config
+                $route = config('nodes.backend.auth.routes.success');
+                $redirectResponse = !empty($route) ? redirect()->route($route)->with('success',
+                    'Logged in as: ' . $backendUser->email) : redirect()->to('/admin');
+            }
         }
 
         // Apply flash messages from previous route, if they are passed

@@ -20,9 +20,11 @@ class UserValidator extends AbstractValidator
             'email' => ['required', 'email', 'unique:backend_users,email,{:id}', 'max:190'],
             'password' => ['required_without:id', 'min:6', 'confirmed'],
             'user_role' => ['required', 'exists:backend_roles,slug'],
+            'image' => ['mimes:jpeg,png']
         ],
         'update-password' => [
             'password' => ['required_without:id', 'min:6', 'confirmed'],
+            'image' => ['mimes:jpeg,png']
         ],
     ];
 }

@@ -9,7 +9,6 @@ use Nodes\Validation\AbstractValidator;
 /**
  * Class ResetPasswordValidator
  *
- * @package nodes\backend\src\Auth\ResetPassword\Validation
  */
 class ResetPasswordValidator extends AbstractValidator
 {

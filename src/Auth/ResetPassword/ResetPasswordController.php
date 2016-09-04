@@ -4,6 +4,7 @@ namespace Nodes\Backend\Auth\ResetPassword;
 
 use Illuminate\Routing\Controller as IlluminateController;
 use Illuminate\Support\Facades\Request;
+use Nodes\Backend\Auth\ResetPassword\Validation\ResetPasswordValidator;
 
 /**
  * Class ResetPasswordController.
@@ -109,40 +110,37 @@ class ResetPasswordController extends IlluminateController
      *
      * @author Morten Rugaard <moru@nodes.dk>
      *
+     * @param \Nodes\Backend\Auth\ResetPassword\Validation\ResetPasswordValidator $validator
+     *
      * @return \Illuminate\Http\RedirectResponse
      */
-    public function resetPassword()
+    public function resetPassword(ResetPasswordValidator $validator)
     {
-        // Retrieve received token
-        $token = Request::get('token');
+        $data = Request::all();
 
-        // Validate token
-        $resetToken = $this->resetPasswordRepository->getByUnexpiredToken($token);
+        // Validate data
+        if(!$validator->with($data)->validate()){
+            return redirect()
+                ->back()
+                ->withInput()
+                ->with('error', $validator->errorsBag());
+        }
+
+        // Get token
+        $resetToken = $this->resetPasswordRepository->getByUnexpiredToken($data['token']);
         if (empty($resetToken)) {
             return redirect()->back()->with('error', 'Could not retrieve valid reset password token');
         }
 
-        // Retrieve received e-mail
-        $email = Request::get('email');
-
         // Validate e-mail address
-        if ($resetToken->email != $email) {
-            return redirect()->back()->with(['email' => $email, 'error' => 'Token does not belong to e-mail address']);
-        }
-
-        // Retrieve received passwords
-        $password = Request::get('password');
-        $repeatPassword = Request::get('repeat-password');
-
-        // Validate passwords
-        if ($password != $repeatPassword) {
-            return redirect()->back()->with(['email' => $email, 'error' => 'The two passwords does not match each other']);
+        if ($resetToken->email != $data['email']) {
+            return redirect()->back()->with(['email' => $data['email'], 'error' => 'Token does not belong to e-mail address']);
         }
 
         // All good! Update user's password
-        $status = $this->resetPasswordRepository->updatePasswordByEmail($email, $password);
+        $status = $this->resetPasswordRepository->updatePasswordByEmail($data['email'], $data['password']);
         if (empty($status)) {
-            return redirect()->back()->with(['email' => $email, 'error' => 'Could not change user\'s password']);
+            return redirect()->back()->with(['email' => $data['email'], 'error' => 'Could not change user\'s password']);
         }
 
         // Mark token as used

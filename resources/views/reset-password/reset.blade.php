@@ -5,12 +5,6 @@
 @endsection
 
 @section('feedback-message')
-    @if (Session::has('error'))
-        <div class="alert alert-danger text-center" role="alert">
-            {{ Session::get('error') }}
-        </div>
-    @endif
-
     <p class="description text-center">Enter the e-mail address of the user who's password you wish to reset. Here after enter the user's new password.</p>
 
     {!! Form::open(['method' => 'post', 'route' => 'nodes.backend.reset-password.change']) !!}
@@ -24,8 +18,8 @@
         {!! Form::password('password', ['id' => 'nodesResetPasswordNew', 'class' => 'form-control']) !!}
     </div>
     <div class="form-group">
-        {!! Form::label('nodesResetPasswordRepeat', 'Repeat password') !!}
-        {!! Form::password('repeat-password', ['id' => 'nodesResetPasswordRepeat', 'class' => 'form-control']) !!}
+        {!! Form::label('nodesResetPasswordConfirmation', 'New password confirmation') !!}
+        {!! Form::password('password_confirmation', ['id' => 'nodesResetPasswordConfirmation', 'class' => 'form-control']) !!}
     </div>
     <div class="form-group">
         {!! Form::submit('Change password', ['class' => 'btn btn-primary form-control']) !!}

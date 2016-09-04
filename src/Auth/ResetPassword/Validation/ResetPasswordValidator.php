@@ -5,7 +5,6 @@ namespace Nodes\Backend\Auth\ResetPassword\Validation;
 
 use Nodes\Validation\AbstractValidator;
 
-
 /**
  * Class ResetPasswordValidator
  *

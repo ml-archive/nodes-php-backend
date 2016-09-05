@@ -109,10 +109,19 @@ class UsersController extends Controller
         // Retrieve posted data
         $data = Request::all();
 
+        // Check current password if needed
+        if (! $this->verifyCurrentPassword($data)){
+            return redirect()
+                ->back()
+                ->withInput()
+                ->with('error', 'The password you entered did not match you current password, please try again');
+        }
+
         // Random a password if it's left empty
         if (empty($data['password'])) {
             $data['password'] = $data['password_confirmation'] = Str::random(8);
         }
+
 
         // Validate user
         if (! $userValidator->with($data)->validate()) {
@@ -179,6 +188,14 @@ class UsersController extends Controller
         // Make sure user has access to edit this user
         if (Gate::denies('backend-edit-backend-user', $user)) {
             abort(403);
+        }
+
+        // Check current password if needed
+        if (! $this->verifyCurrentPassword($data)){
+            return redirect()
+                ->back()
+                ->withInput()
+                ->with('error', 'The password you entered did not match you current password, please try again');
         }
 
         // Validate user
@@ -298,5 +315,29 @@ class UsersController extends Controller
         } catch (Exception $e) {
             return redirect()->back()->withInput()->with('error', 'Could not update password');
         }
+    }
+
+    /**
+     * Checks if the the given current password is valid.
+     * This check is only required for users below the
+     * 'developer' access level.
+     *
+     * @author Pedro Coutinho <peco@nodesagency.com>
+     *
+     * @param array $data
+     *
+     * @return bool
+     */
+    protected function verifyCurrentPassword(array $data)
+    {
+        // If the current logged in user is not a developer, require current password
+        if(\Gate::denies('backend-developer')){
+            // Check if current password exists and if is valid
+            if(empty($data['current_password']) || ! \Hash::check($data['current_password'], backend_user()->password)){
+                return false;
+            }
+        }
+
+        return true;
     }
 }

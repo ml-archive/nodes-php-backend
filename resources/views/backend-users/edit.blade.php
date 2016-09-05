@@ -123,6 +123,14 @@
                 </div>
             </div>
         </div>
+        @if(\Gate::denies('backend-developer'))
+        <div class="row">
+            <div class="col-xs-12 text-center text-danger-dark">
+                {!! Form::label('currentPassword', 'Due to security reasons, please enter your current password below') !!}
+                {!! Form::password('current_password', ['id' => 'currentPassword', 'class' => 'form-control']) !!}
+            </div>
+        </div>
+        @endif
         <div class="row">
             <div class="col-xs-12">
                 <hr>

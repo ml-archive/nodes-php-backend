@@ -110,7 +110,7 @@ class UsersController extends Controller
         $data = Request::all();
 
         // Check current password if needed
-        if (! $this->verifyCurrentPassword($data)){
+        if (! $this->verifyCurrentPassword($data)) {
             return redirect()
                 ->back()
                 ->withInput()
@@ -191,7 +191,7 @@ class UsersController extends Controller
         }
 
         // Check current password if needed
-        if (! $this->verifyCurrentPassword($data)){
+        if (! $this->verifyCurrentPassword($data)) {
             return redirect()
                 ->back()
                 ->withInput()
@@ -331,9 +331,9 @@ class UsersController extends Controller
     protected function verifyCurrentPassword(array $data)
     {
         // If the current logged in user is not a developer, require current password
-        if(\Gate::denies('backend-developer')){
+        if (\Gate::denies('backend-developer')) {
             // Check if current password exists and if is valid
-            if(empty($data['current_password']) || ! \Hash::check($data['current_password'], backend_user()->password)){
+            if (empty($data['current_password']) || ! \Hash::check($data['current_password'], backend_user()->password)) {
                 return false;
             }
         }

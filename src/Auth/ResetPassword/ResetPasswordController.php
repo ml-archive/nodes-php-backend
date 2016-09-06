@@ -47,6 +47,7 @@ class ResetPasswordController extends IlluminateController
      * Gemerate reset password token.
      *
      * @author Morten Rugaard <moru@nodes.dk>
+     * @author Pedro Coutinho <peco@nodesagency.com>
      *
      * @return \Illuminate\Http\RedirectResponse
      */
@@ -57,13 +58,25 @@ class ResetPasswordController extends IlluminateController
 
         // Validate e-mail
         if (empty($email) || ! filter_var($email, FILTER_VALIDATE_EMAIL)) {
-            return redirect()->route('nodes.backend.reset-password.form')->with('error', 'Missing or invalid e-mail address');
+            return redirect()
+                ->route('nodes.backend.reset-password.form')
+                ->with('error', 'Missing or invalid e-mail address');
         }
 
         // Generate token and send e-mail
         $status = $this->resetPasswordRepository->sendResetPasswordEmail(['email' => $email]);
+
         if (empty($status)) {
-            return redirect()->route('nodes.backend.reset-password.form')->with('error', 'Could not send reset password e-mail');
+
+            // Check if we should show error message if email does not exist, or just display
+            // the same message as if the email was really sent
+            $secureEmailCheck = config('nodes.backend.reset-password.secure_email_check', false);
+
+            if ( ! $secureEmailCheck){
+                return redirect()
+                    ->route('nodes.backend.reset-password.form')
+                    ->with('error', 'Could not send reset password e-mail');
+            }
         }
 
         return redirect()->route('nodes.backend.reset-password.sent')->with('info', 'Check your mailbox');

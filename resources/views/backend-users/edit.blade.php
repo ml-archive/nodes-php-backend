@@ -42,7 +42,17 @@
                     <div class="form-group">
                         <label for="backendUserFormEmail">E-mail</label>
                         <div class="@if(validation_key_failed('email')) has-error @endif}}">
-                            {!! Form::email('email', null, ['id' => 'backendUserFormEmail', 'class' => 'form-control']) !!}
+                            {!!
+                                Form::email(
+                                    'email',
+                                    null,
+                                    [
+                                        'id' => 'backendUserFormEmail',
+                                        'class' => 'form-control',
+                                        'autocomplete' => config('nodes.backend.general.disable_autocomplete', false) ? 'on' : 'off'
+                                    ]
+                                )
+                            !!}
                         </div>
                     </div>
 

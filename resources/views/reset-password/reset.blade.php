@@ -11,7 +11,18 @@
     <input type="hidden" name="token" value="{{ $token }}">
     <div class="form-group">
         {!! Form::label('nodesResetPasswordEmail', 'E-mail address') !!}
-        {!! Form::email('email', Session::get('email'), ['id' => 'nodesResetPasswordEmail', 'class' => 'form-control', 'placeholder' => 'your@email.com']) !!}
+        {!!
+            Form::email(
+                'email',
+                Session::get('email'),
+                [
+                    'id' => 'nodesResetPasswordEmail',
+                    'class' => 'form-control',
+                    'placeholder' => 'your@email.com',
+                    'autocomplete' => config('nodes.backend.general.disable_autocomplete', false) ? 'on' : 'off'
+                ]
+            )
+        !!}
     </div>
     <div class="form-group">
         {!! Form::label('nodesResetPasswordNew', 'New password') !!}

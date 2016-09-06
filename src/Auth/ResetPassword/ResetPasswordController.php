@@ -119,7 +119,7 @@ class ResetPasswordController extends IlluminateController
         $data = Request::all();
 
         // Validate data
-        if(!$validator->with($data)->validate()){
+        if (!$validator->with($data)->validate()) {
             return redirect()
                 ->back()
                 ->withInput()

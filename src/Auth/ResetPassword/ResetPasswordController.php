@@ -72,7 +72,7 @@ class ResetPasswordController extends IlluminateController
             // the same message as if the email was really sent
             $secureEmailCheck = config('nodes.backend.reset-password.secure_email_check', false);
 
-            if ( ! $secureEmailCheck){
+            if (! $secureEmailCheck) {
                 return redirect()
                     ->route('nodes.backend.reset-password.form')
                     ->with('error', 'Could not send reset password e-mail');
@@ -132,7 +132,7 @@ class ResetPasswordController extends IlluminateController
         $data = Request::all();
 
         // Validate data
-        if(!$validator->with($data)->validate()){
+        if (!$validator->with($data)->validate()) {
             return redirect()
                 ->back()
                 ->withInput()

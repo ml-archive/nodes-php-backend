@@ -61,4 +61,17 @@ return [
     |
     */
     'expire' => 60,
+
+    /*
+    |--------------------------------------------------------------------------
+    | Secure email check
+    |--------------------------------------------------------------------------
+    |
+    | This checks if a generic message should be show regardless if the given
+    | email exists or not (safe). False means that an error message will be
+    | shown to the user (exposing users registered on the system)
+    |
+    |
+    */
+    'secure_email_check' => true,
 ];

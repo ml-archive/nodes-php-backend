@@ -23,7 +23,18 @@
                 {!! Form::open(['method' => 'post', 'route' => 'nodes.backend.login.authenticate']) !!}
                     <div class="form-group action-wrapper">
                         {!! Form::label('login-email', 'E-mail address', ['class' => 'sr-only']) !!}
-                        {!! Form::email('email', Request::get('email') ? Request::get('email') : Session::get('email'), ['id' => 'login-email', 'class' => 'form-control', 'placeholder' => 'E-mail address']) !!}
+                        {!!
+                            Form::email(
+                                'email',
+                                Request::get('email') ? Request::get('email') : Session::get('email'),
+                                 [
+                                    'id' => 'login-email',
+                                    'class' => 'form-control',
+                                    'placeholder' => 'E-mail address',
+                                    'autocomplete' => config('nodes.backend.general.disable_autocomplete', false) ? 'on' : 'off'
+                                ]
+                            )
+                        !!}
                         <span class="action-wrap-action action-wrap-right">
                             <i class="fa fa-envelope-o fa-lg" aria-hidden="true"></i>
                         </span>

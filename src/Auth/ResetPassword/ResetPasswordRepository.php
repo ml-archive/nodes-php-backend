@@ -101,7 +101,7 @@ class ResetPasswordRepository extends NodesRepository
         $token = $this->generateResetPasswordToken($user);
 
         // Send e-mail with instructions on how to reset password
-        $status = \Mail::send([
+        \Mail::send([
             'html' => config('nodes.backend.reset-password.views.html', 'nodes.backend::reset-password.emails.html'),
             'text' => config('nodes.backend.reset-password.views.text', 'nodes.backend::reset-password.emails.text'),
         ], [
@@ -116,7 +116,7 @@ class ResetPasswordRepository extends NodesRepository
                     ->subject(config('nodes.backend.reset-password.subject', 'Reset password request'));
         });
 
-        return (bool) $status;
+        return true;
     }
 
     /**

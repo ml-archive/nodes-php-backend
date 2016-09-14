@@ -26,10 +26,6 @@ class FailedJobsController extends Controller
      */
     public function __construct(FailedJobRepository $failedJobRepository)
     {
-        if (Gate::denies('backend-developer')) {
-            abort(403);
-        }
-
         $this->failedJobRepository = $failedJobRepository;
     }
 
@@ -42,6 +38,10 @@ class FailedJobsController extends Controller
      */
     public function index()
     {
+        if (Gate::denies('backend-developer')) {
+            abort(403);
+        }
+
         // Retrieve data
         $failedJobs = $this->failedJobRepository->getPaginatedForBackend();
 
@@ -57,6 +57,10 @@ class FailedJobsController extends Controller
      */
     public function restartAll()
     {
+        if (Gate::denies('backend-developer')) {
+            abort(403);
+        }
+
         Artisan::call('queue:retry', ['id' => ['all']]);
 
         return redirect()->route('nodes.backend.failed-jobs')->with('success', 'All failed job has been restarted');
@@ -72,6 +76,10 @@ class FailedJobsController extends Controller
      */
     public function restart($id)
     {
+        if (Gate::denies('backend-developer')) {
+            abort(403);
+        }
+
         $failedJob = $this->failedJobRepository->getById($id);
         if (! $failedJob) {
             return redirect()->route('nodes.backend.failed-jobs')->with('error', 'Failed job does not exist');
@@ -92,6 +100,10 @@ class FailedJobsController extends Controller
      */
     public function forget($id)
     {
+        if (Gate::denies('backend-developer')) {
+            abort(403);
+        }
+
         $failedJob = $this->failedJobRepository->getById($id);
         if (! $failedJob) {
             return redirect()->route('nodes.backend.failed-jobs')->with('error', 'Failed job does not exist');

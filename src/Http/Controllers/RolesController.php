@@ -29,10 +29,6 @@ class RolesController extends Controller
      */
     public function __construct(RoleRepository $roleRepository)
     {
-        if (Gate::denies('backend-developer')) {
-            abort(403);
-        }
-
         $this->roleRepository = $roleRepository;
     }
 
@@ -45,6 +41,10 @@ class RolesController extends Controller
      */
     public function index()
     {
+        if (Gate::denies('backend-developer')) {
+            abort(403);
+        }
+
         // Retrieve all roles
         $roles = $this->roleRepository->getPaginatedForBackend();
 
@@ -61,6 +61,10 @@ class RolesController extends Controller
      */
     public function store(RoleValidator $roleValidator)
     {
+        if (Gate::denies('backend-developer')) {
+            abort(403);
+        }
+
         // Retrieve posted data
         $data = Request::only('title');
 
@@ -91,6 +95,10 @@ class RolesController extends Controller
      */
     public function update($id)
     {
+        if (Gate::denies('backend-developer')) {
+            abort(403);
+        }
+
         // Retrieve posted data
         $data = Request::only('title');
 
@@ -125,6 +133,10 @@ class RolesController extends Controller
      */
     public function destroy($id)
     {
+        if (Gate::denies('backend-developer')) {
+            abort(403);
+        }
+
         // Retrieve role by ID
         $role = $this->roleRepository->getById($id);
         if (empty($role)) {
@@ -156,6 +168,10 @@ class RolesController extends Controller
      */
     public function setDefault($id)
     {
+        if (Gate::denies('backend-developer')) {
+            abort(403);
+        }
+
         // Retrieve role by ID
         $role = $this->roleRepository->getById($id);
         if (empty($role)) {

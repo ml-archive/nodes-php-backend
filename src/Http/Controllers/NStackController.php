@@ -11,16 +11,6 @@ use Illuminate\Support\Facades\Gate;
 class NStackController extends Controller
 {
     /**
-     * NStackController constructor.
-     *
-     * @throws \Symfony\Component\HttpKernel\Exception\HttpException
-     */
-    public function __construct()
-    {
-        $this->guardUserPermissions();
-    }
-
-    /**
      * getConfig.
      *
      * This function can be overridden for changing configs in runtime
@@ -56,6 +46,8 @@ class NStackController extends Controller
      */
     public function hook()
     {
+        $this->guardUserPermissions();
+
         // Retrieve NStack config
         $config = $this->getConfig();
 

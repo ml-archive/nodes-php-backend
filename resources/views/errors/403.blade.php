@@ -10,7 +10,7 @@
     </div>
     <section class="panel panel-default">
         <header class="panel-heading border">
-            <h3 class="panel-title">Permission denied</h3></a>
+            <h3 class="panel-title">Permission denied</h3>
         </header>
         <div class="panel-body">
             <p>You've tried to view a page or perform an action which you don't have permission to.</p>

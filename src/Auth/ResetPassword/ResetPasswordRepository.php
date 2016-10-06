@@ -81,7 +81,7 @@ class ResetPasswordRepository extends NodesRepository
     {
         // Validate conditions
         if (empty($conditions)) {
-            return false;
+            throw new ResetPasswordNoUserException('Conditions can\'t be empty');
         }
 
         // Add conditions to query builder
@@ -94,7 +94,7 @@ class ResetPasswordRepository extends NodesRepository
         if (empty($user)) {
             $this->errors->add('no-user-found', 'Could not find any user with those credentials.');
 
-            return false;
+            throw new ResetPasswordNoUserException('Could not find any user with those credentials');
         }
 
         // Generate reset password token
@@ -115,8 +115,6 @@ class ResetPasswordRepository extends NodesRepository
                     ->from(config('nodes.backend.reset-password.from.email', 'no-reply@nodes.dk'), config('nodes.backend.reset-password.from.name', 'Nodes'))
                     ->subject(config('nodes.backend.reset-password.subject', 'Reset password request'));
         });
-
-        return true;
     }
 
     /**

@@ -125,6 +125,7 @@ backend_user_login - Force login another user
 backend_user_logout - Logout user
 backend_attempt - Attempt to authenticate a user using the given credentials
 query_restorer - Use to restore query params from cookie, handy for routing between views with queries
+query_restorer_with_flash - Use to restore query params from cookie, handy for routing between views with queries. Remembers the flash between reloads also
 backend_router - Access all other router functions
 backend_router_pattern - Used fx for selecting navigation item by path 
 backend_router_alias - Used fx for selecting navigation item by route

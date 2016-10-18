@@ -48,7 +48,6 @@ if (!function_exists('query_restorer_with_flash')) {
      */
     function query_restorer_with_flash($params = [], $blacklist = [])
     {
-
         if ($redirect = query_restorer($params, $blacklist)) {
             $redirectResponse = redirect()->to($redirect);
 

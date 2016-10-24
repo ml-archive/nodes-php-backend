@@ -65,12 +65,14 @@
                             {!! Form::select('user_role', $roles, !empty($user) ? $user->user_role : $roleDefault, ['id' => 'backendUserFormRole', 'class' => 'form-control']) !!}
                         @endif
                     </div>
-                    <div class="form-group">
-                        <input name="send_mail" value="false" type="hidden">
-                        <label>
-                            {!! Form::checkbox('send_mail', true, true, ['id' => 'backendUserFormSendMail']) !!} Send email with information
-                        </label>
-                    </div>
+                    @if(empty($user))
+                        <div class="form-group">
+                            <input name="send_mail" value="false" type="hidden">
+                            <label>
+                                {!! Form::checkbox('send_mail', true, true, ['id' => 'backendUserFormSendMail']) !!} Send email with information
+                            </label>
+                        </div>
+                    @endif
                 </div>
                 <br>
                 @can('backend-edit-backend-user', !empty($user) ? $user : null)

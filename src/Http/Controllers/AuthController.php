@@ -61,7 +61,7 @@ class AuthController extends Controller
      */
     public function authenticate()
     {
-        $urlToRedirectToAfterUserLogin = app('session')->get('url_to_redirect_to_after_user_login');
+        $urlToRedirectToAfterUserLogin = Cookie::get('url_to_redirect_to_after_user_login');
 
         // Retrieve credentials
         $data = Request::only('email', 'password', 'remember');
@@ -82,7 +82,7 @@ class AuthController extends Controller
      */
     public function sso()
     {
-        $urlToRedirectToAfterUserLogin = app('session')->get('url_to_redirect_to_after_user_login');
+        $urlToRedirectToAfterUserLogin = Cookie::get('url_to_redirect_to_after_user_login');
 
         // Check for disabled feature
         if (! config('nodes.backend.manager.active', true)) {

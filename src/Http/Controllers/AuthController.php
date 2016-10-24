@@ -7,6 +7,7 @@ use Illuminate\Routing\Controller;
 use Illuminate\Support\Facades\Request;
 use Nodes\Backend\Support\FlashRestorer;
 use Nodes\Database\Exceptions\EntityNotFoundException;
+use Illuminate\Support\Facades\Cookie;
 
 /**
  * Class AuthController.

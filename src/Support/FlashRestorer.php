@@ -45,7 +45,7 @@ class FlashRestorer
         $this->error = session('error');
         $this->success = session('success');
         $this->info = session('info');
-        $this->warning = session('info');
+        $this->warning = session('warning');
     }
 
     /**

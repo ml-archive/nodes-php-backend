@@ -33,14 +33,11 @@ class Auth
                 // Create redirect response
                 $redirectResponse = redirect()->route('nodes.backend.login.form')->with('warning', 'Oops! You\'re not logged in.');
 
-                // store current url so we can redirect there once user is logged in
-                app('session')->flash('url_to_redirect_to_after_user_login', $request->url());
-
                 // Apply existing flash messages
                 (new FlashRestorer)->apply($redirectResponse);
 
-                // Redirect
-                return $redirectResponse;
+                // Redirect with cookie
+                return $redirectResponse->cookie('url_to_redirect_to_after_user_login', $request->url(), 2);
             }
         }
 

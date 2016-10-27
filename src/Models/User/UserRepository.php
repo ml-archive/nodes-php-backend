@@ -245,6 +245,8 @@ class UserRepository extends Repository
             } catch (Exception $e) {
                 // Do nothing
             }
+        } elseif (empty($data['image'])) {
+            $user->update(['image' => null]);
         }
 
         // Return

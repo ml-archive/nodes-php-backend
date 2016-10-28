@@ -245,6 +245,9 @@ class UserRepository extends Repository
             } catch (Exception $e) {
                 // Do nothing
             }
+        } elseif (empty($data['file_picker_file_name']) && !empty($user->image)) {
+            // Remove profile image
+            $user->update(['image' => null]);
         }
 
         // Return

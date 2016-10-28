@@ -21,7 +21,7 @@
                             Browse
                         </span>
                     </span>
-                <input type="text" class="form-control file-picker__file-name" readonly="">
+                <input type="text" name="file_picker_file_name" class="form-control file-picker__file-name" readonly="">
             </div>
         </div>
     </div>

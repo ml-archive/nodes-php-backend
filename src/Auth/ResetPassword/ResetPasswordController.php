@@ -112,7 +112,7 @@ class ResetPasswordController extends IlluminateController
 
         // Check if token's expiry date has been exceed
         if ($resetToken->isExpired()) {
-            return view('vendor.nodes.backend.reset-password.expired');
+            return view('nodes.backend::reset-password.expired');
         }
 
         return view('nodes.backend::reset-password.reset', compact('token'));

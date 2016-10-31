@@ -1,0 +1,54 @@
+{
+    "name": "nodes/backend",
+    "description": "Nodes backend package",
+    "keywords": [
+        "nodes",
+        "backend",
+        "manager",
+        "administration",
+        "admin system",
+        "laravel"
+    ],
+    "license": "MIT",
+    "authors": [
+        {
+            "name": "Morten Rugaard",
+            "email": "moru@nodes.dk",
+            "role": "Developer"
+        }, {
+            "name": "Casper Rasmussen",
+            "email": "cr@nodes.dk",
+            "role": "CTO"
+        }, {
+            "name": "Dennis Haulund Nielsen",
+            "email": "dhni@nodes.dk",
+            "role": "Lead Front-end Developer"
+        }, {
+            "name": "Bo Mouridsen",
+            "email": "bomo@nodes.dk",
+            "role": "Designer"
+        }
+    ],
+    "require": {
+        "composer-plugin-api": "^1.0",
+        "laravel/framework": "5.1.*||5.2.*||5.3.*",
+        "laravelcollective/html": "5.1.*||5.2.*||5.3.*",
+        "nodes/core": "^1.0",
+        "nodes/assets": "^1.0",
+        "nodes/database": "^1.0",
+        "nodes/validation": "^1.0",
+        "nodes/cache": "^1.0",
+        "nodes/bugsnag": "^1.0||^2.0",
+        "nodes/counter-cache": "^1.0"
+    },
+    "autoload": {
+        "psr-4": {
+           "Nodes\\Backend\\": "src/"
+        },
+        "files": [
+            "src/Support/Helpers/Auth.php",
+            "src/Support/Helpers/Router.php",
+            "src/Support/Helpers/QueryRestorer.php"
+        ]
+    }
+}

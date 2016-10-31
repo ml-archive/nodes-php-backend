@@ -1,0 +1,26 @@
+{
+	"tasksPath": "./gulp/tasks/",
+	"project": {
+		"src": {
+			"scss": "./resources/assets/scss",
+			"scripts": "./resources/assets/js",
+			"views": "./resources/views"
+		},
+		"dest": {
+			"css": "./public/css",
+			"scripts": "./public/js",
+			"views": ""
+		},
+		"bower": {
+			"directory": "./bower_components",
+			"bowerJson": "./bower.json"
+		},
+		"nodesUI": {
+			"bowerJson": "./bower_components/nodes-ui/bower.json"
+		}
+	},
+	"ignoredBowerPkgs": [
+		"!**/bower_components/bootstrap/dist/js/bootstrap.js",
+		"!**/bower_components/blueimp-tmpl/js/tmpl.js"
+	]
+}

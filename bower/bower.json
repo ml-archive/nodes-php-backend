@@ -1,0 +1,7 @@
+{
+  "name": "sandbox",
+  "private": true,
+  "dependencies": {
+    "nodes-ui": "latest"
+  }
+}

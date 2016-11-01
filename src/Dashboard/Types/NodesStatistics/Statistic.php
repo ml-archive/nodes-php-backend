@@ -158,7 +158,10 @@ abstract class Statistic
         // Look up in cache
         $response = \Cache::get($url);
 
-        $client = new Client();
+        $client = new Client([
+            'timeout' => 5,
+            'connect_timeout' => 5
+        ]);
         if (! $response) {
             // Do api call in request
             try {

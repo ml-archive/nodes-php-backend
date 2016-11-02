@@ -4,7 +4,7 @@
     class="form-group input-group file-picker">
     <label for="backendUserFormImage">{{ $label }}</label>
     <div class="file-picker__inner">
-        <div class="file-picker__zone">
+        <div class="file-picker__zone" style="{!! isset($thumbnailWidth) ? 'width: ' . $thumbnailWidth . 'px;' : 'width: 40px;' !!}{!! isset($thumbnailHeight) ? 'height: ' . $thumbnailHeight . 'px;' : 'height: 40px;' !!}{!! (isset($thumbnailHeight) || isset($thumbnailHeight)) ? 'flex: none;' : '' !!}">
             <img src="" class="file-picker__preview img-responsive img-thumb">
             <i class="file-picker__icon fa"></i>
             <span class="file-picker__drop-text">Drop your file here</span>

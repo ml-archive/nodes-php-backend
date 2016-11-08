@@ -44,6 +44,7 @@ Nodes\Assets\ServiceProvider::class,
 Nodes\Validation\ServiceProvider::class,
 Nodes\Cache\ServiceProvider::class,
 Collective\Html\HtmlServiceProvider::class,
+Nodes\ServiceProvider::class,
 ```
 
 Setup alias in config/app.php

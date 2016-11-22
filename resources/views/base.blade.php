@@ -10,6 +10,7 @@
     <link href='https://fonts.googleapis.com/css?family=Roboto+Mono|Work+Sans:400,500,600' rel='stylesheet' type='text/css'>
     <link rel="stylesheet" media="all" href="/css/project.css">
     @yield('project-css')
+    @include('nodes.backend::partials.favicon')
 </head>
 
 <body class="{{ env('APP_ENV') }} fullbleed">

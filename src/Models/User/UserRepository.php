@@ -101,7 +101,7 @@ class UserRepository extends Repository
         $user = $this->getByOrFail('email', $email);
 
         // Validate password
-        if (! Hash::check($password, $user['password'])) {
+        if (! \Hash::check($password, $user['password'])) {
             throw new InvalidPasswordException('Password was incorrect. Try again.');
         }
 

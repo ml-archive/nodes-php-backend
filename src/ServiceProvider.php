@@ -81,8 +81,12 @@ class ServiceProvider extends IlluminateServiceProvider
             __DIR__.'/../resources/assets/js' => resource_path('assets/js'),
             __DIR__.'/../resources/assets/scss' => resource_path('assets/scss'),
             __DIR__.'/../public/images' => public_path('images'),
-            __DIR__.'/../public/favicon.ico' => public_path('favicon.ico'),
         ], 'assets');
+
+        // Favicons
+        $this->publishes([
+            __DIR__.'/../public/favicons' => public_path('favicons'),
+        ]);
 
         // Database files
         $this->publishes([

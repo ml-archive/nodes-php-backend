@@ -56,6 +56,33 @@
             {!! Session::get('error') !!}
         @endif
     </div>
+@elseif(Session::has('errors'))
+    <div class="alert alert-danger alert-dismissible fade in to-be-animated-in" role="alert">
+        <button type="button" class="close" data-dismiss="alert" aria-label="Close">
+            <span aria-hidden="true">&times;</span>
+        </button>
+        @if (Session::get('errors') instanceof Illuminate\Support\MessageBag)
+            @if (Session::get('errors')->count() > 1)
+                <ul>
+                    @foreach (Session::get('errors')->all() as $message)
+                        <li>{!! $message !!}</li>
+                    @endforeach
+                </ul>
+            @else
+                <span class="fa fa-exclamation-circle"></span>
+                {!! Session::get('errors')->first() !!}
+            @endif
+        @elseif (is_array(Session::get('errors')))
+            <ul>
+                @foreach (Session::get('errors') as $message)
+                    <li>{!! $message !!}</li>
+                @endforeach
+            </ul>
+        @else
+            <span class="fa fa-exclamation-circle"></span>
+            {!! Session::get('errors') !!}
+        @endif
+    </div>
 @endif
 
 {{-- Warning alert --}}

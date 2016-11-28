@@ -60,9 +60,17 @@ class User extends Model implements AuthenticatableContract, CanResetPasswordCon
      * @var array
      */
     protected $casts = [
-        'id' => 'integer',
+        'id'              => 'integer',
         'change_password' => 'boolean',
     ];
+
+    /**
+     * Defines if the user's password should be hashed automatically or not
+     * when the password attribute is set. Hashing is enabled by default
+     *
+     * @var bool
+     */
+    protected $hashPassword = true;
 
     /*
     |--------------------------------------------------------------------------
@@ -74,7 +82,6 @@ class User extends Model implements AuthenticatableContract, CanResetPasswordCon
      * User has one access token.
      *
      * @author Morten Rugaard <moru@nodes.dk>
-     *
      * @return \Illuminate\Database\Eloquent\Relations\HasOne
      */
     public function token()
@@ -86,7 +93,6 @@ class User extends Model implements AuthenticatableContract, CanResetPasswordCon
      * User belongs to role.
      *
      * @author Morten Rugaard <moru@nodes.dk>
-     *
      * @return \Illuminate\Database\Eloquent\Relations\BelongsTo
      */
     public function role()
@@ -104,7 +110,6 @@ class User extends Model implements AuthenticatableContract, CanResetPasswordCon
      * Retrieve token for user, if there is no token one will be created.
      *
      * @author Casper Rasmussen <cr@nodes.dk>
-     *
      * @return \Nodes\Backend\Models\User\Token\Token
      * @throws \Nodes\Database\Exceptions\SaveFailedException
      */
@@ -121,7 +126,6 @@ class User extends Model implements AuthenticatableContract, CanResetPasswordCon
      * Delete all user tokens and create a new one.
      *
      * @author Casper Rasmussen <cr@nodes.dk>
-     *
      * @return \Illuminate\Database\Eloquent\Model
      * @throws \Nodes\Database\Exceptions\SaveFailedException
      */
@@ -136,7 +140,6 @@ class User extends Model implements AuthenticatableContract, CanResetPasswordCon
      * Create new token for user.
      *
      * @author Casper Rasmussen <cr@nodes.dk>
-     *
      * @return \Illuminate\Database\Eloquent\Model
      * @throws \Nodes\Database\Exceptions\SaveFailedException
      */
@@ -162,6 +165,7 @@ class User extends Model implements AuthenticatableContract, CanResetPasswordCon
      *
      * @param  int $width
      * @param  int $height
+     *
      * @return string
      */
     public function getImageUrl($width = 100, $height = 100)
@@ -193,13 +197,15 @@ class User extends Model implements AuthenticatableContract, CanResetPasswordCon
      * Automatically hash passwords.
      *
      * @author Morten Rugaard <moru@nodes.dk>
+     * @author Pedro Coutinho <peco@nodesagency.com>
      *
      * @param  string $value
+     *
      * @return void
      */
     public function setPasswordAttribute($value)
     {
-        $this->attributes['password'] = Hash::make($value);
+        $this->attributes['password'] = $this->hashPassword ? Hash::make($value) : $value;
     }
 
     /**
@@ -208,6 +214,7 @@ class User extends Model implements AuthenticatableContract, CanResetPasswordCon
      * @author Casper Rasmussen <cr@nodes.dk>
      *
      * @param  string $value
+     *
      * @return void
      */
     public function setChangePasswordPasswordAttribute($value)
@@ -225,11 +232,44 @@ class User extends Model implements AuthenticatableContract, CanResetPasswordCon
      * Retrieve counter caches.
      *
      * @author Morten Rugaard <moru@nodes.dk>
-     *
      * @return array
      */
     public function counterCaches()
     {
         return ['user_count' => 'role'];
+    }
+
+    /*
+    |--------------------------------------------------------------------------
+    | Helpers
+    |--------------------------------------------------------------------------
+    */
+
+    /**
+     * Disables the automatic password hashing when setting the attribute.
+     *
+     * @author Pedro Coutinho <peco@nodesagency.com>
+     * @access public
+     * @return $this
+     */
+    public function disablePasswordHashing()
+    {
+        $this->hashPassword = false;
+
+        return $this;
+    }
+
+    /**
+     * Enables the automatic password hashing when setting the attribute.
+     *
+     * @author Pedro Coutinho <peco@nodesagency.com>
+     * @access public
+     * @return $this
+     */
+    public function enablePasswordHashing()
+    {
+        $this->hashPassword = true;
+
+        return $this;
     }
 }

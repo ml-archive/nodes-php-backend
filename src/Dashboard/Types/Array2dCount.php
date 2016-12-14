@@ -5,6 +5,26 @@ namespace Nodes\Backend\Dashboard\Types;
 use Illuminate\Support\Str;
 use Nodes\Backend\Dashboard\Exceptions\MissingConfigException;
 
+/**
+ * Class Array2dCount
+ * This class allows to use in charts custom arrays i.e. $exampleArray = ['key1'=>'value1','key2'=>'value2']
+ * Below example config array
+ *  $config = [
+ *     'list' => [
+ *               [
+ *               'gaId'  => 'gaId123123',
+ *               'type'  => 'custom-count',
+ *               'title' => 'Example Chart Title',
+ *               'data'  => $exampleArray,
+ *               ],
+ *           ],
+ *       ];
+ *
+ *  $dashboardCollection = new DashboardCollection($config['list']);
+ *
+ *
+ * @package Nodes\Backend\Dashboard\Types
+ */
 class Array2dCount
 {
     /**

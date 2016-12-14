@@ -5,6 +5,7 @@ namespace Nodes\Backend\Dashboard;
 use Illuminate\Database\Eloquent\Collection;
 use Nodes\Backend\Dashboard\Exceptions\MissingConfigException;
 use Nodes\Backend\Dashboard\Exceptions\UnsupportedTypeException;
+use Nodes\Backend\Dashboard\Types\Array2dCount;
 use Nodes\Backend\Dashboard\Types\IFrame;
 use Nodes\Backend\Dashboard\Types\NodesStatistics\DailyStatistic;
 use Nodes\Backend\Dashboard\Types\NodesStatistics\MonthlyStatistic;
@@ -35,6 +36,8 @@ class DashboardCollection extends Collection
                 case 'table-count':
                     $this->add(new TableCount($config));
                     break;
+                case 'custom-count':
+                    $this->add(new Array2dCount($config));
                 case 'nodes-statistics-daily':
                     $this->add(new DailyStatistic($config));
                     break;

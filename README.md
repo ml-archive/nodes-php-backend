@@ -106,10 +106,14 @@ Make TokenMismatch exceptions more user friendly, add following to App\Exception
 ```
 public function render($request, Exception $e)
 {
-    if ($e instanceof TokenMismatchException) {
-        return redirect()->back()->with('error', 'Token mismatch, try again')->send();
+    // Just redirect back to previous route if there is any, else all the way back to dashboard
+    // Instead of a ugly whoops error!
+    try {
+        return redirect()->back()->with('error', 'CRSF-Token mismatch, try again')->send();
+    } catch (\Throwable $e) {
+        return redirect()->route('nodes.backend.dashboard')->with('error',
+            'CRSF-Token mismatch, try again')->send();
     }
-    
     ....
 }
 ```

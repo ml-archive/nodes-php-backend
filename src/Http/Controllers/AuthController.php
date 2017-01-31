@@ -138,7 +138,7 @@ class AuthController extends Controller
             backend_user_login($user);
 
             // Redirect into backend
-            return $this->redirectSuccess(Cookie::get('url_to_redirect_to_after_user_login'));
+            return $this->redirectSuccess(null, Cookie::get('url_to_redirect_to_after_user_login'));
         } catch (Exception $e) {
             try {
                 // Notify bugsnag

@@ -73,7 +73,9 @@ class AuthController extends Controller
 
         // Authenticate user
         if (! backend_attempt(['email' => $data['email'], 'password' => $data['password']], (bool) $data['remember'])) {
-            return redirect()->route('nodes.backend.login.form')->with('error', 'Invalid login. Try again.');
+            return redirect()->route('nodes.backend.login.form', [
+                'redirect_url' => $urlToRedirectToAfterUserLogin
+            ])->with('error', 'Invalid login. Try again.');
         }
 
         return $this->redirectSuccess($flashAlert = null, $urlToRedirectToAfterUserLogin);

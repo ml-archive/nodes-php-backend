@@ -40,9 +40,9 @@ class AuthController extends Controller
      */
     public function login()
     {
-        if($redirectUrl = \Input::get('redirect_url')) {
+        if ($redirectUrl = \Input::get('redirect_url')) {
             \Cookie::queue(\Cookie::make('url_to_redirect_to_after_user_login', $redirectUrl, 5));
-        } else if($redirectUrl = session('url_to_redirect_to_after_user_login')) {
+        } elseif ($redirectUrl = session('url_to_redirect_to_after_user_login')) {
             \Cookie::queue(\Cookie::make('url_to_redirect_to_after_user_login', $redirectUrl, 5));
         } else {
             \Cookie::queue(\Cookie::make('url_to_redirect_to_after_user_login', null, 5));
@@ -138,7 +138,7 @@ class AuthController extends Controller
             backend_user_login($user);
 
             // Redirect into backend
-            return $this->redirectSuccess(Cookie::get('url_to_redirect_to_after_user_login'));
+            return $this->redirectSuccess(null, Cookie::get('url_to_redirect_to_after_user_login'));
         } catch (Exception $e) {
             try {
                 // Notify bugsnag

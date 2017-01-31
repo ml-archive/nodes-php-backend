@@ -31,13 +31,15 @@ class Auth
                 backend_user_authenticate();
             } catch (\Exception $e) {
                 // Create redirect response
-                $redirectResponse = redirect()->route('nodes.backend.login.form')->with('warning', 'Oops! You\'re not logged in.');
+                $redirectResponse = redirect()->route('nodes.backend.login.form', [
+                    'redirect_url' => $request->url()
+                ])->with('warning', 'Oops! You\'re not logged in.');
 
                 // Apply existing flash messages
                 (new FlashRestorer)->apply($redirectResponse);
 
                 // Redirect with cookie
-                return $redirectResponse->cookie('url_to_redirect_to_after_user_login', $request->url(), 2);
+                return $redirectResponse;
             }
         }
 

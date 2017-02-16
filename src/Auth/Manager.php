@@ -56,12 +56,12 @@ class Manager
     /**
      * Constructor.
      *
-     * @param  \Illuminate\Database\Eloquent\Model                        $model
-     * @param  \Symfony\Component\HttpFoundation\Session\SessionInterface $session
-     * @param  \Illuminate\Routing\Router                                 $router
-     * @param  array                                                      $providers
+     * @param  \Illuminate\Database\Eloquent\Model $model
+     * @param \Illuminate\Contracts\Session\Session $session
+     * @param  \Illuminate\Routing\Router $router
+     * @param  array $providers
      */
-    public function __construct(IlluminateModel $model, SessionInterface $session, IlluminateRouter $router, array $providers = [])
+    public function __construct(IlluminateModel $model, \Illuminate\Contracts\Session\Session $session, IlluminateRouter $router, array $providers = [])
     {
         $this->model = $model;
         $this->session = $session;
@@ -252,7 +252,7 @@ class Manager
      */
     protected function updateLoginSession($identifier)
     {
-        $this->session->set($this->getName(), $identifier);
+        $this->session->put($this->getName(), $identifier);
         $this->session->migrate(true);
 
         return $this;

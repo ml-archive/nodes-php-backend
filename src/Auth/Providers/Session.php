@@ -44,9 +44,9 @@ class Session implements Provider
      * @author Morten Rugaard <moru@nodes.dk>
      *
      * @param  \Illuminate\Database\Eloquent\Model $model
-     * @param  \Symfony\Component\HttpFoundation\Session\SessionInterface $session
+     * @param \Illuminate\Contracts\Session\Session $session
      */
-    public function __construct(IlluminateModel $model, SessionInterface $session)
+    public function __construct(IlluminateModel $model, \Illuminate\Contracts\Session\Session $session)
     {
         $this->model = $model;
         $this->session = $session;

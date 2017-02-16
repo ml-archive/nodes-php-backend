@@ -26,9 +26,9 @@ class ServiceProvider extends IlluminateServiceProvider
         $this->loadViewsFrom(__DIR__.'/../resources/views', 'nodes.backend');
 
         // Register middlewares
-        $this->app['router']->middleware('backend.auth', NodesBackendHttpMiddlewareAuth::class);
-        $this->app['router']->middleware('backend.api.auth', NodesBackendHttpMiddlewareApiAuth::class);
-        $this->app['router']->middleware('backend.ssl', NodesBackendHttpMiddlewareSSL::class);
+        $this->app['router']->aliasMiddleware('backend.auth', NodesBackendHttpMiddlewareAuth::class);
+        $this->app['router']->aliasMiddleware('backend.api.auth', NodesBackendHttpMiddlewareApiAuth::class);
+        $this->app['router']->aliasMiddleware('backend.ssl', NodesBackendHttpMiddlewareSSL::class);
 
         // Publish groups
         $this->publishGroups();

@@ -27,7 +27,7 @@ class ServiceProvider extends IlluminateAuthServiceProvider
     public function boot(GateContract $gate)
     {
         // Register middlewares with router
-        $this->app['router']->middleware('backend.api.auth', NodesBackendHttpMiddlewareApiAuth::class);
+        $this->app['router']->aliasMiddleware('backend.api.auth', NodesBackendHttpMiddlewareApiAuth::class);
 
         // Define gates and policies
         if (config('nodes.backend.auth.gates.define', true)) {

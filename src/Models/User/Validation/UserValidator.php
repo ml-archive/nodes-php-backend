@@ -18,12 +18,22 @@ class UserValidator extends AbstractValidator
         'create' => [
             'name' => ['required'],
             'email' => ['required', 'email', 'unique:backend_users,email,{:id}', 'max:190'],
-            'password' => ['required_without:id', 'min:6', 'confirmed'],
+            'password' => [
+                'required_without:id',
+                'min:6',
+                'confirmed',
+                'regex:/^.*(?=.{3,})(?=.*[a-zA-Z])(?=.*[0-9])(?=.*[\d\X])(?=.*[!$#%]).*$/'
+            ],
             'user_role' => ['required', 'exists:backend_roles,slug'],
             'image' => ['mimes:jpeg,png'],
         ],
         'update-password' => [
-            'password' => ['required_without:id', 'min:6', 'confirmed'],
+            'password' => [
+                'required_without:id',
+                'min:6',
+                'confirmed',
+                'regex:/^.*(?=.{3,})(?=.*[a-zA-Z])(?=.*[0-9])(?=.*[\d\X])(?=.*[!$#%]).*$/'
+            ],
             'image' => ['mimes:jpeg,png'],
         ],
     ];

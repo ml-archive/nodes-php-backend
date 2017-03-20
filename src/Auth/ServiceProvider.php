@@ -212,5 +212,26 @@ class ServiceProvider extends IlluminateAuthServiceProvider
 
             return false;
         });
+
+        // Define gate that checks if authenticated user can edit a specific user
+        $gate->define('backend-user-role', function (User $authedUser, $role) {
+            // Developers are the ultimate gods
+            // and can do whatever they feel like doing
+            if ($role == 'developer') {
+                return true;
+            }
+
+            // Super admins can edit all users - except developers
+            if ($authedUser->user_role == 'super-admin' && $role != 'developer') {
+                return true;
+            }
+
+            // Admins can edit everyone - except super admins and developers
+            if ($authedUser->user_role == 'admin' && $role == 'user') {
+                return true;
+            }
+
+            return false;
+        });
     }
 }

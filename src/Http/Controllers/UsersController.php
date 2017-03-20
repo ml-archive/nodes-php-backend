@@ -119,6 +119,11 @@ class UsersController extends Controller
             return redirect()->back()->withInput()->with(['error' => $userValidator->errorsBag()]);
         }
 
+        // Make sure user have access to give out that role
+        if (Gate::denies('backend-user-role', $data['user_role'])) {
+            abort(403);
+        }
+
         try {
             // Create user
             $user = $this->userRepository->createUser($data);

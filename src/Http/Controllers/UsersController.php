@@ -120,7 +120,8 @@ class UsersController extends Controller
         }
 
         // Make sure user have access to give out that role
-        if (Gate::denies('backend-user-role', $data['user_role'])) {
+        $roles = $this->roleRepository->getListUserLevel();
+        if (empty($roles[$data['user_role']])) {
             abort(403);
         }
 

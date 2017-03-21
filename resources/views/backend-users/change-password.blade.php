@@ -10,7 +10,18 @@
 @section('page-header-top')
     <h3>
         Update password
-        <small class="text-gray-dark">(min. 6 characters)</small>
+        <br>
+        <small class="text-gray-dark">The password requires three of the following five categories and be min 8 chars:</small>
+        <br>
+        <small class="text-gray-dark">- English uppercase characters (A – Z)</small>
+        <br>
+        <small class="text-gray-dark">- English lowercase characters (a – z)</small>
+        <br>
+        <small class="text-gray-dark">- Base 10 digits (0 – 9)</small>
+        <br>
+        <small class="text-gray-dark">- Non-alphanumeric (For example: !, $, #, or %)</small>
+        <br>
+        <small class="text-gray-dark">- Unicode characters</small>
     </h3>
 @endsection
 

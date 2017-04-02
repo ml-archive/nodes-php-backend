@@ -9,7 +9,7 @@
             <i class="file-picker__icon fa"></i>
             <span class="file-picker__drop-text">Drop your file here</span>
 
-            <button class="btn btn-transparent btn-sm file-picker__clear">
+            <button type="button" class="btn btn-transparent btn-sm file-picker__clear">
                 <i class="fa fa-times"></i>
             </button>
         </div>

@@ -111,7 +111,7 @@ class UsersController extends Controller
 
         // Random a password if it's left empty
         if (empty($data['password'])) {
-            $data['password'] = $data['password_confirmation'] = Str::random(8);
+            $data['password'] = $data['password_confirmation'] = Str::random(8) . 'aA1!';
         }
 
         // Validate user

@@ -109,8 +109,11 @@ class AuthController extends Controller
 
             return $this->redirectSuccess($flashAlert = null, $urlToRedirectToAfterUserLogin);
         }
+        
+        $url = sprintf(env('NODES_MANAGER_URL'), env('APP_NAME'), env('APP_ENV'));
+        $url .= '?redirect_url=' . route('nodes.backend.login.manager');
 
-        return redirect()->away(sprintf(env('NODES_MANAGER_URL'), env('APP_NAME'), env('APP_ENV')));
+        return redirect()->away($url);
     }
 
     /**

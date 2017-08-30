@@ -31,8 +31,8 @@
     ],
     "require": {
         "composer-plugin-api": "^1.0",
-        "laravel/framework": "5.4.*",
-        "laravelcollective/html": "5.4.*",
+        "laravel/framework": "5.4.*||5.5.*",
+        "laravelcollective/html": "5.4.*||5.5.*",
         "nodes/core": "^1.0",
         "nodes/assets": "^1.0",
         "nodes/database": "^1.0",

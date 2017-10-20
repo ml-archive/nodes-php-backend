@@ -72,7 +72,7 @@ class AuthController extends Controller
         $data = Request::only('email', 'password', 'remember');
 
         // Authenticate user
-        if (! backend_attempt(['email' => $data['email'], 'password' => $data['password']], isset($data['remember']))) {
+        if (! backend_attempt(['email' => $data['email'], 'password' => $data['password']], Request::has('remember'))) {
             return redirect()->route('nodes.backend.login.form', [
                 'redirect_url' => $urlToRedirectToAfterUserLogin
             ])->with('error', 'Invalid login. Try again.');

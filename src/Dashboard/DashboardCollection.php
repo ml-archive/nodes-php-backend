@@ -54,7 +54,6 @@ class DashboardCollection extends Collection
      * Retrieve bar charts.
      *
      * @author Casper Rasmussen <cr@nodes.dk>
-     *
      * @return \Illuminate\Database\Eloquent\Collection
      */
     public function getBarCharts()
@@ -73,7 +72,6 @@ class DashboardCollection extends Collection
      * Retrieve bar charts as array.
      *
      * @author Casper Rasmussen <cr@nodes.dk>
-     *
      * @return array
      */
     public function getBarChartsAsChartData()
@@ -91,7 +89,6 @@ class DashboardCollection extends Collection
      * Retrieve line charts.
      *
      * @author Casper Rasmussen <cr@nodes.dk>
-     *
      * @return \Illuminate\Database\Eloquent\Collection
      */
     public function getLineCharts()
@@ -107,10 +104,46 @@ class DashboardCollection extends Collection
     }
 
     /**
+     * getPieCharts
+     *
+     * @author Casper Rasmussen <cr@nodes.dk>
+     * @access public
+     * @return \Illuminate\Database\Eloquent\Collection
+     */
+    public function getPieCharts()
+    {
+        $pieCountCollection = new Collection();
+        foreach ($this as $dashboard) {
+            if ($dashboard->getType() == 'pie-chart') {
+                $pieCountCollection->add($dashboard);
+            }
+        }
+
+        return $pieCountCollection;
+    }
+
+    /**
+     * getPieChartsAsChartData
+     *
+     * @author Casper Rasmussen <cr@nodes.dk>
+     * @access public
+     * @return array
+     */
+    public function getPieChartsAsChartData()
+    {
+        $chartArray = [];
+
+        foreach ($this->getPieCharts() as $dashboard) {
+            $chartArray[] = $dashboard->getChartData();
+        }
+
+        return $chartArray;
+    }
+
+    /**
      * Retrieve line chart as array.
      *
      * @author Casper Rasmussen <cr@nodes.dk>
-     *
      * @return array
      */
     public function getLineChartsAsChartData()

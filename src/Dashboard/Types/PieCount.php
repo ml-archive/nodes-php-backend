@@ -19,9 +19,7 @@ use Nodes\Backend\Dashboard\Exceptions\MissingConfigException;
  *               ],
  *           ],
  *       ];
- *
  *  $dashboardCollection = new DashboardCollection($config['list']);
- *
  *
  * @package Nodes\Backend\Dashboard\Types
  */
@@ -51,20 +49,18 @@ class PieCount extends Array2dCount
         '#000000',
     ];
 
-
     public function prepareChartData($config)
     {
         $chartData = [
-            'id' => $this->id
+            'id' => $this->id,
         ];
 
         $color = 0;
         foreach ($config['data'] as $key => $value) {
             $chartData['datasets'][] = [
-                'value' => $value,
-                'label' => $key,
-                'color' => $this->colors[$color],
-                'highlight' => $this->colors[$color]
+                'value'         => $value,
+                'label'         => $key,
+                'color'         => $this->colors[$color]
             ];
 
             $color++;

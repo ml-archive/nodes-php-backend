@@ -1,17 +1,18 @@
 <?php
 
-namespace Nodes\Backend\Dashboard\Types\NodesStatistics;
+namespace Nodes\Backend\Dashboard\Tiles\NodesStatistics;
 
 use Carbon\Carbon;
 use GuzzleHttp\Client;
 use Nodes\Backend\Dashboard\Exceptions\MissingConfigException;
+use Nodes\Backend\Dashboard\Tiles\Charts\LineChart;
 
 /**
  * Class Statistic.
  *
  * @author  Casper Rasmussen <cr@nodes.dk>
  */
-abstract class Statistic
+abstract class Statistic extends LineChart
 {
     /**
      * @var string
@@ -21,87 +22,8 @@ abstract class Statistic
     /**
      * @var string
      */
-    protected $type = 'line-chart';
-
-    /**
-     * @var string
-     */
-    protected $title;
-
-    /**
-     * @var string
-     */
     protected $gaId;
 
-    /**
-     * @var array
-     */
-    protected $chartData;
-
-    /**
-     * @var string
-     */
-    protected $id;
-
-    /**
-     * IFrame constructor.
-     *
-     * @param array $config
-     * @throws \Nodes\Backend\Dashboard\Exceptions\MissingConfigException
-     */
-    public function __construct(array $config)
-    {
-        // Guard title param
-        if (empty($config['title']) || ! is_string($config['title'])) {
-            throw new MissingConfigException('Missing title');
-        }
-
-        // Guard title url param
-        if (empty($config['gaId']) || ! is_string($config['gaId'])) {
-            throw new MissingConfigException('Missing gaId');
-        }
-
-        // Guard type
-        if (empty($this->period)) {
-            throw new MissingConfigException('Period is not set in the child object');
-        }
-
-        // Set params
-        $this->title = $config['title'];
-        $this->gaId = $config['gaId'];
-
-        // Assign random id
-        $this->id = self::randomString();
-
-        $this->prepareChartData();
-    }
-
-    /**
-     * @author Casper Rasmussen <cr@nodes.dk>
-     * @return string
-     */
-    public function getTitle()
-    {
-        return $this->title;
-    }
-
-    /**
-     * @author Casper Rasmussen <cr@nodes.dk>
-     * @return string
-     */
-    public function getId()
-    {
-        return $this->id;
-    }
-
-    /**
-     * @author Casper Rasmussen <cr@nodes.dk>
-     * @return string
-     */
-    public function getType()
-    {
-        return $this->type;
-    }
 
     /**
      * @author Casper Rasmussen <cr@nodes.dk>
@@ -112,22 +34,16 @@ abstract class Statistic
         return $this->period;
     }
 
-    /**
-     * @author Casper Rasmussen <cr@nodes.dk>
-     * @return array
-     */
-    public function getChartData()
-    {
-        return $this->chartData;
-    }
 
     /**
      * @author Casper Rasmussen <cr@nodes.dk>
      * @return bool
      * @throws \Nodes\Backend\Dashboard\Exceptions\UnsupportedTypeException
      */
-    protected function prepareChartData()
+    public function prepareChartData($data)
     {
+        $this->gaId = $data;
+
         $url = sprintf(env('NODES_STATISTICS_HISTORY'), $this->gaId);
 
         // Generate query
@@ -187,18 +103,6 @@ abstract class Statistic
             $chartData['data'][] = ! empty($data['visit_count']) ? $data['visit_count'] : 0;
         }
 
-        $this->chartData = $chartData;
-    }
-
-    /**
-     * @author Dennis Haulund Nielsen <dhni@nodes.dk>
-     * @param int $length
-     * @return string
-     */
-    private static function randomString($length = 16)
-    {
-        $pool = 'abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ';
-
-        return substr(str_shuffle(str_repeat($pool, 5)), 0, $length);
+        return $chartData;
     }
 }

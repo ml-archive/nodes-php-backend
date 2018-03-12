@@ -78,52 +78,60 @@
         $(document).ready(function() {
 
             // Bar charts
-            var arrA = {!! json_encode($dashboardCollection->getBarChartsAsChartData()) !!};
+            var barChartData = {!! json_encode($dashboardCollection->getChartDataForType('bar-chart')) !!};
 
-            for (var i = 0; i < arrA.length; i++) {
-                if (!arrA[i]) {
+            for (var i = 0; i < barChartData.length; i++) {
+                if (!barChartData[i]) {
                     continue;
                 }
-                var ctx = $("#" + arrA[i].id).get(0).getContext("2d");
-                var myNewChart = new Chart(ctx).Bar({
-                    labels: arrA[i]['labels'],
-                    datasets: [
-                        {
-                            label: arrA[i].title,
-                            fillColor: "rgba(220,220,220,0.2)",
-                            strokeColor: "rgba(220,220,220,1)",
-                            pointColor: "rgba(220,220,220,1)",
-                            pointStrokeColor: "#fff",
-                            pointHighlightFill: "#fff",
-                            pointHighlightStroke: "rgba(220,220,220,1)",
-                            data: arrA[i]['data']
+                var ctx = $("#" + barChartData[i].id).get(0).getContext("2d");
+                var myNewChart = new Chart(ctx, {
+                    type: 'bar',
+                    data: {
+                        labels: barChartData[i]['labels'],
+                        datasets: [
+                            {
+                                backgroundColor: {!! json_encode(\Nodes\Backend\Dashboard\Tiles\Charts\Chart::$colors)!!},
+                                data: barChartData[i]['data']
+                            }
+                        ]
+                    },
+                    options: {
+                        legend: { display: false },
+                        title: {
+                            display: true,
+                            text: barChartData[i]['title']
                         }
-                    ]
+                    }
                 });
             }
 
-            // Bar charts
-            var arrB = {!! json_encode($dashboardCollection->getLineChartsAsChartData()) !!};
-            for (var i = 0; i < arrB.length; i++) {
-                if (!arrB[i]) {
+            // Line charts
+            var lineChartData = {!! json_encode($dashboardCollection->getChartDataForType('line-chart')) !!};
+            for (var i = 0; i < lineChartData.length; i++) {
+                if (!lineChartData[i]) {
                     continue;
                 }
 
-                var ctx = $("#" + arrB[i].id).get(0).getContext("2d");
-                var myNewChart = new Chart(ctx).Line({
-                    labels: arrB[i]['labels'],
-                    datasets: [
-                        {
-                            label: arrB[i].title,
-                            fillColor: "rgba(220,220,220,0.2)",
-                            strokeColor: "rgba(220,220,220,1)",
-                            pointColor: "rgba(220,220,220,1)",
-                            pointStrokeColor: "#fff",
-                            pointHighlightFill: "#fff",
-                            pointHighlightStroke: "rgba(220,220,220,1)",
-                            data: arrB[i]['data']
+                var ctx = $("#" + lineChartData[i].id).get(0).getContext("2d");
+                var myNewChart = new Chart(ctx, {
+                    type:'line',
+                    data: {
+                        labels: lineChartData[i]['labels'],
+                        datasets: [
+                            {
+                                backgroundColor: {!! json_encode(\Nodes\Backend\Dashboard\Tiles\Charts\Chart::$colors)!!},
+                                data: lineChartData[i]['data']
+                            }
+                        ]
+                    },
+                    options: {
+                        legend: { display: false },
+                        title: {
+                            display: true,
+                            text: lineChartData[i]['title']
                         }
-                    ]
+                    }
                 }, {responsive: true});
             }
 

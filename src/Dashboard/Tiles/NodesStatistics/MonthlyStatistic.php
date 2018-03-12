@@ -1,6 +1,6 @@
 <?php
 
-namespace Nodes\Backend\Dashboard\Types\NodesStatistics;
+namespace Nodes\Backend\Dashboard\Tiles\NodesStatistics;
 
 /**
  * Class MonthlyStatistic.

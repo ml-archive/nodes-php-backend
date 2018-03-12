@@ -78,5 +78,5 @@ abstract class Chart extends Tile
      * @param $data
      * @return $chartData
      */
-    protected abstract function prepareChartData($data);
+    abstract protected function prepareChartData($data);
 }

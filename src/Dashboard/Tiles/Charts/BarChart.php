@@ -14,7 +14,7 @@ class BarChart extends Chart
      * @access public
      * @return string
      */
-    function getType()
+    public function getType()
     {
         return 'bar-chart';
     }

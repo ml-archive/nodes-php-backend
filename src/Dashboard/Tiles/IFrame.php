@@ -19,7 +19,7 @@ class IFrame extends Tile
      * @access public
      * @return string
      */
-    function getType()
+    public function getType()
     {
         return 'i-frame';
     }

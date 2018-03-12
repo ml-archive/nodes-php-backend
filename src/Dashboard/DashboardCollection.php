@@ -5,11 +5,11 @@ namespace Nodes\Backend\Dashboard;
 use Illuminate\Database\Eloquent\Collection;
 use Nodes\Backend\Dashboard\Exceptions\MissingConfigException;
 use Nodes\Backend\Dashboard\Exceptions\UnsupportedTypeException;
-use Nodes\Backend\Dashboard\Types\Array2dCount;
+use Nodes\Backend\Dashboard\Tiles\Array2dCount;
 use Nodes\Backend\Dashboard\Types\IFrame;
-use Nodes\Backend\Dashboard\Types\NodesStatistics\DailyStatistic;
-use Nodes\Backend\Dashboard\Types\NodesStatistics\MonthlyStatistic;
-use Nodes\Backend\Dashboard\Types\TableCount;
+use Nodes\Backend\Dashboard\Tiles\NodesStatistics\DailyStatistic;
+use Nodes\Backend\Dashboard\Tiles\NodesStatistics\MonthlyStatistic;
+use Nodes\Backend\Dashboard\Tiles\TableCount;
 
 /**
  * Class DashboardCollection.
@@ -31,18 +31,16 @@ class DashboardCollection extends Collection
 
             switch ($config['type']) {
                 case 'i-frame':
-                    $this->add(new IFrame($config));
+                    $this->add(new IFrame($config['title'], $config['url']));
                     break;
                 case 'table-count':
-                    $this->add(new TableCount($config));
+                    $this->add(new TableCount($config['title'], $config['tables']));
                     break;
-                case 'custom-count':
-                    $this->add(new Array2dCount($config));
                 case 'nodes-statistics-daily':
-                    $this->add(new DailyStatistic($config));
+                    $this->add(new DailyStatistic($config['title'], $config['gaId']));
                     break;
                 case 'nodes-statistics-monthly':
-                    $this->add(new MonthlyStatistic($config));
+                    $this->add(new MonthlyStatistic($config['title'], $config['gaId']));
                     break;
                 default:
                     throw new UnsupportedTypeException(sprintf('%s is not supported', $config['type']));
@@ -51,106 +49,38 @@ class DashboardCollection extends Collection
     }
 
     /**
-     * Retrieve bar charts.
-     *
-     * @author Casper Rasmussen <cr@nodes.dk>
-     * @return \Illuminate\Database\Eloquent\Collection
-     */
-    public function getBarCharts()
-    {
-        $tableCountCollection = new Collection();
-        foreach ($this as $dashboard) {
-            if ($dashboard->getType() == 'bar-chart') {
-                $tableCountCollection->add($dashboard);
-            }
-        }
-
-        return $tableCountCollection;
-    }
-
-    /**
-     * Retrieve bar charts as array.
-     *
-     * @author Casper Rasmussen <cr@nodes.dk>
-     * @return array
-     */
-    public function getBarChartsAsChartData()
-    {
-        $chartArray = [];
-
-        foreach ($this->getBarCharts() as $dashboard) {
-            $chartArray[] = $dashboard->getChartData();
-        }
-
-        return $chartArray;
-    }
-
-    /**
-     * Retrieve line charts.
-     *
-     * @author Casper Rasmussen <cr@nodes.dk>
-     * @return \Illuminate\Database\Eloquent\Collection
-     */
-    public function getLineCharts()
-    {
-        $tableCountCollection = new Collection();
-        foreach ($this as $dashboard) {
-            if ($dashboard->getType() == 'line-chart') {
-                $tableCountCollection->add($dashboard);
-            }
-        }
-
-        return $tableCountCollection;
-    }
-
-    /**
-     * getPieCharts
+     * filterForType
      *
      * @author Casper Rasmussen <cr@nodes.dk>
      * @access public
+     * @param $type
      * @return \Illuminate\Database\Eloquent\Collection
      */
-    public function getPieCharts()
+    public function filterForType($type)
     {
-        $pieCountCollection = new Collection();
+        $collection = new Collection();
         foreach ($this as $dashboard) {
-            if ($dashboard->getType() == 'pie-chart') {
-                $pieCountCollection->add($dashboard);
+            if ($dashboard->getType() == $type) {
+                $collection->add($dashboard);
             }
         }
 
-        return $pieCountCollection;
+        return $collection;
     }
 
     /**
-     * getPieChartsAsChartData
+     * getChartDataForType
      *
      * @author Casper Rasmussen <cr@nodes.dk>
      * @access public
+     * @param $type
      * @return array
      */
-    public function getPieChartsAsChartData()
+    public function getChartDataForType($type)
     {
         $chartArray = [];
 
-        foreach ($this->getPieCharts() as $dashboard) {
-            $chartArray[] = $dashboard->getChartData();
-        }
-
-        return $chartArray;
-    }
-
-    /**
-     * Retrieve line chart as array.
-     *
-     * @author Casper Rasmussen <cr@nodes.dk>
-     * @return array
-     */
-    public function getLineChartsAsChartData()
-    {
-        $chartArray = [];
-
-        foreach ($this->getLineCharts() as $dashboard) {
+        foreach ($this->filterForType($type) as $dashboard) {
             $chartArray[] = $dashboard->getChartData();
         }
 

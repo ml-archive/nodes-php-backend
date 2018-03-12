@@ -21,6 +21,42 @@
                         </div>
                     </div>
                 @endif
+                @if($dashboard->getType() == 'pie-chart')
+                    <div class="col-sm-12 col-md-6">
+                        <div class="panel panel-default">
+                            <div class="panel-heading border">
+                                <h3 class="panel-title">{{$dashboard->getTitle()}}</h3>
+                            </div>
+                            <div class="panel-body">
+                                @if($dashboard->getChartData())
+                                    <div class="chart-responsive">
+                                        <canvas id="{{$dashboard->getId()}}"></canvas>
+                                    </div>
+                                @else
+                                    <h4 class="text-center">Failed to generate chart</h4>
+                                @endif
+                            </div>
+                        </div>
+                    </div>
+                @endif
+                @if($dashboard->getType() == 'doughnut-chart')
+                    <div class="col-sm-12 col-md-6">
+                        <div class="panel panel-default">
+                            <div class="panel-heading border">
+                                <h3 class="panel-title">{{$dashboard->getTitle()}}</h3>
+                            </div>
+                            <div class="panel-body">
+                                @if($dashboard->getChartData())
+                                    <div class="chart-responsive">
+                                        <canvas id="{{$dashboard->getId()}}"></canvas>
+                                    </div>
+                                @else
+                                    <h4 class="text-center">Failed to generate chart</h4>
+                                @endif
+                            </div>
+                        </div>
+                    </div>
+                @endif
                 @if($dashboard->getType() == 'bar-chart')
                     <div class="col-sm-12 col-md-6">
                         <div class="panel panel-default">
@@ -29,12 +65,7 @@
                             </div>
                             <div class="panel-body">
                                 @if($dashboard->getChartData())
-                                    <div class="chart-responsive bar-chart">
-                                        <style>
-                                            #{{$dashboard->getId()}} {
-                                                height: 300px !important;
-                                            }
-                                        </style>
+                                    <div class="chart-responsive">
                                         <canvas id="{{$dashboard->getId()}}"></canvas>
                                     </div>
                                 @else
@@ -50,14 +81,9 @@
                             <div class="panel-heading border">
                                 <h3 class="panel-title">{{$dashboard->getTitle()}}</h3>
                             </div>
-                            <div class="panel-body" >
+                            <div class="panel-body">
                                 @if($dashboard->getChartData())
-                                    <div class="chart-responsive line-chart">
-                                        <style>
-                                            #{{$dashboard->getId()}} {
-                                                height: 300px !important;
-                                            }
-                                        </style>
+                                    <div class="chart-responsive">
                                         <canvas id="{{$dashboard->getId()}}"></canvas>
                                     </div>
                                 @else
@@ -77,6 +103,7 @@
 
         $(document).ready(function() {
 
+
             // Bar charts
             var barChartData = {!! json_encode($dashboardCollection->getChartDataForType('bar-chart')) !!};
 
@@ -85,7 +112,7 @@
                     continue;
                 }
                 var ctx = $("#" + barChartData[i].id).get(0).getContext("2d");
-                var myNewChart = new Chart(ctx, {
+                new Chart(ctx, {
                     type: 'bar',
                     data: {
                         labels: barChartData[i]['labels'],
@@ -103,7 +130,7 @@
                             text: barChartData[i]['title']
                         }
                     }
-                });
+                }, {responsive: true});
             }
 
             // Line charts
@@ -114,7 +141,7 @@
                 }
 
                 var ctx = $("#" + lineChartData[i].id).get(0).getContext("2d");
-                var myNewChart = new Chart(ctx, {
+                new Chart(ctx, {
                     type:'line',
                     data: {
                         labels: lineChartData[i]['labels'],
@@ -133,6 +160,62 @@
                         }
                     }
                 }, {responsive: true});
+            }
+
+            // Pie charts
+            var pieChartData = {!! json_encode($dashboardCollection->getChartDataForType('pie-chart')) !!};
+            for (var i = 0; i < pieChartData.length; i++) {
+                if (!pieChartData[i]) {
+                    continue;
+                }
+
+                var ctx = $("#" + pieChartData[i].id).get(0).getContext("2d");
+                new Chart(ctx, {
+                    type: 'pie',
+                    data: {
+                        labels: pieChartData[i]['labels'],
+                        datasets: [
+                            {
+                                backgroundColor: {!! json_encode(\Nodes\Backend\Dashboard\Tiles\Charts\Chart::$colors)!!},
+                                data: pieChartData[i]['data']
+                            }
+                        ]
+                    },
+                    options: {
+                        title: {
+                            display: true,
+                            text: pieChartData[i]['title']
+                        }
+                    }
+                });
+            }
+
+            // Doughnut charts
+            var doughnutChartData = {!! json_encode($dashboardCollection->getChartDataForType('doughnut-chart')) !!};
+            for (var i = 0; i < doughnutChartData.length; i++) {
+                if (!doughnutChartData[i]) {
+                    continue;
+                }
+
+                var ctx = $("#" + doughnutChartData[i].id).get(0).getContext("2d");
+                new Chart(ctx, {
+                    type: 'doughnut',
+                    data: {
+                        labels: doughnutChartData[i]['labels'],
+                        datasets: [
+                            {
+                                backgroundColor: {!! json_encode(\Nodes\Backend\Dashboard\Tiles\Charts\Chart::$colors)!!},
+                                data: doughnutChartData[i]['data']
+                            }
+                        ]
+                    },
+                    options: {
+                        title: {
+                            display: true,
+                            text: doughnutChartData[i]['title']
+                        }
+                    }
+                });
             }
 
         });

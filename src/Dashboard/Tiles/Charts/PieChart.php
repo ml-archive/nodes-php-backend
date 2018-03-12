@@ -34,18 +34,15 @@ class PieChart extends Chart
     protected function prepareChartData($data)
     {
         $chartData = [
-            'id' => $this->id,
+            'id'     => $this->id,
+            'title'  => $this->title,
+            'data'   => [],
+            'labels' => []
         ];
 
-        $color = 0;
         foreach ($data as $key => $value) {
-            $chartData['datasets'][] = [
-                'value' => $value,
-                'label' => $key,
-                'color' => $this->colors[$color],
-            ];
-
-            $color++;
+            $chartData['data'][] = $value;
+            $chartData['labels'][] = $key;
         }
 
         return $chartData;

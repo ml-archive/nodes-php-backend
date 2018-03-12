@@ -35,7 +35,10 @@ class LineChart extends Chart
     protected  function prepareChartData($data)
     {
         $chartData = [
-            'id' => $this->id,
+            'id'     => $this->id,
+            'title'  => $this->title,
+            'data'   => [],
+            'labels' => []
         ];
 
         foreach ($data as $key => $value) {

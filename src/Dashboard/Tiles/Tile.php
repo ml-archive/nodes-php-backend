@@ -54,7 +54,7 @@ abstract class Tile
      * @author Casper Rasmussen <cr@nodes.dk>
      * @return string
      */
-    abstract function getType();
+    abstract public function getType();
 
     /**
      * @author Casper Rasmussen <cr@nodes.dk>

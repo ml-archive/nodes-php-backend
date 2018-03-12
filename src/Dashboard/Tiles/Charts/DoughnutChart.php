@@ -31,7 +31,7 @@ class DoughnutChart extends Chart
      * @param array $config
      * @return array
      */
-    protected  function prepareChartData($data)
+    protected function prepareChartData($data)
     {
         $chartData = [
             'id' => $this->id,

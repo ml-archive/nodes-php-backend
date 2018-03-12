@@ -32,7 +32,7 @@ class LineChart extends Chart
      * @param array $data
      * @return array
      */
-    protected  function prepareChartData($data)
+    protected function prepareChartData($data)
     {
         $chartData = [
             'id' => $this->id,

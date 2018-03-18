@@ -108,11 +108,10 @@ public function render($request, Exception $e)
 {
     // Just redirect back to previous route if there is any, else all the way back to dashboard
     // Instead of a ugly whoops error!
-    try {
-        return redirect()->back()->with('error', 'CRSF-Token mismatch, try again')->send();
-    } catch (\Throwable $e) {
-        return redirect()->route('nodes.backend.dashboard')->with('error',
-            'CRSF-Token mismatch, try again')->send();
+    if ($exception instanceof TokenMismatchException) {
+        try {
+            return redirect()->back()->with('error', 'Token mismatch, try again')->send();
+        } catch (\Throwable $e) {}
     }
     ....
 }

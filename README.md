@@ -136,7 +136,7 @@ backend_router_alias - Used fx for selecting navigation item by route
 ```
 
 Redirect with flash
-redirect()->back()->withInput()->with('error', 'Unknown Error')
+redirect()->back()->withInput()->with('error', 'Unknown Error') // Only strings
 redirect()->back()->withInput()->with('errors', $errorBag)
 redirect()->back()->withInput()->with('errors', $errorBag)
 redirect()->back()->withInput()->with('errors', $myValidator->errorsBag());

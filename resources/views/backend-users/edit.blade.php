@@ -33,7 +33,7 @@
                     {{-- Name --}}
                     <div class="form-group">
                         <label for="backendUserFormName">Name</label>
-                        <div class="@if(validation_key_failed('name')) has-error @endif}}">
+                        <div class="@if($errors->has('name')) has-error @endif}}">
                             {!! Form::text('name', null, ['id' => 'backendUserFormName', 'class' => 'form-control']) !!}
                         </div>
                     </div>
@@ -41,7 +41,7 @@
                     {{-- E-mail --}}
                     <div class="form-group">
                         <label for="backendUserFormEmail">E-mail</label>
-                        <div class="@if(validation_key_failed('email')) has-error @endif}}">
+                        <div class="@if($errors->has('email')) has-error @endif}}">
                             {!!
                                 Form::email(
                                     'email',
@@ -59,7 +59,7 @@
                     {{-- Role --}}
                     <div class="form-group">
                         <label for="backendUserFormRole">Role</label>
-                        @if(validation_key_failed('user_role'))
+                        @if($errors->has('user_role'))
                             {!! Form::select('user_role', $roles, !empty($user) ? $user->user_role : $roleDefault, ['id' => 'backendUserFormRole', 'class' => 'form-control has-error']) !!}
                         @else
                             {!! Form::select('user_role', $roles, !empty($user) ? $user->user_role : $roleDefault, ['id' => 'backendUserFormRole', 'class' => 'form-control']) !!}
@@ -100,7 +100,7 @@
                     {{-- Password --}}
                     <div class="form-group">
                         <label for="backendUserFormPassword">Password</label>
-                        <div class="@if(validation_key_failed('password')) has-error @endif}}">
+                        <div class="@if($errors->has('password')) has-error @endif}}">
                             {!! Form::password('password', ['id' => 'backendUserFormPassword', 'class' => 'form-control']) !!}
                         </div>
                     </div>
@@ -108,7 +108,7 @@
                     {{-- Password confirm --}}
                     <div class="form-group">
                         <label for="backendUserFormRepeatPassword">Repeat password</label>
-                        <div class="@if(validation_key_failed('password')) has-error @endif}}">
+                        <div class="@if($errors->has('password')) has-error @endif}}">
                             {!! Form::password('password_confirmation', ['id' => 'backendUserFormRepeatPassword', 'class' => 'form-control']) !!}
                         </div>
                     </div>
@@ -118,7 +118,7 @@
                     <div class="form-group">
                         <input name="should_reset_password" value="false" type="hidden">
 
-                        <label class="@if(validation_key_failed('change_password')) has-error @endif}}">
+                        <label class="@if($errors->has('change_password')) has-error @endif}}">
                             {!! Form::checkbox('change_password', true, empty($user) ? true : $user->change_password, ['id' => 'backendUserFormResetPwOnLogin']) !!} Reset password on login
                         </label>
 
@@ -134,7 +134,7 @@
                 <div class="margin-vertical-sm">
                     <div class="form-group">
                         <label for="companyImage">Upload image</label>
-                        <div class="@if (validation_key_failed('image')) has-error @endif">
+                        <div class="@if ($errors->has('image')) has-error @endif">
                             {!! Form::file('image', null, ['id' => 'image', 'class' => 'form-control']) !!}
                         </div>
                     </div>

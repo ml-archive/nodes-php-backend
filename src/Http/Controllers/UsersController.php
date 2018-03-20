@@ -116,7 +116,7 @@ class UsersController extends Controller
 
         // Validate user
         if (! $userValidator->with($data)->validate()) {
-            return redirect()->back()->withInput()->with(['error' => $userValidator->errorsBag()]);
+            return redirect()->back()->withInput()->with(['errors' => $userValidator->errorsBag()]);
         }
 
         // Make sure user have access to give out that role
@@ -189,7 +189,7 @@ class UsersController extends Controller
 
         // Validate user
         if (! $userValidator->with($data)->validate()) {
-            return redirect()->back()->withInput()->with(['error' => $userValidator->errorsBag()]);
+            return redirect()->back()->withInput()->with(['errors' => $userValidator->errorsBag()]);
         }
 
         // Retrieve available roles for users user-role,

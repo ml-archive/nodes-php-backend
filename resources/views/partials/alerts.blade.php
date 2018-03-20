@@ -4,7 +4,7 @@
         <button type="button" class="close" data-dismiss="alert" aria-label="Close">
             <span aria-hidden="true">&times;</span>
         </button>
-        @if (Session::get('success') instanceof Illuminate\Support\MessageBag)
+        @if (is_object(Session::get('success')))
             @if (Session::get('success')->count() > 1)
                 <ul>
                     @foreach (Session::get('success')->all() as $message)
@@ -28,13 +28,13 @@
     </div>
 @endif
 
-{{-- Error alert --}}
+{{-- Errors alert --}}
 @if (Session::has('error'))
     <div class="alert alert-danger alert-dismissible fade in to-be-animated-in" role="alert">
         <button type="button" class="close" data-dismiss="alert" aria-label="Close">
             <span aria-hidden="true">&times;</span>
         </button>
-        @if (Session::get('error') instanceof Illuminate\Support\MessageBag)
+        @if (is_object(Session::get('error')))
             @if (Session::get('error')->count() > 1)
                 <ul>
                     @foreach (Session::get('error')->all() as $message)
@@ -56,12 +56,15 @@
             {!! Session::get('error') !!}
         @endif
     </div>
-@elseif(Session::has('errors'))
+@endif
+
+{{-- Error alert --}}
+@if(Session::has('errors'))
     <div class="alert alert-danger alert-dismissible fade in to-be-animated-in" role="alert">
         <button type="button" class="close" data-dismiss="alert" aria-label="Close">
             <span aria-hidden="true">&times;</span>
         </button>
-        @if (Session::get('errors') instanceof Illuminate\Support\MessageBag)
+        @if (is_object(Session::get('errors')))
             @if (Session::get('errors')->count() > 1)
                 <ul>
                     @foreach (Session::get('errors')->all() as $message)
@@ -91,7 +94,7 @@
         <button type="button" class="close" data-dismiss="alert" aria-label="Close">
             <span aria-hidden="true">&times;</span>
         </button>
-        @if (Session::get('warning') instanceof Illuminate\Support\MessageBag)
+        @if (is_object(Session::get('warning')))
             @if (Session::get('warning')->count() > 1)
                 <ul>
                     @foreach (Session::get('warning')->all() as $message)
@@ -121,7 +124,7 @@
         <button type="button" class="close" data-dismiss="alert" aria-label="Close">
             <span aria-hidden="true">&times;</span>
         </button>
-        @if (Session::get('info') instanceof Illuminate\Support\MessageBag)
+        @if (is_object(Session::get('info')))
             @if (Session::get('info')->count() > 1)
                 <ul>
                     @foreach (Session::get('info')->all() as $message)

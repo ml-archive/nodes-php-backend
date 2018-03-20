@@ -135,6 +135,15 @@ backend_router_pattern - Used fx for selecting navigation item by path
 backend_router_alias - Used fx for selecting navigation item by route
 ```
 
+Redirect with flash
+redirect()->back()->withInput()->with('error', 'Unknown Error')
+redirect()->back()->withInput()->with('errors', $errorBag)
+redirect()->back()->withInput()->with('errors', $errorBag)
+redirect()->back()->withInput()->with('errors', $myValidator->errorsBag());
+redirect()->back()->withInput()->with('success', 'Everything is ok')
+redirect()->back()->withInput()->with('info', 'Insert info')
+redirect()->back()->withInput()->with('warning', 'Insert warning')
+
 ## 🏆 Credits
 
 This package is developed and maintained by the PHP team at [Nodes](http://nodesagency.com)

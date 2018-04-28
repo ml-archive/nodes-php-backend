@@ -28,7 +28,7 @@
     </div>
 @endif
 
-{{-- Errors alert --}}
+{{-- Error alert --}}
 @if (Session::has('error'))
     <div class="alert alert-danger alert-dismissible fade in to-be-animated-in" role="alert">
         <button type="button" class="close" data-dismiss="alert" aria-label="Close">
@@ -58,7 +58,7 @@
     </div>
 @endif
 
-{{-- Error alert --}}
+{{-- Errors alert --}}
 @if(Session::has('errors'))
     <div class="alert alert-danger alert-dismissible fade in to-be-animated-in" role="alert">
         <button type="button" class="close" data-dismiss="alert" aria-label="Close">

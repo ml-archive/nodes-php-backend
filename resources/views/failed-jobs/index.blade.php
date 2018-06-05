@@ -26,8 +26,9 @@
                     <th class="col-xs-1 text-center">ID</th>
                     <th class="col-xs-2 text-center">Connection</th>
                     <th class="col-xs-2 text-center">Queue</th>
-                    <th class="col-xs-3 text-center">Payload</th>
-                    <th class="col-xs-2 text-center">Date / Time</th>
+                    <th class="col-xs-2 text-center">Payload</th>
+                    <th class="col-xs-2 text-center">Exception</th>
+                    <th class="col-xs-2 text-center">Failed at</th>
                     <th class="col-xs-2 text-right">Actions</th>
                 </tr>
                 </thead>
@@ -37,13 +38,19 @@
                         <td class="col-xs-1 text-center">{{ $failedJob->id }}</td>
                         <td class="col-xs-2 text-center">{{ $failedJob->connection }}</td>
                         <td class="col-xs-2 text-center">{{$failedJob->queue }}</td>
-                        <td class="col-xs-3 text-center">
+                        <td class="col-xs-2 text-center">
                             <button type="button" class="btn btn-sm btn-default" data-toggle="payload-modal" data-changelog-template="#changelogModal" data-resolve="{{ $failedJob->payload }}">
                                 <span class="fa fa-rocket"></span>
                                 View payload
                             </button>
                         </td>
-                        <td class="col-xs-2 text-center">{{ $failedJob->getDateHumanReadable('failed_at') }}</td>
+                        <td class="col-xs-2 text-center">
+                            <button type="button" class="btn btn-sm btn-default" data-toggle="exception-modal" data-changelog-template="#changelogModal" data-resolve="{{ $failedJob->exception }}">
+                                <span class="fa fa-bug"></span>
+                                View error
+                            </button>
+                        </td>
+                        <td class="col-xs-2 text-center">{{ $failedJob->failed_at }}</td>
                         <td class="col-xs-2 text-right">
                             <a href="{{ route('nodes.backend.failed-jobs.restart', $failedJob->id) }}"  class="btn btn-sm btn-default" data-method="POST" data-confirm="true" data-token="{{ csrf_token() }}">
                                 <span class="fa fa-play"></span>
@@ -164,6 +171,41 @@
                             html.push($row);
                         }
                     }
+
+                    $template.find('[data-payload-repeater]').replaceWith(html);
+
+                    return $template;
+                }
+            }
+        });
+
+        // Custom Dialogs
+        $('[data-toggle="exception-modal"]').each(function () {
+            $(this).on('click', _openModal);
+
+            function _openModal(e) {
+
+                e.preventDefault();
+                var data = $(this).data('resolve');
+                var template = '<h1 class="text-danger">Please provide a template</h1>';
+
+                if ($(this).data('changelog-template')) {
+                    var templateString = '';
+                    var input = $($(this).data('changelog-template')).get(0).outerHTML;
+                    template = buildModalMarkup(input, data);
+                }
+
+                bootbox.dialog({
+                    message: template,
+                    onEscape: true,
+                    backdrop: true,
+                    className: 'exceptionModal',
+                    buttons: false
+                });
+
+                function buildModalMarkup(templateString, data) {
+                    var html = "<p>" + data + "</p>";
+                    var $template = $(templateString);
 
                     $template.find('[data-payload-repeater]').replaceWith(html);
 

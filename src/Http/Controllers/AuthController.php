@@ -35,7 +35,6 @@ class AuthController extends Controller
      * Login form.
      *
      * @author Casper Rasmussen <cr@nodes.dk>
-     *
      * @return \Illuminate\Contracts\View\Factory|\Illuminate\Http\RedirectResponse|\Illuminate\View\View
      */
     public function login()
@@ -61,7 +60,6 @@ class AuthController extends Controller
      * Authenticate user.
      *
      * @author Morten Rugaard <moru@nodes.dk>
-     *
      * @return \Illuminate\Http\RedirectResponse
      */
     public function authenticate()
@@ -72,9 +70,9 @@ class AuthController extends Controller
         $data = Request::only('email', 'password', 'remember');
 
         // Authenticate user
-        if (! backend_attempt(['email' => $data['email'], 'password' => $data['password']], Request::has('remember'))) {
+        if (!backend_attempt(['email' => $data['email'], 'password' => $data['password']], Request::has('remember'))) {
             return redirect()->route('nodes.backend.login.form', [
-                'redirect_url' => $urlToRedirectToAfterUserLogin
+                'redirect_url' => $urlToRedirectToAfterUserLogin,
             ])->with('error', 'Invalid login. Try again.');
         }
 
@@ -92,7 +90,7 @@ class AuthController extends Controller
         $urlToRedirectToAfterUserLogin = Cookie::get('url_to_redirect_to_after_user_login');
 
         // Check for disabled feature
-        if (! config('nodes.backend.manager.active', true)) {
+        if (!config('nodes.backend.manager.active', true)) {
             return redirect()->route('nodes.backend.login.form')->with('error', 'Manager auth is disabled.');
         }
 
@@ -109,7 +107,12 @@ class AuthController extends Controller
 
             return $this->redirectSuccess($flashAlert = null, $urlToRedirectToAfterUserLogin);
         }
-        
+
+        // Make sure evns are setup
+        if (!env('NODES_MANAGER_URL') || !env('NODES_MANAGER_TOKEN') || env('NODES_MANAGER_SALT')) {
+            return redirect()->back()->with('error', 'Missing envs: NODES_MANAGER_URL, NODES_MANAGER_TOKEN', 'NODES_MANAGER_SALT');
+        }
+
         $url = sprintf(env('NODES_MANAGER_URL'), env('APP_NAME'), env('APP_ENV'));
         $url .= '?redirect_url=' . route('nodes.backend.login.manager');
 
@@ -120,18 +123,18 @@ class AuthController extends Controller
      * Authenticate Nodes Manager.
      *
      * @author Casper Rasmussen <cr@nodes.dk>
-     *
      * @return \Illuminate\Http\RedirectResponse
      */
     public function manager()
     {
         // Check for disabled feature
-        if (! config('nodes.backend.manager.active', true)) {
+        if (!config('nodes.backend.manager.active', true)) {
             return redirect()->route('nodes.backend.login.form')->with('error', 'Manager auth is disabled.');
         }
 
         // Check the passed token vs a hash of email, constant and server token for current build
-        if (hash('sha256', sprintf(env('NODES_MANAGER_SALT'), Request::get('email'), env('NODES_MANAGER_TOKEN'))) != Request::get('token')) {
+        if (hash('sha256', sprintf(env('NODES_MANAGER_SALT'), Request::get('email'), env('NODES_MANAGER_TOKEN'))) !=
+            Request::get('token')) {
             return redirect()->route('nodes.backend.login.form')->with('error', 'Manager token did not match');
         }
 
@@ -161,7 +164,6 @@ class AuthController extends Controller
      * Log authenticated user out.
      *
      * @author Morten Rugaard <moru@nodes.dk>
-     *
      * @return \Illuminate\Http\RedirectResponse
      */
     public function logout()
@@ -177,9 +179,8 @@ class AuthController extends Controller
      * Redirect user upon successful authentication.
      *
      * @author Casper Rasmussen <cr@nodes.dk>
-     *
      * @param  \Nodes\Backend\Support\FlashRestorer $flashAlert
-     * @param string|null $urlToRedirectToAfterUserLogin
+     * @param string|null                           $urlToRedirectToAfterUserLogin
      * @return \Illuminate\Http\RedirectResponse
      */
     protected function redirectSuccess($flashAlert = null, $urlToRedirectToAfterUserLogin = null)
@@ -194,17 +195,17 @@ class AuthController extends Controller
         // based on the route alias from the backend config file
         if ($backendUser->change_password) {
             $redirectResponse = redirect()->route('nodes.backend.users.change-password')
-                ->with('info', 'Please update your password');
+                                          ->with('info', 'Please update your password');
         } else {
             if ($urlToRedirectToAfterUserLogin) {
                 // redirect to previously visited page if available
                 $redirectResponse = redirect()->to($urlToRedirectToAfterUserLogin)
-                    ->with('success', 'Logged in as: '.$backendUser->email);
+                                              ->with('success', 'Logged in as: ' . $backendUser->email);
             } else {
                 // redirect to success route from config
                 $route = config('nodes.backend.auth.routes.success');
-                $redirectResponse = ! empty($route) ? redirect()->route($route)->with('success',
-                    'Logged in as: '.$backendUser->email) : redirect()->to('/admin');
+                $redirectResponse = !empty($route) ? redirect()->route($route)->with('success',
+                    'Logged in as: ' . $backendUser->email) : redirect()->to('/admin');
             }
         }
 

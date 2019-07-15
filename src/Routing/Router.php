@@ -59,7 +59,11 @@ class Router
         $patterns = ! is_array($patterns) ? [$patterns] : $patterns;
 
         // Decode route path
-        $uri = $currentRoute->getPath();
+        if (method_exists($currentRoute, 'getPath')) {
+            $uri = $currentRoute->getPath();
+        } else {
+            $uri = $currentRoute->uri();
+        }
 
         // Check patterns and look for matches
         foreach ($patterns as $pattern) {

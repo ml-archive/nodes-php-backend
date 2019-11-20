@@ -12,11 +12,10 @@ class NStackController extends Controller
 {
     /**
      * getConfig.
-     *
      * This function can be overridden for changing configs in runtime
      *
-     * @author Casper Rasmussen <cr@nodes.dk>
      * @return array|null
+     * @author Casper Rasmussen <cr@nodes.dk>
      */
     protected function getConfig()
     {
@@ -25,11 +24,10 @@ class NStackController extends Controller
 
     /**
      * guardUserPermissions.
-     *
      * This function can be overridden for changing user permissions
      *
-     * @author Casper Rasmussen <cr@nodes.dk>
      * @return void
+     * @author Casper Rasmussen <cr@nodes.dk>
      */
     protected function guardUserPermissions()
     {
@@ -41,8 +39,8 @@ class NStackController extends Controller
     /**
      * NStack hook.
      *
-     * @author Casper Rasmussen <cr@nodes.dk>
      * @return \Illuminate\Http\RedirectResponse
+     * @author Casper Rasmussen <cr@nodes.dk>
      */
     public function hook()
     {
@@ -51,56 +49,19 @@ class NStackController extends Controller
         // Retrieve NStack config
         $config = $this->getConfig();
 
-        $default = ! empty($config['defaults']['application']) ? $config['defaults']['application'] : 'default';
+        $default = !empty($config['defaults']['application']) ? $config['defaults']['application'] : 'default';
 
         $application = \Request::get('application', $default);
 
-        $credentials = ! empty($config['credentials'][$application]) ? $config['credentials'][$application] : $config['credentials']; // For backwards compatibility
+        $credentials = !empty($config['credentials'][$application]) ? $config['credentials'][$application] : $config['credentials']; // For backwards compatibility
 
         // Validate NStack credentials
-        if (empty($config['url']) || empty($credentials['appId']) || empty($credentials['masterKey']) ||
-            empty($config['role'])
-        ) {
-            return redirect()->back()->with('error', 'NStack hook is not configured, setup keys in (config/nodes/backend/nstack.php)');
+        if (empty($config['url']) || empty($credentials['appId']) || empty($credentials['masterKey'])) {
+            return redirect()->back()->with('error',
+                'NStack hook is not configured, setup keys in (config/nodes/backend/nstack.php)');
         }
 
-        // Retrieve backend user
-        $backendUser = backend_user();
-
-        // Create message
-        $encryptedMessage = $this->encrypt(json_encode([
-            'appId'           => $credentials['appId'],
-            'masterKey'       => $credentials['masterKey'],
-            'role'            => $config['role'],
-            'accessToAllApps' => isset($config['accessToAllApps']) ? filter_var($config['accessToAllApps'], FILTER_VALIDATE_BOOLEAN) : true, // For backwards compatibility
-            'url'             => url('/'),
-            'user'            => [
-                'name'  => $backendUser->name,
-                'email' => $backendUser->email,
-            ],
-        ]));
-
-        return redirect()->away($config['url'].'?message='.urlencode($encryptedMessage));
-    }
-
-    /**
-     * Encrypt message.
-     *
-     * @author Casper Rasmussen <cr@nodes.dk>
-     * @param  string $text
-     * @return string
-     */
-    private function encrypt($text)
-    {
-        return trim(base64_encode(mcrypt_encrypt(
-            MCRYPT_RIJNDAEL_256,
-            env('NODES_SALT'),
-            $text,
-            MCRYPT_MODE_ECB,
-            mcrypt_create_iv(mcrypt_get_iv_size(
-                MCRYPT_RIJNDAEL_256,
-                MCRYPT_MODE_ECB
-            ), MCRYPT_RAND)
-        )));
+        //http://nstack.test/deeplink/[APP_ID]/[MASTER_KEY]]
+        return redirect()->away($config['url'] . '/' . $credentials['appId'] . '/' . $credentials['masterKey']);
     }
 }

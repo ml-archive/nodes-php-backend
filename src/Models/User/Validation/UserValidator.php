@@ -20,6 +20,7 @@ class UserValidator extends AbstractValidator
             'email' => ['required', 'email', 'unique:backend_users,email,{:id}', 'max:190'],
             'password' => [
                 'required_without:id',
+                'nullable',
                 'min:8',
                 'confirmed',
                 'regex:/^.*(?=.{3,})(?=.*[a-zA-Z])(?=.*[0-9])(?=.*[\d\X])(?=.*[!$#%]).*$/'
@@ -30,6 +31,7 @@ class UserValidator extends AbstractValidator
         'update-password' => [
             'password' => [
                 'required_without:id',
+                'nullable',
                 'min:8',
                 'confirmed',
                 'regex:/^.*(?=.{3,})(?=.*[a-zA-Z])(?=.*[0-9])(?=.*[\d\X])(?=.*[!$#%]).*$/'

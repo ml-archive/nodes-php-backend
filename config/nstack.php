@@ -9,7 +9,7 @@ return [
     | Url of NStacks hook
     |
     */
-    'url'             => 'https://nstack.io/hook/attempt',
+    'url'         => 'https://nstack.io/deeplink',
 
     /*
     |--------------------------------------------------------------------------
@@ -20,25 +20,12 @@ return [
     | to perform any kinds of actions with NStack.
     |
     */
-    'credentials'     => [
+    'credentials' => [
         'default' => [
             'appId'     => null,
             'masterKey' => null,
         ],
     ],
-
-    /*
-    |--------------------------------------------------------------------------
-    | Role
-    |--------------------------------------------------------------------------
-    |
-    | The role they users should get in NStack in the company the app belongs to
-    | Possible is user, admin
-    |
-    */
-    'role'            => 'user',
-    'accessToAllApps' => true,
-
     /*
        |--------------------------------------------------------------------------
        | Defaults
@@ -47,7 +34,7 @@ return [
        | Default values regarding nstack
        |
        */
-    'defaults'        => [
+    'defaults'    => [
         'application' => 'default',
     ],
 ];

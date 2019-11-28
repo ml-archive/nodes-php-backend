@@ -78,7 +78,7 @@ class Session implements Provider
             return $user;
         }
 
-        throw new UnauthorizedHttpException(null, 'Could not find user in either sessions or cookies', null, 401);
+        throw new UnauthorizedHttpException('', 'Could not find user in either sessions or cookies', null, 401);
     }
 
     /**

@@ -41,7 +41,7 @@ class AuthController extends Controller
     {
         try {
             $redirectUrl = \Input::get('redirect_url');
-        }  catch (\Throwable $e) {
+        } catch (\Throwable $e) {
             $redirectUrl = \Request::input('redirect_url');
         }
         if ($redirectUrl) {

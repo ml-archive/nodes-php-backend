@@ -15,7 +15,13 @@ if (!function_exists('query_restorer')) {
 
         // Store and return
         if (!empty(\Request::all())) {
-            \Cookie::queue(\Cookie::make(md5(\Request::url() . '?' . http_build_query($params)), \Request::all(), 5));
+            try {
+                \Cookie::queue(\Cookie::make(md5(\Request::url() . '?' . http_build_query($params)),
+                    \Request::all(), 5));
+            } catch (\Throwable $e) {
+                \Cookie::queue(\Cookie::make(md5(\Request::url() . '?' . http_build_query($params)),
+                    json_encode(\Request::all()), 5));
+            }
 
             return false;
         }

@@ -39,7 +39,12 @@ class AuthController extends Controller
      */
     public function login()
     {
-        if ($redirectUrl = \Input::get('redirect_url')) {
+        try {
+            $redirectUrl = \Input::get('redirect_url');
+        } catch (\Throwable $e) {
+            $redirectUrl = \Request::input('redirect_url');
+        }
+        if ($redirectUrl) {
             \Cookie::queue(\Cookie::make('url_to_redirect_to_after_user_login', $redirectUrl, 5));
         } elseif ($redirectUrl = session('url_to_redirect_to_after_user_login')) {
             \Cookie::queue(\Cookie::make('url_to_redirect_to_after_user_login', $redirectUrl, 5));

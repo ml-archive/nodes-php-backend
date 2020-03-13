@@ -25,7 +25,9 @@ if (!function_exists('query_restorer')) {
         $query = \Cookie::get(md5(\Request::url() . '?' . http_build_query($params)));
 
         foreach ($blacklist as $key) {
-            unset($query[$key]);
+            if (isset($query[$key])) {
+                unset($query[$key]);
+            }
         }
 
         // Redirect with queries

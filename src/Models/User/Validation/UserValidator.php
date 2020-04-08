@@ -23,7 +23,8 @@ class UserValidator extends AbstractValidator
                 'nullable',
                 'min:8',
                 'confirmed',
-                'regex:/^.*(?=.{3,})(?=.*[a-zA-Z])(?=.*[0-9])(?=.*[\d\X])(?=.*[!$#%]).*$/'
+                'regex:/^.*(?=.{8,})(?=.*[a-zA-Z])(?=.*[0-9])(?=.*[\dX])(?=.*[!$#%]).*$/'
+                //'regex:/^.*(?=.{3,})(?=.*[a-zA-Z])(?=.*[0-9])(?=.*[\d\X])(?=.*[!$#%]).*$/'
             ],
             'user_role' => ['required', 'exists:backend_roles,slug'],
             'image' => ['mimes:jpeg,png'],
@@ -34,7 +35,8 @@ class UserValidator extends AbstractValidator
                 'nullable',
                 'min:8',
                 'confirmed',
-                'regex:/^.*(?=.{3,})(?=.*[a-zA-Z])(?=.*[0-9])(?=.*[\d\X])(?=.*[!$#%]).*$/'
+                'regex:/^.*(?=.{8,})(?=.*[a-zA-Z])(?=.*[0-9])(?=.*[\dX])(?=.*[!$#%]).*$/'
+                //'regex:/^.*(?=.{3,})(?=.*[a-zA-Z])(?=.*[0-9])(?=.*[\d\X])(?=.*[!$#%]).*$/'
             ],
             'image' => ['mimes:jpeg,png'],
         ],

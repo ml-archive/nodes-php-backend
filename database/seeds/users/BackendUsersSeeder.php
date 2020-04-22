@@ -1,6 +1,7 @@
 <?php
 
 use Illuminate\Database\Seeder;
+use Illuminate\Support\Str;
 use Nodes\Backend\Models\User\UserRepository;
 
 /**
@@ -25,7 +26,7 @@ class BackendUsersSeeder extends Seeder
             app(UserRepository::class)->createUser([
                 'name' => 'Nodes ApS',
                 'email' => 'tech@nodes.dk',
-                'password' => str_random(),
+                'password' => Str::random(),
                 'user_role' => 'developer',
             ]);
         } catch (\Exception $e) {

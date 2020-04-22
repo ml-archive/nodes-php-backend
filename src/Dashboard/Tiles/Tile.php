@@ -2,6 +2,7 @@
 
 namespace Nodes\Backend\Dashboard\Tiles;
 
+use Illuminate\Support\Str;
 use Nodes\Backend\Dashboard\Exceptions\MissingConfigException;
 
 abstract class Tile
@@ -47,7 +48,7 @@ abstract class Tile
         $this->data = $data;
 
         // Assign random id
-        $this->id = str_random();
+        $this->id = Str::random();
     }
 
     /**

@@ -5,6 +5,7 @@ namespace Nodes\Backend\Auth;
 use Illuminate\Database\Eloquent\Model as IlluminateModel;
 use Illuminate\Routing\Router as IlluminateRouter;
 use Illuminate\Support\Facades\Cookie as CookieJar;
+use Illuminate\Support\Str;
 use Illuminate\Support\Facades\Hash;
 use Illuminate\Support\Facades\Session;
 use Nodes\Backend\Auth\Contracts\Authenticatable;
@@ -335,7 +336,7 @@ class Manager
     protected function refreshRememberToken(Authenticatable $user)
     {
         // Generate token
-        $token = str_random(60);
+        $token = Str::random(60);
 
         // Set and update remember token
         $user->setRememberToken($token);

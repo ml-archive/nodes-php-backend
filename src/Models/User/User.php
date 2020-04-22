@@ -5,6 +5,7 @@ namespace Nodes\Backend\Models\User;
 use Illuminate\Auth\Authenticatable;
 use Illuminate\Auth\Passwords\CanResetPassword;
 use Illuminate\Support\Facades\Hash;
+use Illuminate\Support\Str;
 use Nodes\Backend\Auth\Contracts\Authenticatable as AuthenticatableContract;
 use Nodes\Backend\Auth\Contracts\CanResetPassword as CanResetPasswordContract;
 use Nodes\Backend\Models\User\Token\Token;
@@ -147,7 +148,7 @@ class User extends Model implements AuthenticatableContract, CanResetPasswordCon
     {
         // Generate & assign access token
         $token = $this->token()->save(new Token([
-            'token' => Hash::make(str_random()),
+            'token' => Hash::make(Str::random()),
         ]));
 
         if (empty($token)) {

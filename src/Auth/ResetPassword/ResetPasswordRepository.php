@@ -6,6 +6,7 @@ use Carbon\Carbon;
 use Illuminate\Contracts\Container\Container;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Support\MessageBag;
+use Illuminate\Support\Str;
 use Nodes\Database\Eloquent\Repository as NodesRepository;
 
 /**
@@ -130,7 +131,7 @@ class ResetPasswordRepository extends NodesRepository
     protected function generateResetPasswordToken(Model $user)
     {
         // Generate new token using Laravel's encryption key
-        $token = hash_hmac('sha256', str_random(40), config('app.key'));
+        $token = hash_hmac('sha256', Str::random(40), config('app.key'));
 
         // Expire timestamp
         $expire = Carbon::now()->addMinutes(config('nodes.backend.reset-password.expire', 60));

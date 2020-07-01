@@ -115,7 +115,7 @@ class AuthController extends Controller
 
         // Make sure evns are setup
         if (!env('NODES_MANAGER_URL') || !env('NODES_MANAGER_TOKEN') || !env('NODES_MANAGER_SALT')) {
-            return redirect()->back()->with('error', 'Missing envs: NODES_MANAGER_URL, NODES_MANAGER_TOKEN', 'NODES_MANAGER_SALT');
+            return redirect()->back()->with('error', 'Missing envs: NODES_MANAGER_URL, NODES_MANAGER_TOKEN, NODES_MANAGER_SALT');
         }
 
         $url = sprintf(env('NODES_MANAGER_URL'), env('APP_NAME'), env('APP_ENV'));
